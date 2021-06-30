@@ -17,6 +17,6 @@ class daoGenerico{
            mysqli_close($conn->conectadb());
 
         }else
-        return "Erro com o Guilherme.";
+        return "Erro no banco de dados";
     }
 }

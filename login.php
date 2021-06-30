@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-xl-4 col-md-6 offset-md-4 " style = "margin-top: 12%">
+            <div class=" col-md-6 offset-md-3 " style = "margin-top: 12%">
                 <div class="card-header bg-primary border">Validação de login</div>
                     <div class="card-body border">
                         <form method="POST" action="">
