@@ -13,7 +13,11 @@ class daoProduto
             $vlrCompra = $produto->getVlrCompra();
             $vlrVenda = $produto->getVlrVenda();
             $qtEstoque = $produto->getQtEstoque();
-            $sql = "insert into produto values (null,'$nomeProduto','$vlrCompra','$vlrVenda','$qtEstoque')";
+            echo $nomeProduto;
+            echo $vlrCompra;
+            echo $vlrVenda;
+            echo $qtEstoque;
+            $sql = "insert into produtos values (null,'$nomeProduto','$vlrCompra','$vlrVenda','$qtEstoque')";
             if (mysqli_query($conn->conectadb(), $sql)) {
                 $msg = "<p style = 'color: green;'>Dados cadastrados com sucesso</p>";
             } else {
