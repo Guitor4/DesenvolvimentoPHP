@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -19,6 +19,7 @@
 
 
 <body>
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Navbar</a>
@@ -57,6 +58,23 @@
             </div>
         </div>
     </nav>
+    <?php
+
+if (isset($POST['cadastrar'])){
+    require_once 'php/controller/PessoaController.php';
+    $nome = $POST['nome'];
+    $dtNasc = $POST['dtNasc'];
+    $email = $POST['email'];
+    $login = $POST['login'];
+    $senha = $POST['senha'];
+    $perfil = $POST['perfil'];
+    $cpf = $POST['cpf'];
+    
+
+    $pc = new PessoaControler();
+    echo "<p>".$pc->InserirPessoa($nome,$dtNasc,$login,$senha,$perfil,$email,$cpf)."</p>";
+}
+?>
     <div class="col-12 container-fluid" style="margin-top: 20px">
         <div class="row">
             <div class="col-8 offset-2">
@@ -77,14 +95,14 @@
 
                             </div>
                             <div class="col-md-6 ">
-                                <label>Data de Nascimento</label>
+                                <label>CPF</label>
                                 <input type="cpf" class="form-control" name="cpf">
                                 <label>Login</label>
                                 <input type="text" class="form-control" name="login">
                                 <label>Senha</label>
-                                <input type="text" class="form-control" name="senha">
+                                <input type="password" class="form-control" name="senha">
                                 <label>Confirme a senha</label>
-                                <input type="text" class="form-control" name="senha2">
+                                <input type="password" class="form-control" name="senha2">
                                 <label>Perfil</label>
                                 <select name="perfil" class="form-control">
                                     <option>[------Select------]</option>
@@ -105,18 +123,7 @@
             </div>
         </div>
     </div>
-        <?php
 
-        if (isset($POST['cadastrar'])){
-            $nome = $POST['nome'];
-            $nome = $POST['dtNasc'];
-            $nome = $POST['login'];
-            $nome = $POST['senha'];
-            $nome = $POST['perfil'];
-            $nome = $POST['cpf'];
-            $nome = $POST['email'];
-        }
-        ?>
     <script src=" https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js " integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p " crossorigin="anonymous "></script>
     <script src=" ../../bootstrap/js/bootstrap.js"></script>
     <script src=" ../../bootstrap/js/bootstrap.min.js"></script>

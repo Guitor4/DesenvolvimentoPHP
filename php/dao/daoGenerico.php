@@ -1,22 +1,27 @@
 <?php
-include_once ('../model/conectadb.php');
-include_once ('../model/Pessoa.php');
+require_once('C:/xampp/htdocs/DesenvolvimentoPHP/php/model/conectadb.php');
+require_once('C:/xampp/htdocs/DesenvolDesenvolvimentoPHP/php/model/Pessoa.php');
 
-class daoGenerico{
+class daoGenerico
+{
     public $conn;
 
-    function inserir(Pessoa $p){
+    function inserir(Pessoa $p)
+    {
         $conn = new conectadb();
-        if ($conn == true){
-           $sql = "insert into pessoa values (null, '".$p->getNome()."','".$p->getNascimento()."','".$p->getLogin()."','".$p->getSenha()."','".
-           $p->getPerfil()."','".$p->getEmail()."','".$p->getCpf()."')";
-           if(mysqli_query($conn->conectadb(),$sql))
-           return "Dados cadastrados com sucesso";
-           else
-           return "Erro no cadastro ";
-           mysqli_close($conn->conectadb());
-
-        }else
-        return "Erro no banco de dados";
+        if ($conn->conectadb()) {
+            $sql = "insert into pessoa values (null, '" . $p->getNome() . "','" . $p->getNascimento() . "','" . $p->getLogin() . "','" . $p->getSenha() . "','" .
+                $p->getPerfil() . "','" . $p->getEmail() . "','" . $p->getCpf() . "')";
+                
+                if(mysqli_query($conn->conectadb(), $sql) != 1){
+                    $msg = "Erro de sintaxe <br>";
+                }else{
+                    $msg = "Dados cadastrados com sucesso!";
+                }
+                
+        }else{
+            $msg ="Erro no banco de dados";
+        }
+        return $msg;
     }
 }
