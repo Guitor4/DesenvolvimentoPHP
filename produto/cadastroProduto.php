@@ -40,7 +40,6 @@
                     </form>
                     <?php
                     if (isset($_POST['Enviar'])) {
-                        include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/model/Produto.php';
                         include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/controller/controllerProduto.php';
                         $nomeProduto = $_POST['nomeProduto'];
                         $vlrCompra = $_POST['vlrCompra'];
