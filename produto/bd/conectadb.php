@@ -5,12 +5,6 @@ class conectadb
     private  $user = "root";
     private  $password = "senac";
     private $base = "dbphp";
-    public $db;
-
-    public function _construct()
-    {
-        $db = $this->conectadb;
-    }
 
     public function conectadb()
     {

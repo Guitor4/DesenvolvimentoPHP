@@ -60,15 +60,15 @@
     </nav>
     <?php
 
-if (isset($POST['cadastrar'])){
+if (isset($_POST['cadastrar'])){
     require_once 'php/controller/PessoaController.php';
-    $nome = $POST['nome'];
-    $dtNasc = $POST['dtNasc'];
-    $email = $POST['email'];
-    $login = $POST['login'];
-    $senha = $POST['senha'];
-    $perfil = $POST['perfil'];
-    $cpf = $POST['cpf'];
+    $nome = $_POST['nome'];
+    $dtNasc = $_POST['dtNasc'];
+    $email = $_POST['email'];
+    $login = $_POST['login'];
+    $senha = $_POST['senha'];
+    $perfil = $_POST['perfil'];
+    $cpf = $_POST['cpf'];
     
 
     $pc = new PessoaControler();

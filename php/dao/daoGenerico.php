@@ -6,7 +6,7 @@ class daoGenerico
 {
     public $conn;
 
-    function inserir(Pessoa $p)
+    public function inserir(Pessoa $p)
     {
         $conn = new conectadb();
         if ($conn->conectadb()) {

@@ -1,5 +1,5 @@
 <?php
-
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/dao/daoProduto.php';
 class ProdutoController{
     function InserirProduto($nomeProduto, $vlrCompra, $vlrVenda, $qtEstoque)
     {

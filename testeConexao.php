@@ -1,6 +1,6 @@
 <?php
 
-include_once 'php/model/conectadb.php';
+include_once 'produto/bd/conectadb.php';
 
 $conn = new conectadb();
 if($conn->conectadb()){
