@@ -3,16 +3,16 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/model/Produto.php';
 include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/bd/conectadb.php';
 class daoProduto
 {
-    function inserirProduto(Produto $produto)
+    function inserirProduto(Produto $teste)
     {
         $conn = new conectadb();
         if ($conn->conectadb()) {
-            $produto = $produto->getNome();
-            $qtdEstoque = $produto->getQtEstoque();
-            $vlrCompra = $produto->getVlrCompra();
-            $vlrVenda = $produto->getVlrVenda();
+            $nome = $teste->getNome();
+            $vlrCompra = $teste->getVlrCompra();
+            $vlrVenda = $teste->getVlrVenda();
+            $qtdEstoque = $teste->getQtEstoque();
             
-            $sql = "insert into produto values (null,'$produto','$vlrCompra','$qtdEstoque','$vlrVenda')";
+            $sql = "insert into produtos values (null,'$nome','$vlrCompra','$vlrVenda','$qtdEstoque')";
             if (mysqli_query($conn->conectadb(), $sql)) {
                 $msg = "<p style = 'color: green'>Dados cadastrados com sucesso!!</p>";
             } else {
