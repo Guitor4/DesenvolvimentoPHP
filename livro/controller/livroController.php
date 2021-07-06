@@ -11,6 +11,6 @@ class livroController{
         $livro->setQtdEstoque($qtdEstoque);
 
         $daolivro = new daoLivro();
-        $daolivro->inserirLivro($livro);
+       return $daolivro->inserirLivro($livro);
    }  
 }

@@ -1,11 +1,12 @@
 <?php
-
-Class Produto{
+class Produto {
     private $id;
     private $nome;
-    private $vlrVenda;
     private $vlrCompra;
-    private $qtEstoque;
+    private $vlrVenda;
+    private $qtdEstoque;
+    
+
 
 
     /**
@@ -49,26 +50,6 @@ Class Produto{
     }
 
     /**
-     * Get the value of vlrVenda
-     */ 
-    public function getVlrVenda()
-    {
-        return $this->vlrVenda;
-    }
-
-    /**
-     * Set the value of vlrVenda
-     *
-     * @return  self
-     */ 
-    public function setVlrVenda($vlrVenda)
-    {
-        $this->vlrVenda = $vlrVenda;
-
-        return $this;
-    }
-
-    /**
      * Get the value of vlrCompra
      */ 
     public function getVlrCompra()
@@ -89,23 +70,42 @@ Class Produto{
     }
 
     /**
-     * Get the value of qtEstoque
+     * Get the value of vlrVenda
      */ 
-    public function getQtEstoque()
+    public function getVlrVenda()
     {
-        return $this->qtEstoque;
+        return $this->vlrVenda;
     }
 
     /**
-     * Set the value of qtEstoque
+     * Set the value of vlrVenda
      *
      * @return  self
      */ 
-    public function setQtEstoque($qtEstoque)
+    public function setVlrVenda($vlrVenda)
     {
-        $this->qtEstoque = $qtEstoque;
+        $this->vlrVenda = $vlrVenda;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of qtdEstoque
+     */ 
+    public function getQtdEstoque()
+    {
+        return $this->qtdEstoque;
+    }
+
+    /**
+     * Set the value of qtdEstoque
+     *
+     * @return  self
+     */ 
+    public function setQtdEstoque($qtdEstoque)
+    {
+        $this->qtdEstoque = $qtdEstoque;
 
         return $this;
     }
 }
-?>

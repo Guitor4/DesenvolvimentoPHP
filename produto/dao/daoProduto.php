@@ -1,32 +1,40 @@
 <?php
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/bd/conectadb.php';
 include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/model/Produto.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/bd/conectadb.php';
 class daoProduto
 {
-
-    public function inserirProduto(Produto $produto)
+    function inserirProduto(Produto $produto)
     {
-
         $conn = new conectadb();
         if ($conn->conectadb()) {
-            $nomeProduto = $produto->getNome();
+            $produto = $produto->getNome();
+            $qtdEstoque = $produto->getQtEstoque();
             $vlrCompra = $produto->getVlrCompra();
             $vlrVenda = $produto->getVlrVenda();
-            $qtEstoque = $produto->getQtEstoque();
-            echo $nomeProduto;
-            echo $vlrCompra;
-            echo $vlrVenda;
-            echo $qtEstoque;
-            $sql = "insert into produtos values (null,'$nomeProduto','$vlrCompra','$vlrVenda','$qtEstoque')";
+            
+            $sql = "insert into produto values (null,'$produto','$vlrCompra','$qtdEstoque','$vlrVenda')";
             if (mysqli_query($conn->conectadb(), $sql)) {
-                $msg = "<p style = 'color: green;'>Dados cadastrados com sucesso</p>";
+                $msg = "<p style = 'color: green'>Dados cadastrados com sucesso!!</p>";
             } else {
-                $msg = "<p style = 'color: red;'>Falha ao cadastrar dados</p>";
+                $msg = "<p style = 'color: red'>Falha ao cadastrar os dados</p>";
             }
         } else {
-            $msg = "<p style = 'color: red;'>Falha ao conectar com o banco de dados</p>";
+            $msg = "<p style = 'color: yellow'>Falha ao conectar com o banco de dados.</p>";
         }
-        mysqli_close($conn->conectadb());
         return $msg;
+    }
+
+    function ListarProdutoDAO()
+    {
+        $conn = new conectadb();
+        if ($conn->conectadb()) {
+            $sql = "select * from produto";
+            if ($conn->conectadb()) {
+                $sql = "select * from produto";
+                $query =  mysqli_query($conn->conectadb(), $sql);
+                $lista = mysqli_fetch_array($query);
+                $lp = mysqli_fetch_array($query);
+            }
+        }
     }
 }

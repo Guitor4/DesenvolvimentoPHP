@@ -1,3 +1,6 @@
+<?php
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/controller/controllerProduto.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -40,7 +43,6 @@
                     </form>
                     <?php
                     if (isset($_POST['Enviar'])) {
-                        include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/controller/controllerProduto.php';
                         $nomeProduto = $_POST['nomeProduto'];
                         $vlrCompra = $_POST['vlrCompra'];
                         $vlrVenda = $_POST['vlrVenda'];
@@ -55,8 +57,53 @@
         </div>
         </div>
         </div>
-        <script src="../bootstrap/js/bootstrap.js"></script>
-        <script src="../bootstrap/js/bootstrap.min.js"></script>
+
+        <DIV class="row" style="margin-top: 30px">
+            <table class="table table-striped table-responsive">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Código</th>
+                    
+                    
+                        <th>Nome</th>
+                    
+                    
+                        <th>Venda</th>
+                    
+                    
+                        <th>Compra</th>
+                    
+                    
+                        <th>Estoque</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                $pcTable = new ProdutoController();
+                $listaProdutos = $pcTable->ListarProdutos();
+                include_once 'bd/conectadb.php';
+                $conn = new conectadb;
+                if ($conn->conectadb()){
+                    $sql = "select * from produto";
+                    $query =  mysqli_query($conn->conectadb(), $sql);
+                    $lista = mysqli_fetch_array($query);
+                    $lp = mysqli_fetch_array($query);
+                    mysqli_close($conn->conectadb());
+                    if($lp){
+                do{
+                    print_r("<tr><td>".$lp['id']."</td");
+                    print_r("<td>".$lp['nome']."</td> ");
+                    print_r("<td>".$lp['vlrCompra']."</td> ");
+                    print_r("<td>".$lp['vlrVenda']."</td> ");
+                    print_r("<td>".$lp['qtEstoque']."</td></tr>");
+                }while(mysqli_fetch_array($query));
+            }
+        }
+                ?>
+                </tbody>
+            </table>
+            <script src="../bootstrap/js/bootstrap.js"></script>
+            <script src="../bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

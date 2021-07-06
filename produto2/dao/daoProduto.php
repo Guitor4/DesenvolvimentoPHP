@@ -1,17 +1,20 @@
 <?php
-include_once '../model/livro.php';
 include_once '../bd/conectadb.php';
-class daoLivro
+include_once '../model/Produto.php';
+class daoProduto
 {
-    function inserirLivro(livro $livro)
+
+    public function inserirProduto(Produto $produto)
     {
+
         $conn = new conectadb();
         if ($conn->conectadb()) {
-            $titulo = $livro->getTitulo();
-            $autor = $livro->getAutor();
-            $editora = $livro->getEditora();
-            $qtdEstoque = $livro->getQtdEstoque();
-            $sql = "insert into livro values (null,'$titulo','$autor','$editora','$qtdEstoque')";
+            $nome = $produto->getNome();
+            $vlrCompra = $produto->getVlrCompra();
+            $vlrVenda = $produto->getVlrVenda();
+            $qtdEstoque = $produto->getQtdEstoque();
+
+            $sql = "insert into produto values (null,'$nome','$vlrCompra','$vlrVenda','$qtdEstoque')";
             if (mysqli_query($conn->conectadb(), $sql)) {
                 $msg = "<p style = 'color: green'>Dados cadastrados com sucesso!!</p>";
             } else {
@@ -19,6 +22,7 @@ class daoLivro
             }
         } else {
             $msg = "<p style = 'color: yellow'>Falha ao conectar com o banco de dados.</p>";
-        }return $msg;
+        }
+        return $msg;
     }
 }
