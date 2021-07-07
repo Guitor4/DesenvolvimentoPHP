@@ -1,7 +1,8 @@
 <?php
 include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/dao/daoProduto.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/model/Produto.php';
 class ProdutoController{
-    function inserirProduto($nomeProduto, $vlrCompra, $vlrVenda, $qtEstoque)
+   public function inserirProduto($nomeProduto, $vlrCompra, $vlrVenda, $qtEstoque)
     {
         //echo $nomeProduto, $vlrCompra, $vlrVenda, $qtEstoque;
         $produto = new Produto();
@@ -15,7 +16,7 @@ class ProdutoController{
         return $daoProduto->inserirProduto($produto);
     }
 //método para carregar a lista de produtos que vem da DAO
-function ListarProdutos(){
+public function ListarProdutos(){
     $daoProduto = new DaoProduto();
     return $daoProduto->listarProdutoDAO();
 }

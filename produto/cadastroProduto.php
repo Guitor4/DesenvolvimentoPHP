@@ -13,14 +13,18 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/controller/controllerPr
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .botao {
-            margin-top: 20px
+            margin-top: 20px;
+            
+        }
+        th, td{
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
 
-    < <div class="col-12 container-fluid" style="margin-top: 20px">
+    <div class="col-12 container-fluid" style="margin-top: 20px">
         <div class="row">
             <div class="col-8 offset-2">
                 <div class="card-header bg-primary text-white text-center">Cadastro de Clientes </div>
@@ -52,58 +56,58 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/controller/controllerPr
                         echo $produto->inserirProduto($nomeProduto, $vlrCompra, $vlrVenda, $qtEstoque);
                     }
                     ?>
-                </div>
-            </div>
-        </div>
-        </div>
-        </div>
-
-        <DIV class="row" style="margin-top: 30px">
+                            <div class="row" style="margin-top: 30px">
             <table class="table table-striped table-responsive">
                 <thead class="table-dark">
                     <tr>
                         <th>Código</th>
-                    
-                    
+
+
                         <th>Nome</th>
-                    
-                    
+
+
                         <th>Venda</th>
-                    
-                    
+
+
                         <th>Compra</th>
-                    
-                    
+
+
                         <th>Estoque</th>
+
+
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php
-                $pcTable = new ProdutoController();
-                $listaProdutos = $pcTable->ListarProdutos();
-                include_once 'bd/conectadb.php';
-                $conn = new conectadb;
-                if ($conn->conectadb()){
-                    $sql = "select * from produto";
-                    $query =  mysqli_query($conn->conectadb(), $sql);
-                    $lista = mysqli_fetch_array($query);
-                    $lp = mysqli_fetch_array($query);
-                    mysqli_close($conn->conectadb());
-                    if($lp){
-                do{
-                    print_r("<tr><td>".$lp['id']."</td");
-                    print_r("<td>".$lp['nome']."</td> ");
-                    print_r("<td>".$lp['vlrCompra']."</td> ");
-                    print_r("<td>".$lp['vlrVenda']."</td> ");
-                    print_r("<td>".$lp['qtEstoque']."</td></tr>");
-                }while(mysqli_fetch_array($query));
-            }
-        }
-                ?>
+                    <?php
+                    $pcTable = new ProdutoController();
+                    $listaProdutos = $pcTable->ListarProdutos();
+                    foreach ($listaProdutos as $lp){
+                        ?>
+                        <tr>
+                        <td><?php print_r($lp->getId()); ?></td>
+                        <td><?php print_r($lp->getNome()); ?></td>
+                        <td><?php print_r($lp->getVlrCompra()); ?></td>
+                        <td><?php print_r($lp->getVlrVenda()); ?></td>
+                        <td><?php print_r($lp->getQtEstoque()); ?></td>
+                        <td><a class = "btn btn-success" href="#" style ="margin-right: 10px;">Editar</a>
+                        <a class = "btn btn-danger" href="#">Excluir</a>
+                        </tr>
+                        <?php
+                    }
+                    ?>
                 </tbody>
             </table>
-            <script src="../bootstrap/js/bootstrap.js"></script>
-            <script src="../bootstrap/js/bootstrap.min.js"></script>
+        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="../bootstrap/js/bootstrap.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
