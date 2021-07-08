@@ -17,4 +17,11 @@ function ListarLivros(){
    $daolivro = new daoLivro();
    return $daolivro->ListarLivros();
 }
+
+function ExcluirLivro($id){
+   $daolivro = new daoLivro();
+   $daolivro->excluirLivroDao($id);
+
+}
+
 }

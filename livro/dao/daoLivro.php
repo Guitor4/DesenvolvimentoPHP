@@ -47,4 +47,21 @@ class daoLivro
             return $lista;
         }
     }
+
+    function excluirLivroDao($id){
+        $conn = new conectadb();
+        $conecta = $conn->conectadb();
+        if ($conecta){
+            $sql = "delete from produto where id = '$id'";
+            mysqli_query($conecta,$sql);
+            header("Location: ..DesenvolvimentoPHP/livro/view/cadastroLivro.php");
+            mysqli_close($conecta);
+
+        }else{
+            echo "<script>alert('Banco inoperante')</script>";
+
+        
+        }
+    }
+
 }

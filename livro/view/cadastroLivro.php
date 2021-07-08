@@ -19,14 +19,15 @@ include_once '../controller/livroController.php';
 
 <body>
 
-    <div class="col-12 container-fluid" style="margin-top: 20px">
+    <div class="container-fluid" style="margin-top: 20px">
         <div class="row">
-            <div class="col-8 offset-2">
+            <div class="col-4 " style="margin-top: 20px">
                 <div class="card-header bg-primary text-white text-center">Cadastro de Livros </div>
                 <div class="card-body border border-3 border-dark">
                     <form method="post" action="">
                         <div class="row g-3">
-                            <div class="col-md-6 offset-md-3"><label>Código</label><br><br>
+                            <div class="col-12 ">
+                                <label>Código</label><br><br>
                                 <label>Título</label>
                                 <input class="form-control" type="text" name="titulo" placeholder="Nome do livro">
                                 <label>Autor(a)</label>
@@ -54,66 +55,73 @@ include_once '../controller/livroController.php';
                     ?>
                 </div>
             </div>
-        </div>
-        <div class="row" style="margin-top: 30px">
-            <table class="table table-striped table-responsive">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>Compra (R$)</th>
-                        <th>Venda (R$)</th>
-                        <th>Estoque</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $pcTable = new livroController();
-                    $listaLivros = $pcTable->ListarLivros();
-                    $a = 0;
-                    if ($listaLivros != null) {
-                        foreach ($listaLivros as $lv) {
-                            $a++;
-                    ?>
+            <div class="col-8 ">
+                <div class="row" style="margin-top: 20px">
+                    <table class="table table-striped table-responsive">
+                        <thead class="table-dark">
                             <tr>
-                                <td><?php print_r($lv->getIdlivro()); ?></td>
-                                <td><?php print_r($lv->getTitulo()); ?></td>
-                                <td><?php print_r($lv->getAutor()); ?></td>
-                                <td><?php print_r($lv->getEditora()); ?></td>
-                                <td><?php print_r($lv->getQtdEstoque()); ?></td>
-                                <td> <a class="btn btn-light" href="#?id=<?php echo $lv->getIdlivro(); ?>">
-                                        <img src="../img/edita.png" width="32"></a>
-                                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $a; ?>">
-                                        <img src="../img/delete.png" width="32"></button>
-
-                                </td>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Compra (R$)</th>
+                                <th>Venda (R$)</th>
+                                <th>Estoque</th>
+                                <th>Ações</th>
                             </tr>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal<?php echo $a; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Contexto....<?php echo $lv->getIdlivro(); ?>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary">Sim</button>
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $pcTable = new livroController();
+                            $listaLivros = $pcTable->ListarLivros();
+                            $a = 0;
+                            if ($listaLivros != null) {
+                                foreach ($listaLivros as $lv) {
+                                    $a++;
+                            ?>
+                                    <tr>
+                                        <td><?php print_r($lv->getIdlivro()); ?></td>
+                                        <td><?php print_r($lv->getTitulo()); ?></td>
+                                        <td><?php print_r($lv->getAutor()); ?></td>
+                                        <td><?php print_r($lv->getEditora()); ?></td>
+                                        <td><?php print_r($lv->getQtdEstoque()); ?></td>
+                                        <td> <a class="btn btn-light" href="#?id=<?php echo $lv->getIdlivro(); ?>">
+                                                <img src="../img/edita.png" width="32"></a>
+                                            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $a; ?>">
+                                                <img src="../img/delete.png" width="32"></button>
+
+                                        </td>
+                                    </tr>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<?php echo $a; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                <label ><strong>Deseja excluir o Livro: <?php echo $lv->getTitulo()?></label>
+                                                <form method="post" action="excluiProduto.php">
+                                                   <input type = "hidden" name = "ide" 
+                                                   value = "<?php echo $lv->getIdlivro(); ?>">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary">Sim</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                    <?php
-                        }
-                    }
-                    ?>
-                </tbody>
-            </table>
+                            <?php
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
+
     </div>
 
     <script src=" https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js " integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p " crossorigin="anonymous "></script>
