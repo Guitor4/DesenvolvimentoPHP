@@ -54,4 +54,48 @@ class DaoProduto {
             return $lista;
         }
     }
+    
+    //método para excluir produto na tabela produto
+    public function excluirProdutoDAO($id){
+        $conn = new Conecta();
+        $conecta = $conn->conectadb();
+        if($conecta){
+            $sql = "delete from produto where id = '$id'";
+            mysqli_query($conecta, $sql);
+            header("Location: ../PHPMatutino01/cadastroProduto.php");
+            mysqli_close($conecta);
+            exit;
+        }else{
+            echo "<script>alert('Banco inoperante!')</script>";
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
+			 URL='../PHPMatutino01/cadastroProduto.php'\">"; 
+        }
+    }
+    
+    //método para os dados de produto por id
+    public function pesquisarProdutoIdDAO($id){
+        $conn = new Conecta();
+        $conecta = $conn->conectadb();
+        $produto = new Produto();
+        if($conecta){
+            $sql = "select * from produto where id = '$id'";
+            $result = mysqli_query($conecta, $sql);
+            $linha = mysqli_fetch_assoc($result);
+            if ($linha) {
+                do {
+                    $produto->setIdProduto($linha['id']);
+                    $produto->setNomeProduto($linha['nome']);
+                    $produto->setVlrCompra($linha['vlrCompra']);
+                    $produto->setVlrVenda($linha['vlrVenda']);
+                    $produto->setQtdEstoque($linha['qtdEstoque']);
+                } while ($linha = mysqli_fetch_assoc($result));
+            }
+            mysqli_close($conecta);
+        }else{
+            echo "<script>alert('Banco inoperante!')</script>";
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
+			 URL='../PHPMatutino01/cadastroProduto.php'\">"; 
+        }
+        return $produto;
+    }
 }

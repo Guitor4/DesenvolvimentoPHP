@@ -83,7 +83,7 @@ include_once '../controller/livroController.php';
                                         <td><?php print_r($lv->getAutor()); ?></td>
                                         <td><?php print_r($lv->getEditora()); ?></td>
                                         <td><?php print_r($lv->getQtdEstoque()); ?></td>
-                                        <td> <a class="btn btn-light" href="#?id=<?php echo $lv->getIdlivro(); ?>">
+                                        <td> <a class="btn btn-light" href="EditaLivro.php?id=<?php echo $lv->getIdlivro(); ?>">
                                                 <img src="../img/edita.png" width="32"></a>
                                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $a; ?>">
                                                 <img src="../img/delete.png" width="32"></button>
@@ -99,15 +99,15 @@ include_once '../controller/livroController.php';
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                <label ><strong>Deseja excluir o Livro: <?php echo $lv->getTitulo()?></label>
-                                                <form method="post" action="excluiProduto.php">
-                                                   <input type = "hidden" name = "ide" 
-                                                   value = "<?php echo $lv->getIdlivro(); ?>">
+                                                    <label><strong>Deseja excluir o Livro: <?php echo $lv->getTitulo() ?></label>
+                                                    <form method="post" action="ExcluirLivro.php">
+                                                        <input type="hidden" name="ide" value="<?php echo $lv->getIdlivro(); ?>">
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-primary">Sim</button>
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                                                    <button type="submit" class="btn btn-primary">Sim</button>
+                                                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
                                                 </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
