@@ -14,9 +14,11 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/controller/controllerPr
     <style>
         .botao {
             margin-top: 20px;
-            
+
         }
-        th, td{
+
+        th,
+        td {
             text-align: center;
         }
     </style>
@@ -24,7 +26,7 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/controller/controllerPr
 
 <body>
 
-    <div class="col-12 container-fluid" style="margin-top: 20px">
+    <div class="container-fluid" style="margin-top: 20px">
         <div class="row">
             <div class="col-8 offset-2">
                 <div class="card-header bg-primary text-white text-center">Cadastro de Clientes </div>
@@ -56,25 +58,21 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/controller/controllerPr
                         echo $produto->inserirProduto($nomeProduto, $vlrCompra, $vlrVenda, $qtEstoque);
                     }
                     ?>
-                            <div class="row" style="margin-top: 30px">
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-top: 30px">
             <table class="table table-striped table-responsive">
                 <thead class="table-dark">
                     <tr>
                         <th>Código</th>
-
-
                         <th>Nome</th>
-
-
-                        <th>Venda</th>
-
-
-                        <th>Compra</th>
-
-
+                        <th>Compra (R$)</th>
+                        <th>Venda (R$)</th>
                         <th>Estoque</th>
-
-
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -82,32 +80,61 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/produto/controller/controllerPr
                     <?php
                     $pcTable = new ProdutoController();
                     $listaProdutos = $pcTable->ListarProdutos();
-                    foreach ($listaProdutos as $lp){
-                        ?>
-                        <tr>
-                        <td><?php print_r($lp->getId()); ?></td>
-                        <td><?php print_r($lp->getNome()); ?></td>
-                        <td><?php print_r($lp->getVlrCompra()); ?></td>
-                        <td><?php print_r($lp->getVlrVenda()); ?></td>
-                        <td><?php print_r($lp->getQtEstoque()); ?></td>
-                        <td><a class = "btn btn-success" href="#" style ="margin-right: 10px;">Editar</a>
-                        <a class = "btn btn-danger" href="#">Excluir</a>
-                        </tr>
-                        <?php
+                    $a = 0;
+                    if ($listaProdutos != null) {
+                        foreach ($listaProdutos as $lp) {
+                            $a++;
+                    ?>
+                            <tr>
+                                <td><?php print_r($lp->getId()); ?></td>
+                                <td><?php print_r($lp->getNome()); ?></td>
+                                <td><?php print_r($lp->getVlrCompra()); ?></td>
+                                <td><?php print_r($lp->getVlrVenda()); ?></td>
+                                <td><?php print_r($lp->getQtEstoque()); ?></td>
+                                <td> <a class="btn btn-light" href="#?id=<?php echo $lp->getId(); ?>">
+                                        <img src="img/edita.png" width="32"></a>
+                                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $a; ?>">
+                                        <img src="img/delete.png" width="32"></button>
+
+                                </td>
+                            </tr>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal<?php echo $a; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Contexto....<?php echo $lp->getId(); ?>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary">Sim</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <?php
+                        }
                     }
                     ?>
                 </tbody>
             </table>
         </div>
-                </div>
-            </div>
-        </div>
-
     </div>
-
 
     <script src="../bootstrap/js/bootstrap.js"></script>
     <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        var myModal = document.getElementById('myModal')
+        var myInput = document.getElementById('myInput')
+
+        myModal.addEventListener('shown.bs.modal', function() {
+            myInput.focus()
+        })
+    </script>
 </body>
 
 </html>

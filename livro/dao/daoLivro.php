@@ -19,6 +19,32 @@ class daoLivro
             }
         } else {
             $msg = "<p style = 'color: yellow'>Falha ao conectar com o banco de dados.</p>";
-        }return $msg;
+        }
+        return $msg;
+    }
+    function ListarLivros()
+    {
+        $conn = new conectadb();
+        if ($conn->conectadb()) {
+            $sql = "select * from livro";
+            $query =  mysqli_query($conn->conectadb(), $sql);
+            $result = mysqli_fetch_array($query);
+            $lista = array();
+            $a = 0;
+            if ($result) {
+                do {
+                    $liv = new livro();
+                    $liv->setIdlivro($result['idlivro']);
+                    $liv->setTitulo($result['titulo']);
+                    $liv->setAutor($result['autor']);
+                    $liv->setEditora($result['editora']);
+                    $liv->setQtdEstoque($result['qtdEstoque']);
+                    $lista[$a] = $liv;
+                    $a++;
+                } while ($result = mysqli_fetch_array($query));
+            }
+            mysqli_close($conn->conectadb());
+            return $lista;
+        }
     }
 }
