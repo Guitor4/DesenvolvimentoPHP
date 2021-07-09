@@ -7,7 +7,7 @@ $pr = new Produto();
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Login</title>
+        <title>Cadastro</title>
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <style>
@@ -78,15 +78,12 @@ $pr = new Produto();
                             }
                         }
                         if(isset($_POST['limpar'])){
-                            $pc2 = new ProdutoController();
-                            $pr = $pc2->limpar();
-                            unset($_POST['limpar']);
-                            $_GET = null;
-                            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
-                                    URL='cadastroProduto.php'\">";
+                            $pr = null;
+                            unset($_GET['id']);
+                            header("Location: cadastroProduto.php");
                         }
-                        if (isset($_GET)) {
-                            $id = $_REQUEST['id'];
+                        if (isset($_GET['id'])) {
+                            $id = $_GET['id'];
                             $pc = new ProdutoController();
                             $pr = $pc->pesquisarProdutoId($id);
                         }
@@ -94,10 +91,12 @@ $pr = new Produto();
                         <form method="post" action="">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label>Código: </label> <br> 
+                                    <strong>Código: <label style="color:blue;"><?php 
+                                        echo $pr->getIdProduto();?></label></strong><br> 
                                     <label>Produto</label>  
                                     <input class="form-control" type="text" 
-                                           name="nomeProduto" value="<?php echo $pr->getNomeProduto();?>">
+                                           name="nomeProduto" 
+                                           value="<?php echo $pr->getNomeProduto();?>">
                                     <label>Valor de Compra</label>  
                                     <input class="form-control" type="text" 
                                            value="<?php echo $pr->getVlrCompra();?>" name="vlrCompra">  
@@ -164,7 +163,7 @@ $pr = new Produto();
                                                         data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form method="get" action="excluiProduto.php">
+                                                <form method="get" action="controller/excluiProduto.php">
                                                     <label><strong>Deseja excluir o produto 
                                                             <?php echo $lp->getNomeProduto(); ?>?</strong></label>
                                                     <input type="hidden" name="ide" 

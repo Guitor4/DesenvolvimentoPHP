@@ -1,6 +1,6 @@
 <?php
 
-Class Produto{
+Class Produto   {
     private $id;
     private $nome;
     private $vlrVenda;

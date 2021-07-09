@@ -23,6 +23,7 @@ class livroController
 
    function ExcluirLivro($id)
    {
+      echo ($id);
       $daolivro = new daoLivro();
       $daolivro->excluirLivroDao($id);
    }

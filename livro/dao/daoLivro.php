@@ -53,7 +53,7 @@ class daoLivro
         $conecta = $conn->conectadb();
         echo $id;
         if ($conecta){
-            $sql = "delete from produto where id = '$id'";
+            $sql = "delete from livro where idlivro = '$id'";
             mysqli_query($conecta,$sql);
             header("Location: ../view/cadastroLivro.php");
             mysqli_close($conecta);
@@ -67,11 +67,11 @@ class daoLivro
     }
     public function pesquisarLivroIdDao($id){
         $conn = new conectadb();
-        $conn->conectadb();
+        $conecta = $conn->conectadb();
         $livro = new livro();
         if ($conn->conectadb()){
-            $sql = "select * from livro where id = '$id'";
-            $result = mysqli_query($conn->conectadb(),$sql);
+            $sql = "select * from livro where idlivro = '$id'";
+            $result = mysqli_query($conecta, $sql);
             $linha = mysqli_fetch_assoc($result);
             if ($linha){
                 do{
@@ -80,16 +80,18 @@ class daoLivro
                     $livro->setAutor($linha['autor']);
                     $livro->setEditora($linha['editora']);
                     $livro->setQtdEstoque($linha['qtdEstoque']);
-                }while($linha =mysqli_fetch_assoc($result)); 
+                }while($linha = mysqli_fetch_assoc($result)); 
             }
+            mysqli_close($conecta);
         }else {
             echo "<script>alert('Banco inoperante')</script>";
             echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
-                        URL='../DesenvolvimentoPHP/livro/view/cadastrolivro.php'\">";
+                        URL='cadastrolivro.php'\">";
         }
         return $livro;
     }
 
+    // Editar Livro
     function editarlivroDao(){
 
     }

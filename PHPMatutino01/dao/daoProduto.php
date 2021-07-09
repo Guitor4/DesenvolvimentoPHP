@@ -1,6 +1,6 @@
 <?php
-include_once 'C:/xampp/htdocs/PHPMatutino01/bd/Conecta.php';
-include_once 'C:/xampp/htdocs/PHPMatutino01/model/Produto.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutino01/bd/Conecta.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutino01/model/Produto.php';
 
 class DaoProduto {
     
@@ -62,13 +62,13 @@ class DaoProduto {
         if($conecta){
             $sql = "delete from produto where id = '$id'";
             mysqli_query($conecta, $sql);
-            header("Location: ../PHPMatutino01/cadastroProduto.php");
+            header("Location: ../cadastroProduto.php");
             mysqli_close($conecta);
             exit;
         }else{
             echo "<script>alert('Banco inoperante!')</script>";
             echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
-			 URL='../PHPMatutino01/cadastroProduto.php'\">"; 
+			 URL='../cadastroProduto.php'\">"; 
         }
     }
     

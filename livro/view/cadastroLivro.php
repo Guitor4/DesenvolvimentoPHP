@@ -1,6 +1,7 @@
 <?php
 include_once '../controller/livroController.php';
 include_once '../model/livro.php';
+$liv = new livro();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -29,20 +30,19 @@ include_once '../model/livro.php';
         $livro = new livroController();
         echo $livro->InserirLivroController($titulo, $autor, $editora, $qtdEstoque);
         echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
-                        URL='cadastroProduto.php'\">";
+                        URL='cadastrolivro.php'\">";
     }
     if (isset($_POST['limpar'])) {
         $pc2 = new livroController();
         $liv = $pc2->limpar();
         unset($_POST['limpar']);
         $_GET = null;
-        echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
-                                URL='cadastroProduto.php'\">";
+        header("Location:cadastrolivro.php");
     }
-    if (!isset($_GET)) {
-        $id = $_REQUEST['id'];
-        $liv = new livroController();
-        $pr = $pc->pesquisarLivroId($id);
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+        $livro = new livroController();
+        $liv = $livro->pesquisarLivroId($id);
     }
     ?>
     <div class="container-fluid" style="margin-top: 20px">
@@ -53,18 +53,26 @@ include_once '../model/livro.php';
                     <form method="post" action="">
                         <div class="row g-3">
                             <div class="col-12 ">
-                                <label>Código</label><br><br>
-                                
-                                <label>Título</label>
-                                <input class="form-control" type="text" name="titulo" placeholder="Nome do livro">
-                                <label>Autor(a)</label>
-                                <input type="text" class="form-control" name="autor" placeholder="Autor(a)">
-                                <label>Editora</label>
-                                <input type="text" class="form-control" name="editora" placeholder="Editora">
-                                <label>Quantidade em estoque</label>
-                                <input type="text" class="form-control" name="qtdEstoque" placeholder="qtdEstoque">
-                                <input class="col-3  offset-md-3 botao btn-success" type="submit" name="Enviar" id="Enviar" value="Enviar"></input>&nbsp;
-                                <input class="col-3 botao btn-danger" type="submit" name="Limpar" id="Limpar" value="Limpar">&nbsp; &nbsp;
+                                <strong>Código: <label style="color:blue;">
+                                        <?php
+                                        if ($liv != null) {
+                                            echo $liv->getIdlivro();
+                                        ?>
+                                    </label></strong>
+                                <input type="hidden" name="idproduto" value="<?php echo $liv->getIdlivro(); ?>"><br>
+                            <?php
+                                        }
+                            ?>
+                            <label>Título</label>
+                            <input class="form-control" type="text" name="titulo" placeholder="Nome do livro">
+                            <label>Autor(a)</label>
+                            <input type="text" class="form-control" name="autor" placeholder="Autor(a)">
+                            <label>Editora</label>
+                            <input type="text" class="form-control" name="editora" placeholder="Editora">
+                            <label>Quantidade em estoque</label>
+                            <input type="number" class="form-control" name="qtdEstoque" placeholder="qtdEstoque">
+                            <input class="col-3  offset-md-3 botao btn-success" type="submit" name="Enviar" id="Enviar" value="Enviar"></input>&nbsp;
+                            <input class="col-3 botao btn-danger" type="submit" name="Limpar" id="Limpar" value="Limpar">&nbsp; &nbsp;
                             </div>
                         </div>
                     </form>

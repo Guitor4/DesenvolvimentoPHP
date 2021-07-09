@@ -18,12 +18,10 @@
                      style="margin-top: 10%;">
                     <h3>Teste da Modal</h3>
                     <!-- Button trigger modal -->
-                    <?php
-                    for($x = 0; $x < 3; $x++){
-                    ?>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Launch demo modal
                     </button>
+
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -33,7 +31,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    Contexto....
+                                    ...
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -42,10 +40,6 @@
                             </div>
                         </div>
                     </div>
-                    <?php
-                    }
-                    ?>
-                    
                 </div>
             </div>
         </div>

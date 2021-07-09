@@ -4,7 +4,7 @@ class Conecta {
     
     private $url = "localhost:3306";
     private $user = "root";
-    private $password = "";
+    private $password = "senac";
     private $base = "dbphp";
 
     public function conectadb(){
