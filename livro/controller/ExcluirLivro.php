@@ -1,5 +1,5 @@
 <?php 
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro';
+include_once 'livroController.php';
 $id = $_REQUEST['ide'];    
 $lc = new livroController();
 $lc->ExcluirLivro($id);

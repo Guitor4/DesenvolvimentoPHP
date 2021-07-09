@@ -1,9 +1,9 @@
 <?php
-include_once '../model/livro.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/model/livro.php';
 include_once '../bd/conectadb.php';
 class daoLivro
 {
-    function inserirLivro(livro $livro)
+    public function inserirLivro(livro $livro)
     {
         $conn = new conectadb();
         if ($conn->conectadb()) {
@@ -22,7 +22,7 @@ class daoLivro
         }
         return $msg;
     }
-    function ListarLivros()
+    public function ListarLivros()
     {
         $conn = new conectadb();
         if ($conn->conectadb()) {
@@ -48,22 +48,24 @@ class daoLivro
         }
     }
 
-    function excluirLivroDao($id){
+    public function excluirLivroDao($id){
         $conn = new conectadb();
         $conecta = $conn->conectadb();
+        echo $id;
         if ($conecta){
             $sql = "delete from produto where id = '$id'";
             mysqli_query($conecta,$sql);
-            header("Location: cadastroLivro.php");
+            header("Location: ../view/cadastroLivro.php");
             mysqli_close($conecta);
-
+            exit;
         }else{
             echo "<script>alert('Banco inoperante')</script>";
-
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT =\"0;
+            URL='../DesenvolvimentoPHP/view/cadastroLivro.php'\">";
         
         }
     }
-    function pesquisarLivroIdDao($id){
+    public function pesquisarLivroIdDao($id){
         $conn = new conectadb();
         $conn->conectadb();
         $livro = new livro();

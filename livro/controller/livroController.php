@@ -1,6 +1,6 @@
 <?php
-include_once '../dao/daoLivro.php';
-include_once '../model/livro.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/dao/daoLivro.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/model/livro.php';
 
 class livroController
 {
@@ -36,5 +36,8 @@ class livroController
       $daolivro = new daolivro();
       $daolivro-> pesquisarLivroIdDao($id);      
    }
+   function limpar(){
+     return $liv = new livro();
 
+   }
 }

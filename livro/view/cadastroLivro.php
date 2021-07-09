@@ -1,5 +1,6 @@
 <?php
 include_once '../controller/livroController.php';
+include_once '../model/livro.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -18,16 +19,42 @@ include_once '../controller/livroController.php';
 </head>
 
 <body>
+    <?php
+    if (isset($_POST['Enviar'])) {
+        $titulo = $_POST['titulo'];
+        $autor = $_POST['autor'];
+        $editora = $_POST['editora'];
+        $qtdEstoque = $_POST['qtdEstoque'];
 
+        $livro = new livroController();
+        echo $livro->InserirLivroController($titulo, $autor, $editora, $qtdEstoque);
+        echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
+                        URL='cadastroProduto.php'\">";
+    }
+    if (isset($_POST['limpar'])) {
+        $pc2 = new livroController();
+        $liv = $pc2->limpar();
+        unset($_POST['limpar']);
+        $_GET = null;
+        echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
+                                URL='cadastroProduto.php'\">";
+    }
+    if (!isset($_GET)) {
+        $id = $_REQUEST['id'];
+        $liv = new livroController();
+        $pr = $pc->pesquisarLivroId($id);
+    }
+    ?>
     <div class="container-fluid" style="margin-top: 20px">
         <div class="row">
-            <div class="col-4 " style="margin-top: 20px">
-                <div class="card-header bg-primary text-white text-center">Cadastro de Livros </div>
+            <div class="col-md-4 " style="margin-top: 20px">
+                <div class="card-header bg-primary text-white text-center border text-white"><strong>Cadastro de Livros</strong></div>
                 <div class="card-body border border-3 border-dark">
                     <form method="post" action="">
                         <div class="row g-3">
                             <div class="col-12 ">
                                 <label>Código</label><br><br>
+                                
                                 <label>Título</label>
                                 <input class="form-control" type="text" name="titulo" placeholder="Nome do livro">
                                 <label>Autor(a)</label>
@@ -37,22 +64,11 @@ include_once '../controller/livroController.php';
                                 <label>Quantidade em estoque</label>
                                 <input type="text" class="form-control" name="qtdEstoque" placeholder="qtdEstoque">
                                 <input class="col-3  offset-md-3 botao btn-success" type="submit" name="Enviar" id="Enviar" value="Enviar"></input>&nbsp;
-                                <input class="col-3 botao btn-danger" type="submit" name="Limpar" id="Limpar" value="Cancelar">&nbsp; &nbsp;
+                                <input class="col-3 botao btn-danger" type="submit" name="Limpar" id="Limpar" value="Limpar">&nbsp; &nbsp;
                             </div>
                         </div>
                     </form>
-                    <?php
-                    if (isset($_POST['Enviar'])) {
-                        include_once '../controller/livroController.php';
-                        $titulo = $_POST['titulo'];
-                        $autor = $_POST['autor'];
-                        $editora = $_POST['editora'];
-                        $qtdEstoque = $_POST['qtdEstoque'];
 
-                        $livro = new livroController();
-                        echo $livro->InserirLivroController($titulo, $autor, $editora, $qtdEstoque);
-                    }
-                    ?>
                 </div>
             </div>
             <div class="col-8 ">
@@ -83,7 +99,7 @@ include_once '../controller/livroController.php';
                                         <td><?php print_r($lv->getAutor()); ?></td>
                                         <td><?php print_r($lv->getEditora()); ?></td>
                                         <td><?php print_r($lv->getQtdEstoque()); ?></td>
-                                        <td> <a class="btn btn-light" href="EditaLivro.php?id=<?php echo $lv->getIdlivro(); ?>">
+                                        <td> <a class="btn btn-light" href="cadastroLivro.php?id=<?php echo $lv->getIdlivro(); ?>">
                                                 <img src="../img/edita.png" width="32"></a>
                                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $a; ?>">
                                                 <img src="../img/delete.png" width="32"></button>
@@ -100,7 +116,7 @@ include_once '../controller/livroController.php';
                                                 </div>
                                                 <div class="modal-body">
                                                     <label><strong>Deseja excluir o Livro: <?php echo $lv->getTitulo() ?></label>
-                                                    <form method="post" action="ExcluirLivro.php">
+                                                    <form method="post" action="../controller/ExcluirLivro.php">
                                                         <input type="hidden" name="ide" value="<?php echo $lv->getIdlivro(); ?>">
                                                 </div>
                                                 <div class="modal-footer">
