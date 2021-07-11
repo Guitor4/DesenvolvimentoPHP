@@ -1,6 +1,6 @@
 <?php
+ include_once __DIR__.'/livro/controller/livroController.php';
 
-include_once 'livro/controller/ExcluirLivro.php';
 
 
 $livrocontroller = new livroController();

@@ -1,9 +1,12 @@
 <?php
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/dao/daoLivro.php';
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/model/livro.php';
+   require 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/dao/daoLivro.php';
+   include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/model/livro.php';
 
-class livroController
-{
+
+
+class livroController{
+
+
    function InserirLivroController($titulo, $autor, $editora, $qtdEstoque)
    {
       $livro = new livro();

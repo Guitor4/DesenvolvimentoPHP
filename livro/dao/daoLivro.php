@@ -1,6 +1,6 @@
 <?php
 include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/model/livro.php';
-include_once '../bd/conectadb.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/bd/conectadb.php';
 class daoLivro
 {
     public function inserirLivro(livro $livro)

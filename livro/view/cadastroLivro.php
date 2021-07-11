@@ -1,6 +1,6 @@
 <?php
-include_once '../controller/livroController.php';
-include_once '../model/livro.php';
+include_once __DIR__.'C:/xampp/htdocs/DesenvolvimentoPHP/livro/controller/livroController.php';
+include_once '../model/lipvro.ph';
 $liv = new livro();
 ?>
 <!DOCTYPE html>
