@@ -1,6 +1,6 @@
 <?php
-include_once 'C:/xampp/htdocs/PHPMatutino01/dao/DaoProduto.php';
-include_once 'C:/xampp/htdocs/PHPMatutino01/model/Produto.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutino01/dao/DaoProduto.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutino01/model/Produto.php';
 
 class ProdutoController {
     

@@ -48,42 +48,43 @@ class daoLivro
         }
     }
 
-    public function excluirLivroDao($id){
+    public function excluirLivroDao($id)
+    {
         $conn = new conectadb();
         $conecta = $conn->conectadb();
         echo $id;
-        if ($conecta){
+        if ($conecta) {
             $sql = "delete from livro where idlivro = '$id'";
-            mysqli_query($conecta,$sql);
+            mysqli_query($conecta, $sql);
             header("Location: ../view/cadastroLivro.php");
             mysqli_close($conecta);
             exit;
-        }else{
+        } else {
             echo "<script>alert('Banco inoperante')</script>";
             echo "<META HTTP-EQUIV='REFRESH' CONTENT =\"0;
             URL='../DesenvolvimentoPHP/view/cadastroLivro.php'\">";
-        
         }
     }
-    public function pesquisarLivroIdDao($id){
+    public function pesquisarLivroIdDao($id)
+    {
         $conn = new conectadb();
         $conecta = $conn->conectadb();
         $livro = new livro();
-        if ($conn->conectadb()){
+        if ($conn->conectadb()) {
             $sql = "select * from livro where idlivro = '$id'";
             $result = mysqli_query($conecta, $sql);
             $linha = mysqli_fetch_assoc($result);
-            if ($linha){
-                do{
+            if ($linha) {
+                do {
                     $livro->setIdlivro($linha['idlivro']);
                     $livro->setTitulo($linha['titulo']);
                     $livro->setAutor($linha['autor']);
                     $livro->setEditora($linha['editora']);
                     $livro->setQtdEstoque($linha['qtdEstoque']);
-                }while($linha = mysqli_fetch_assoc($result)); 
+                } while ($linha = mysqli_fetch_assoc($result));
             }
             mysqli_close($conecta);
-        }else {
+        } else {
             echo "<script>alert('Banco inoperante')</script>";
             echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
                         URL='cadastrolivro.php'\">";
@@ -92,8 +93,30 @@ class daoLivro
     }
 
     // Editar Livro
-    function editarlivroDao(){
-
+    function editarlivroDao($id)
+    {
+        $conn = new conectadb();
+        if ($conn->conectadb()) {
+            $liv = new livro();
+            
+            $id = $liv->getIdlivro();
+            $titulo = $liv->getTitulo();
+            $autor = $liv->getAutor();
+            $editora = $liv->getEditora();
+            $qtdEstoque = $liv->getQtdEstoque();
+            echo $id,$titulo,$autor,$editora,$qtdEstoque;
+            $sql = "update livro set titulo = '$titulo', autor = '$autor', editora = '$editora', qtdEstoque = '$qtdEstoque' where id = '$id'";
+            echo $sql;
+            if (mysqli_query($conn->conectadb(), $sql)) {
+                $msg =  '<p style = "color: green;">Dados Alterados com sucesso!!</p>';
+            } else {
+                $msg =  '<p style = "color: green;">Houve um erro ao alterar os dados. </p>';
+            }
+        } else {
+            $msg =  'Erro na conexão com o banco de dados';
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
+            URL='cadastrolivro.php'\">";
+        }
+        return $msg;
     }
-
 }

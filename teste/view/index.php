@@ -1,6 +1,6 @@
 <?php
-require 'classes/produto.php';
-require 'models/produto.php';
+require '../classes/produto.php';
+require '../models/produto.php';
 
 use classes\Produto as ProductClasses;
 use models\Produto as ProductModels;

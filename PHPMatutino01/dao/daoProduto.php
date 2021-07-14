@@ -33,7 +33,7 @@ class DaoProduto {
     public function listarProdutosDAO(){
         $conn = new Conecta();
         if($conn->conectadb()){
-            $sql = "select * from produto";
+            $sql = "select * from produtos";
             $query = mysqli_query($conn->conectadb(), $sql);
             $result = mysqli_fetch_array($query);
             $lista = array();
@@ -78,7 +78,7 @@ class DaoProduto {
         $conecta = $conn->conectadb();
         $produto = new Produto();
         if($conecta){
-            $sql = "select * from produto where id = '$id'";
+            $sql = "select * from produtos where id = '$id'";
             $result = mysqli_query($conecta, $sql);
             $linha = mysqli_fetch_assoc($result);
             if ($linha) {

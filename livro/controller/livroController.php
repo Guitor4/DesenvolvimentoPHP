@@ -30,15 +30,23 @@ class livroController{
       $daolivro = new daoLivro();
       $daolivro->excluirLivroDao($id);
    }
-   function editarLivro($id)
+   function editarLivro($id,$titulo,$autor,$editora,$qtdEstoque)
    {
+      $liv = new livro();
+      
+      $liv->setIdlivro($id);
+      $liv->setTitulo($titulo);
+      $liv->setAutor($autor);
+      $liv->setEditora($editora);
+      $liv->setQtdEstoque($qtdEstoque);
+      
       $daolivro = new daolivro();
-      $daolivro->editarLivroDao($id);
+      return $daolivro->editarLivroDao($id,$titulo,$autor,$editora,$qtdEstoque);
    }
 
    function pesquisarLivroId($id){
       $daolivro = new daolivro();
-      $daolivro-> pesquisarLivroIdDao($id);      
+      return $daolivro-> pesquisarLivroIdDao($id);      
    }
    function limpar(){
      return $liv = new livro();

@@ -1,6 +1,6 @@
 <?php
-include_once __DIR__.'C:/xampp/htdocs/DesenvolvimentoPHP/livro/controller/livroController.php';
-include_once '../model/lipvro.ph';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/livro/controller/livroController.php';
+include_once '../model/livro.php';
 $liv = new livro();
 ?>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ $liv = new livro();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Produtos</title>
+    <title>Cadastro de Livros</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <style>
         .botao {
@@ -32,7 +32,7 @@ $liv = new livro();
         echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
                         URL='cadastrolivro.php'\">";
     }
-    if (isset($_POST['limpar'])) {
+    if (isset($_POST['Limpar'])) {
         $pc2 = new livroController();
         $liv = $pc2->limpar();
         unset($_POST['limpar']);
@@ -41,8 +41,18 @@ $liv = new livro();
     }
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
-        $livro = new livroController();
-        $liv = $livro->pesquisarLivroId($id);
+        $lc = new livroController();
+        $liv = $lc->pesquisarLivroId($id);
+    }
+    if (isset($_POST['editar'])) {
+        $id = $_GET['id'];
+        $titulo = $_POST['titulo'];
+        $autor = $_POST['autor'];
+        $editora = $_POST['editora'];
+        $qtdEstoque = $_POST['qtdEstoque'];
+        $lc = new livroController();
+        $teste = $lc->editarLivro($id,$titulo,$autor,$editora,$qtdEstoque);
+        
     }
     ?>
     <div class="container-fluid" style="margin-top: 20px">
@@ -53,26 +63,32 @@ $liv = new livro();
                     <form method="post" action="">
                         <div class="row g-3">
                             <div class="col-12 ">
-                                <strong>Código: <label style="color:blue;">
-                                        <?php
-                                        if ($liv != null) {
-                                            echo $liv->getIdlivro();
-                                        ?>
-                                    </label></strong>
-                                <input type="hidden" name="idproduto" value="<?php echo $liv->getIdlivro(); ?>"><br>
-                            <?php
-                                        }
-                            ?>
-                            <label>Título</label>
-                            <input class="form-control" type="text" name="titulo" placeholder="Nome do livro">
-                            <label>Autor(a)</label>
-                            <input type="text" class="form-control" name="autor" placeholder="Autor(a)">
-                            <label>Editora</label>
-                            <input type="text" class="form-control" name="editora" placeholder="Editora">
-                            <label>Quantidade em estoque</label>
-                            <input type="number" class="form-control" name="qtdEstoque" placeholder="qtdEstoque">
-                            <input class="col-3  offset-md-3 botao btn-success" type="submit" name="Enviar" id="Enviar" value="Enviar"></input>&nbsp;
-                            <input class="col-3 botao btn-danger" type="submit" name="Limpar" id="Limpar" value="Limpar">&nbsp; &nbsp;
+                                <strong>Código: <label style="color:blue;"><?php echo $liv->getIdlivro(); ?></label></strong><br>
+                                <label>Título</label>
+                                <input class="form-control" type="text" name="titulo" placeholder="Nome do livro" value="<?php echo $liv->getTitulo(); ?>" required>
+                                <label>Autor(a)</label>
+                                <input type="text" class="form-control" name="autor" placeholder="Autor(a)" value="<?php echo $liv->getAutor(); ?>"required>
+                                <label>Editora</label>
+                                <input type="text" class="form-control" name="editora" placeholder="Editora" value="<?php echo $liv->getEditora(); ?>"required>
+                                <label>Quantidade em estoque</label>
+                                <input type="number" class="form-control" name="qtdEstoque" placeholder="qtdEstoque" value="<?php echo $liv->getQtdEstoque(); ?>"required>
+                                <?php
+                                if (!isset($_GET['id'])) {
+                                ?>
+                                    <input class="col-3  offset-md-3  btn-success" type="submit" name="Enviar" id="Enviar" value="Enviar"></input>&nbsp;
+                                <?php
+                                }
+                                ?>
+                                <?php
+                                if (isset($_GET['id'])) {
+                                ?>
+                                    <input class="col-3 offset-md-3 botao btn-success" type="submit" value="Editar" name="editar">
+                                <?php
+                                }
+                                ?>
+
+                                <input class="col-3  botao btn-danger" style="margin-left: 10px" type="submit" name="Limpar" id="Limpar" value="Limpar">&nbsp; &nbsp;
+
                             </div>
                         </div>
                     </form>
@@ -94,8 +110,8 @@ $liv = new livro();
                         </thead>
                         <tbody>
                             <?php
-                            $pcTable = new livroController();
-                            $listaLivros = $pcTable->ListarLivros();
+                            $lcTable = new livroController();
+                            $listaLivros = $lcTable->ListarLivros();
                             $a = 0;
                             if ($listaLivros != null) {
                                 foreach ($listaLivros as $lv) {
@@ -109,17 +125,17 @@ $liv = new livro();
                                         <td><?php print_r($lv->getQtdEstoque()); ?></td>
                                         <td> <a class="btn btn-light" href="cadastroLivro.php?id=<?php echo $lv->getIdlivro(); ?>">
                                                 <img src="../img/edita.png" width="32"></a>
-                                            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $a; ?>">
+                                            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#Delete<?php echo $a; ?>">
                                                 <img src="../img/delete.png" width="32"></button>
 
                                         </td>
                                     </tr>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal<?php echo $a; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="Delete<?php echo $a; ?>" tabindex="-1" aria-labelledby="DeleteLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <h5 class="modal-title" id="DeleteLabel">Modal title</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -135,6 +151,7 @@ $liv = new livro();
                                             </div>
                                         </div>
                                     </div>
+
                             <?php
                                 }
                             }
