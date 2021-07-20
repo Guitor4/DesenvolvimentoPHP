@@ -93,28 +93,25 @@ class daoLivro
     }
 
     // Editar Livro
-    function editarlivroDao($id)
+    function editarlivroDao($id, $titulo, $autor, $editora, $qtdEstoque)
     {
         $conn = new conectadb();
         if ($conn->conectadb()) {
-            $liv = new livro();
-            
-            $id = $liv->getIdlivro();
-            $titulo = $liv->getTitulo();
-            $autor = $liv->getAutor();
-            $editora = $liv->getEditora();
-            $qtdEstoque = $liv->getQtdEstoque();
-            echo $id,$titulo,$autor,$editora,$qtdEstoque;
-            $sql = "update livro set titulo = '$titulo', autor = '$autor', editora = '$editora', qtdEstoque = '$qtdEstoque' where id = '$id'";
-            echo $sql;
+
+            $sql = "update livro set titulo = '$titulo', autor = '$autor', editora = '$editora', qtdEstoque = '$qtdEstoque' where idlivro = '$id'";
             if (mysqli_query($conn->conectadb(), $sql)) {
                 $msg =  '<p style = "color: green;">Dados Alterados com sucesso!!</p>';
+                echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
+                URL='cadastrolivro.php'\">";
             } else {
                 $msg =  '<p style = "color: green;">Houve um erro ao alterar os dados. </p>';
+                echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
+                URL='cadastrolivro.php'\">";
             }
         } else {
             $msg =  'Erro na conexão com o banco de dados';
-            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
+            echo "Erro na conexão com o banco de dados";
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
             URL='cadastrolivro.php'\">";
         }
         return $msg;
