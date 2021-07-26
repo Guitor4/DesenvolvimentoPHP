@@ -33,9 +33,8 @@ $liv = new livro();
                         URL='cadastrolivro.php'\">";
     }
     if (isset($_POST['Limpar'])) {
-        $pc2 = new livroController();
-        $liv = $pc2->limpar();
-        unset($_POST['limpar']);
+        $liv = null;
+        unset($_POST['Limpar']);
         $_GET = null;
         header("Location:cadastrolivro.php");
     }
@@ -64,13 +63,13 @@ $liv = new livro();
                             <div class="col-12 ">
                                 <strong>Código: <label style="color:blue;"><?php echo $liv->getIdlivro(); ?></label></strong><br>
                                 <label>Título</label>
-                                <input class="form-control" type="text" name="titulo" placeholder="Nome do livro" value="<?php echo $liv->getTitulo(); ?>" required>
+                                <input class="form-control" type="text" name="titulo" placeholder="Nome do livro" value="<?php echo $liv->getTitulo(); ?>" >
                                 <label>Autor(a)</label>
-                                <input type="text" class="form-control" name="autor" placeholder="Autor(a)" value="<?php echo $liv->getAutor(); ?>" required>
+                                <input type="text" class="form-control" name="autor" placeholder="Autor(a)" value="<?php echo $liv->getAutor(); ?>" >
                                 <label>Editora</label>
-                                <input type="text" class="form-control" name="editora" placeholder="Editora" value="<?php echo $liv->getEditora(); ?>" required>
+                                <input type="text" class="form-control" name="editora" placeholder="Editora" value="<?php echo $liv->getEditora(); ?>" >
                                 <label>Quantidade em estoque</label>
-                                <input type="number" class="form-control" name="qtdEstoque" placeholder="qtdEstoque" value="<?php echo $liv->getQtdEstoque(); ?>" required>
+                                <input type="number" class="form-control" name="qtdEstoque" placeholder="qtdEstoque" value="<?php echo $liv->getQtdEstoque(); ?>" >
                                 <?php
                                 if (!isset($_GET['id'])) {
                                 ?>
