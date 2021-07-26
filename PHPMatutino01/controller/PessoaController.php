@@ -1,6 +1,6 @@
 <?php
-require_once "C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutino01/dao/daoPessoa.php";
-require_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutino01/model/Pessoa.php';
+require_once "C:/xampp/htdocs/PHPMatutino01/dao/daoPessoa.php";
+require_once 'C:/xampp/htdocs/PHPMatutino01/model/Pessoa.php';
 class PessoController {
 
     public function inserirPessoa($nome, $dtNasc, $login, $senha, $perfil,

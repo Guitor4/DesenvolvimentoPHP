@@ -72,7 +72,12 @@ $liv = new livro();
                                 <input type="number" class="form-control" name="qtdEstoque" placeholder="qtdEstoque" value="<?php echo $liv->getQtdEstoque(); ?>" >
                                 <?php
                                 if (!isset($_GET['id'])) {
-                                ?>
+                                ?>,
+                                ,
+                                ,
+                                ,
+                                ,
+                                
                                     <input class="col-3  offset-md-3  btn-success" type="submit" name="Enviar" id="Enviar" value="Enviar"></input>&nbsp;
                                 <?php
                                 }

@@ -75,7 +75,8 @@ $btExcluir = FALSE;
 
                                 $pc = new ProdutoController();
                                 unset($_POST['cadastrarProduto']);
-                                $msg = $pc->inserirProduto($nomeProduto, $vlrCompra, $vlrVenda, $qtdEstoque);
+                                $msg = $pc->inserirProduto($nomeProduto, $vlrCompra,
+                                        $vlrVenda, $qtdEstoque);
                                 echo $msg->getMsg();
                                 echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
                                     URL='cadastroProduto.php'\">";
