@@ -27,7 +27,32 @@ $pr = new Produto();
 </head>
 
 <body>
+    <?php
+    if (isset($_POST['cadastrarProduto'])) {
+        $nomeProduto = trim($_POST['nomeProduto']);
+        if ($nomeProduto != "") {
+            $vlrCompra = $_POST['vlrCompra'];
+            $vlrVenda = $_POST['vlrVenda'];
+            $qtdEstoque = $_POST['qtdEstoque'];
 
+            $pc = new ProdutoController();
+            unset($_POST['cadastrarProduto']);
+            echo $pc->inserirProduto($nomeProduto, $vlrCompra, $vlrVenda, $qtdEstoque);
+            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
+                                    URL='cadastroProduto.php'\">";
+        }
+    }
+    if (isset($_POST['limpar'])) {
+        $pr = null;
+        unset($_GET['id']);
+        header("Location: cadastroProduto.php");
+    }
+    if (isset($_GET['idproduto'])) {
+        $id = $_GET['idproduto'];
+        $pc = new ProdutoController();
+        $pr = $pc->pesquisarProdutoId($id);
+    }
+    ?>
 
 
     <div class="container-fluid" style="margin-top: 20px">
@@ -35,42 +60,15 @@ $pr = new Produto();
             <div class="col-8 offset-2">
                 <div class="card-header bg-primary text-white text-center">Cadastro de Clientes </div>
                 <div class="card-body border border-3 border-dark">
-                    <?php
-                    if (isset($_POST['cadastrarProduto'])) {
-                        $nomeProduto = trim($_POST['nomeProduto']);
-                        if ($nomeProduto != "") {
-                            $vlrCompra = $_POST['vlrCompra'];
-                            $vlrVenda = $_POST['vlrVenda'];
-                            $qtdEstoque = $_POST['qtdEstoque'];
 
-                            $pc = new ProdutoController();
-                            unset($_POST['cadastrarProduto']);
-                            echo $pc->inserirProduto($nomeProduto, $vlrCompra, $vlrVenda, $qtdEstoque);
-                            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
-                                    URL='cadastroProduto.php'\">";
-                        }
-                    }
-                    if (isset($_POST['limpar'])) {
-                        $pr = null;
-                        unset($_GET['id']);
-                        header("Location: cadastroProduto.php");
-                    }
-                    if (isset($_GET['idproduto'])) {
-                        $id = $_GET['idproduto'];
-                        $pc = new ProdutoController();
-                        $pr = $pc->pesquisarProdutoId($id);
-                    }
-                    ?>
                     <form method="post" action="">
                         <div class="row g-3">
-                            <div class="col-md-6 offset-md-3"><strong>Código:<label style="color: blue;"
-                                        
-                                        <?php if ($pr != null) {
-                                            ?>  ><?php echo $pr->getId();?></label><br><br>
-                                            <input type="hidden" name = "idproduto">
-                                            <?php
-                                        }
-                                        ?>
+                            <div class="col-md-6 offset-md-3"><strong>Código:<label style="color: blue;" <?php if ($pr != null) {
+                                                                                                            ?>><?php echo $pr->getId(); ?></label><br><br>
+                                    <input type="hidden" name="idproduto">
+                                <?php
+                                                                                                            }
+                                ?>
                                 <label>Nome do produto</label>
                                 <input class="form-control" type="text" name="nomeProduto" placeholder="Nome do Produto">
                                 <label>Valor da Compra</label>

@@ -1,7 +1,7 @@
 <?php
-include_once 'C:/xampp/htdocs/PHPMatutino01/bd/Conecta.php';
-include_once 'C:/xampp/htdocs/PHPMatutino01/model/Produto.php';
-include_once 'C:/xampp/htdocs/PHPMatutino01/model/Mensagem.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutino01/bd/Conecta.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutino01/model/Produto.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutino01/model/Mensagem.php';
 
 class DaoProduto {
     
@@ -13,7 +13,7 @@ class DaoProduto {
             $vlrCompra = $produto->getVlrCompra();
             $vlrVenda = $produto->getVlrVenda();
             $qtdEstoque = $produto->getQtdEstoque();
-            $sql = "insert into produto values (null, '$nomeProduto',"
+            $sql = "insert into produtos values (null, '$nomeProduto',"
                     . "'$vlrCompra', '$vlrVenda', '$qtdEstoque')";
             $resp = mysqli_query($conn->conectadb(), $sql) or 
                     die($conn->conectadb());
@@ -41,7 +41,7 @@ class DaoProduto {
             $vlrCompra = $produto->getVlrCompra();
             $vlrVenda = $produto->getVlrVenda();
             $qtdEstoque = $produto->getQtdEstoque();
-            $sql = "update produto set nome = '$nomeProduto',"
+            $sql = "update produtos set nome = '$nomeProduto',"
                     . "vlrCompra = '$vlrCompra', vlrVenda = '$vlrVenda', "
                     . "qtdEstoque = '$qtdEstoque' where id = '$id'";
             $resp = mysqli_query($conn->conectadb(), $sql) or 
@@ -64,7 +64,7 @@ class DaoProduto {
     public function listarProdutosDAO(){
         $conn = new Conecta();
         if($conn->conectadb()){
-            $sql = "select * from produto";
+            $sql = "select * from produtos";
             $query = mysqli_query($conn->conectadb(), $sql);
             $result = mysqli_fetch_array($query);
             $lista = array();
@@ -92,7 +92,7 @@ class DaoProduto {
         $conecta = $conn->conectadb();
         $msg = new Mensagem();
         if($conecta){
-            $sql = "delete from produto where id = '$id'";
+            $sql = "delete from produtos where id = '$id'";
             mysqli_query($conecta, $sql);
             mysqli_close($conecta);
             $msg->setMsg("<p style='color: red;'>"
@@ -109,7 +109,7 @@ class DaoProduto {
         $conecta = $conn->conectadb();
         $produto = new Produto();
         if($conecta){
-            $sql = "select * from produto where id = '$id'";
+            $sql = "select * from produtos where id = '$id'";
             $result = mysqli_query($conecta, $sql);
             $linha = mysqli_fetch_assoc($result);
             if ($linha) {
