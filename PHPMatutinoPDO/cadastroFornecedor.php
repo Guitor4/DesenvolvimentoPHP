@@ -173,7 +173,7 @@ $btExcluir = FALSE;
         $btEnviar = TRUE;
         $btAtualizar = TRUE;
         $btExcluir = TRUE;
-        $id = $_GET['id'];
+        $id = $_GET['id'];  
         $fc = new fornecedorController();
         $fr = $fc->pesquisarfornecedorId($id);
     }
@@ -186,8 +186,8 @@ $btExcluir = FALSE;
                 </div>
                 <div class="card-body border">
                     <form method="post" action="">
-                        <div class="row col-md-6">
-                            <div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <strong>Código: <label style="color:red;">
                                         <?php
                                         if ($fr != null) {
@@ -199,7 +199,7 @@ $btExcluir = FALSE;
                                         }
                             ?>
                             <label>Fornecedor</label>
-                            <input class="form-control" type="text" name="nomefornecedor" value="<?php echo $fr->getNomefornecedor(); ?>">
+                            <input class="form-control" type="text" name="nomefornecedor"  value="<?php echo $fr->getNomefornecedor(); ?>">
                             <label>Logradouro</label>
                             <input class="form-control" type="text" value="<?php echo $fr->getLogradouroFornecedor(); ?>" name="logradouro">
                             <label>numero</label>
@@ -211,28 +211,29 @@ $btExcluir = FALSE;
                             <label>cidade</label>
                             <input class="form-control" type="text" value="<?php echo $fr->getCidade(); ?>" name="cidade">
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>UF</label>
-                                    <input class="form-control" type="text" value="<?php echo $fr->getUF(); ?>" name="UF">
-                                    <label>CEP</label>
-                                    <input class="form-control" type="text" value="<?php echo $fr->getCEP(); ?>" name="CEP">
-                                    <label>representante</label>
-                                    <input class="form-control" type="text" value="<?php echo $fr->getRepresentante(); ?>" name="representante">
-                                    <label>email</label>
-                                    <input class="form-control" type="text" value="<?php echo $fr->getEmail(); ?>" name="email">
-                                    <label>telFixo</label>
-                                    <input class="form-control" type="text" value="<?php echo $fr->getTelFixo(); ?>" name="telFixo">
-                                    <label>telCel</label>
-                                    <input class="form-control" type="text" value="<?php echo $fr->getTelCel(); ?>" name="telCel">
+                            <div class="col-md-6" style="margin-top: 25px;">
+                                <label>UF</label>
+                                <input class="form-control" type="text" maxlength="2" value="<?php echo $fr->getUF(); ?>" name="UF">
+                                <label>CEP</label>
+                                <input class="form-control" type="text" maxlength="9" value="<?php echo $fr->getCEP(); ?>" name="CEP">
+                                <label>representante</label>
+                                <input class="form-control" type="text" value="<?php echo $fr->getRepresentante(); ?>" name="representante">
+                                <label>email</label>
+                                <input class="form-control" type="text" value="<?php echo $fr->getEmail(); ?>" name="email">
+                                <label>telFixo</label>
+                                <input class="form-control" type="text" value="<?php echo $fr->getTelFixo(); ?>" name="telFixo">
+                                <label>telCel</label>
+                                <input class="form-control" type="text" value="<?php echo $fr->getTelCel(); ?>" name="telCel">
 
-                                </div>
                             </div>
-                            <input type="submit" name="cadastrarfornecedor" class="btn btn-success btInput" value="Enviar" <?php if ($btEnviar == TRUE) echo "disabled"; ?>>
-                            <input type="submit" name="atualizarfornecedor" class="btn btn-secondary btInput" value="Atualizar" <?php if ($btAtualizar == FALSE) echo "disabled"; ?>>
-                            <button type="button" class="btn btn-warning btInput" data-bs-toggle="modal" data-bs-target="#ModalExcluir" <?php if ($btExcluir == FALSE) echo "disabled"; ?>>
-                                Excluir
-                            </button>
+                            <div class="col-md-6 offset-md-4">
+                                <input type="submit" name="cadastrarfornecedor" class="btn btn-success btInput px-md-4 margin-rigth:" value="Enviar" <?php if ($btEnviar == TRUE) echo "disabled"; ?>>
+                                <input type="submit" name="atualizarfornecedor" class="btn btn-secondary btInput px-md-4" value="Atualizar" <?php if ($btAtualizar == FALSE) echo "disabled"; ?>>
+                                <button type="button" class="btn btn-warning btInput px-md-4" data-bs-toggle="modal" data-bs-target="#ModalExcluir" <?php if ($btExcluir == FALSE) echo "disabled"; ?>>
+                                    Excluir
+                                </button>
+                                <input type="submit" class="btn btn-light btInput px-md-4" name="limpar" value="Limpar">
+                            </div>
                             <!-- Modal para excluir -->
                             <div class="modal fade" id="ModalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -255,7 +256,9 @@ $btExcluir = FALSE;
                             </div>
                             <!-- fim do modal para excluir -->
                             &nbsp;&nbsp;
-                            <input type="submit" class="btn btn-light btInput" name="limpar" value="Limpar">
+
+                        </div>
+
                     </form>
                 </div>
 
@@ -282,6 +285,7 @@ $btExcluir = FALSE;
                                 <th>email</th>
                                 <th>telFixo</th>
                                 <th>telCel</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>

@@ -1,16 +1,17 @@
 <?php
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/dao/DaoProduto.php';
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Produto.php';
+include_once 'C:/xampp/htdocs/PHPMatutinoPDO/dao/DaoProduto.php';
+include_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Produto.php';
 
 class ProdutoController {
     
     public function inserirProduto($nomeProduto, $vlrCompra, 
-            $vlrVenda, $qtdEstoque){
+            $vlrVenda, $qtdEstoque, $fkfornecedor){
         $produto = new Produto();
         $produto->setNomeProduto($nomeProduto);
         $produto->setVlrCompra($vlrCompra);
         $produto->setVlrVenda($vlrVenda);
         $produto->setQtdEstoque($qtdEstoque);
+        $produto->setFkFornecedor($fkfornecedor);
         
         $daoProduto = new DaoProduto();
         return $daoProduto->inserir($produto);
@@ -46,12 +47,6 @@ class ProdutoController {
     public function pesquisarProdutoId($id){
         $daoProduto = new DaoProduto();
         return $daoProduto->pesquisarProdutoIdDAO($id);
-    }
-    
-    //método para editar produto
-    public function editarProduto($id){
-        $daoProduto = new DaoProduto();
-        return $daoProduto->AtualizarProdutoDAO($id);
     }
     
     //método para limpar formulário

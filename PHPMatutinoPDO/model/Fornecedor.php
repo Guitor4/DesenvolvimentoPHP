@@ -13,6 +13,7 @@ class Fornecedor {
  private $email;
  private $telFixo;
  private $telCel;
+ private $fkFornecedor;
  
 
 
@@ -272,6 +273,26 @@ class Fornecedor {
  public function setTelCel($telCel)
  {
   $this->telCel = $telCel;
+
+  return $this;
+ }
+
+ /**
+  * Get the value of fkFornecedor
+  */ 
+ public function getFkFornecedor()
+ {
+  return $this->fkFornecedor;
+ }
+
+ /**
+  * Set the value of fkFornecedor
+  *
+  * @return  self
+  */ 
+ public function setFkFornecedor($fkFornecedor)
+ {
+  $this->fkFornecedor = $fkFornecedor;
 
   return $this;
  }
