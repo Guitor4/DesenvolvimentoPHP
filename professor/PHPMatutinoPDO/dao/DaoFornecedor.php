@@ -1,7 +1,7 @@
 <?php
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO/bd/Conecta.php';
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Fornecedor.php';
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Mensagem.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/bd/Conecta.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/Fornecedor.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/Mensagem.php';
 
 class DaoFornecedor {
 
@@ -115,6 +115,7 @@ class DaoFornecedor {
     //método para carregar lista de produtos do banco de dados
     public function listarFornecedorsDAO(){
         $conn = new Conecta();
+        $msg = new Mensagem();
         $conecta = $conn->conectadb();
         if($conecta){
             try {
@@ -177,6 +178,7 @@ class DaoFornecedor {
     //método para os dados de produto por id
     public function pesquisarFornecedorIdDAO($id){
         $conn = new Conecta();
+        $msg = new Mensagem();
         $conecta = $conn->conectadb();
         $fornecedor = new Fornecedor();
         if($conecta){
