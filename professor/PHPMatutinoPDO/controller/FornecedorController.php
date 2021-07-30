@@ -5,12 +5,12 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/
 class FornecedorController {
     
     public function inserirFornecedor($nomeFornecedor, $logradouro, 
-            $numero, $complemento, $bairro, $cidade, $uf, $cep,
+             $complemento, $bairro, $cidade, $uf, $cep,
             $representante, $email, $telFixo, $telCel){
         $fornecedor = new Fornecedor();
         $fornecedor->setNomeFornecedor($nomeFornecedor);
         $fornecedor->setLogradouro($logradouro);
-        $fornecedor->setNumero($numero);
+
         $fornecedor->setComplemento($complemento);
         $fornecedor->setBairro($bairro);
         $fornecedor->setCidade($cidade);
@@ -27,13 +27,12 @@ class FornecedorController {
     
     //método para atualizar dados de produto no BD
     public function atualizarFornecedor($idfornecedor, $nomeFornecedor,
-            $logradouro, $numero, $complemento, $bairro, $cidade, $uf, 
+            $logradouro, $complemento, $bairro, $cidade, $uf, 
             $cep, $representante, $email, $telFixo, $telCel){
         $fornecedor = new Fornecedor();
         $fornecedor->setIdfornecedor($idfornecedor);
         $fornecedor->setNomeFornecedor($nomeFornecedor);
         $fornecedor->setLogradouro($logradouro);
-        $fornecedor->setNumero($numero);
         $fornecedor->setComplemento($complemento);
         $fornecedor->setBairro($bairro);
         $fornecedor->setCidade($cidade);

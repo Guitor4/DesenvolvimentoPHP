@@ -81,41 +81,47 @@ class DaoProduto
     //método para carregar lista de produtos do banco de dados
     public function listarProdutosDAO()
     {
-        $produto = new Produto();
         $conn = new Conecta();
         $msg = new Mensagem();
         $conecta = $conn->conectadb();
         if ($conecta) {
             try {
-                $rs = $conecta->query("SELECT * from produto inner join fornecedor on produto.fkFornecedor = fornecedor.IdFornecedor");
-                $lista = array();
+                $rs = $conecta->query("SELECT * from produto inner join fornecedor "
+              ." on produto.fkFornecedor = fornecedor.IdFornecedor");
+
+              $lista = array();
+            
+
+
                 $a = 0;
                 if ($rs->execute()) {
                     if ($rs->rowCount() > 0) {
-                        while ($lista = $rs->fetch(PDO::FETCH_OBJ)) {
-                            $produto->setIdProduto($lista->idProduto);
-                            $produto->setNomeProduto($lista->nome);
-                            $produto->setVlrCompra($lista->vlrCompra);
-                            $produto->setVlrVenda($lista->vlrVenda);
-                            $produto->setQtdEstoque($lista->qtdEstoque);
+                        while ($linha = $rs->fetch(PDO::FETCH_OBJ)) {
+                            $produto = new Produto();
+                            $produto->setIdProduto($linha->idProduto);
+                            $produto->setNomeProduto($linha->nome);
+                            $produto->setVlrCompra($linha->vlrCompra);
+                            $produto->setVlrVenda($linha->vlrVenda);
+                            $produto->setQtdEstoque($linha->qtdEstoque);
                                     
                             $fornecedor = new Fornecedor();
-                            $fornecedor->setIdFornecedor($lista->idFornecedor);
-                            $fornecedor->setNomeFornecedor($lista->nomeFornecedor);
-                            $fornecedor->setLogradouroFornecedor($lista->logradouro);
-                            $fornecedor->setnumero($lista->numero);
-                            $fornecedor->setcomplemento($lista->complemento);
-                            $fornecedor->setBairro($lista->bairro);
-                            $fornecedor->setCidade($lista->cidade);
-                            $fornecedor->setUF($lista->UF);
-                            $fornecedor->setCEP($lista->CEP);
-                            $fornecedor->setRepresentante($lista->representante);
-                            $fornecedor->setEmail($lista->email);
-                            $fornecedor->setTelFixo($lista->telFixo);
-                            $fornecedor->setTelCel($lista->telCel);
+                            $fornecedor->setIdFornecedor($linha->idFornecedor);
+                            $fornecedor->setNomeFornecedor($linha->nomeFornecedor);
+                            $fornecedor->setLogradouroFornecedor($linha->logradouro);
+                            $fornecedor->setcomplemento($linha->complemento);
+                            $fornecedor->setBairro($linha->bairro);
+                            $fornecedor->setCidade($linha->cidade);
+                            $fornecedor->setUF($linha->UF);
+                            $fornecedor->setCEP($linha->CEP);
+                            $fornecedor->setRepresentante($linha->representante);
+                            $fornecedor->setEmail($linha->email);
+                            $fornecedor->setTelFixo($linha->telFixo);
+                            $fornecedor->setTelCel($linha->telCel);
                         
                             $produto->setFornecedor($fornecedor);
+                            
                             $lista[$a] = $produto;
+                            
                             $a++;
                         }
                     }
@@ -162,12 +168,12 @@ class DaoProduto
         if ($conecta) {
             try {
                 $rs = $conecta->prepare("select * from produto where "
-                    . "id = ?");
+                    . "idProduto = ?");
                 $rs->bindParam(1, $id);
                 if ($rs->execute()) {
                     if ($rs->rowCount() > 0) {
                         while ($lista = $rs->fetch(PDO::FETCH_OBJ)) {
-                            $produto->setIdProduto($lista->id);
+                            $produto->setIdProduto($lista->idProduto);
                             $produto->setNomeProduto($lista->nome);
                             $produto->setVlrCompra($lista->vlrCompra);
                             $produto->setVlrVenda($lista->vlrVenda);
@@ -210,7 +216,6 @@ class DaoProduto
                     $fornecedor->setIdFornecedor($lista->idFornecedor);
                     $fornecedor->setNomeFornecedor($lista->nomeFornecedor);
                     $fornecedor->setLogradouroFornecedor($lista->logradouro);
-                    $fornecedor->setnumero($lista->numero);
                     $fornecedor->setcomplemento($lista->complemento);
                     $fornecedor->setBairro($lista->bairro);
                     $fornecedor->setCidade($lista->cidade);

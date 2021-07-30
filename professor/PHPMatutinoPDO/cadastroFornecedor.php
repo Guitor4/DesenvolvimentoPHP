@@ -70,7 +70,7 @@ $btExcluir = FALSE;
                             $nomeFornecedor = trim($_POST['nomeFornecedor']);
                             if ($nomeFornecedor != "") {
                                 $logradouro = $_POST['logradouro'];
-                                $numero = $_POST['numero'];
+
                                 $complemento = $_POST['complemento'];
                                 $bairro = $_POST['bairro'];
                                 $cidade = $_POST['cidade'];
@@ -84,7 +84,7 @@ $btExcluir = FALSE;
                                 $fc = new FornecedorController();
                                 unset($_POST['cadastrarFornecedor']);
                                 $msg = $fc->inserirFornecedor($nomeFornecedor, $logradouro,
-                                        $numero, $complemento, $bairro, $cidade, $uf, $cep,
+                                         $complemento, $bairro, $cidade, $uf, $cep,
                                         $representante, $email, $telFixo, $telCel);
                                 echo $msg->getMsg();
                                 echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
@@ -98,7 +98,6 @@ $btExcluir = FALSE;
                             if ($nomeFornecedor != "") {
                                 $idfornecedor = $_POST['idfornecedor'];
                                 $logradouro = $_POST['logradouro'];
-                                $numero = $_POST['numero'];
                                 $complemento = $_POST['complemento'];
                                 $bairro = $_POST['bairro'];
                                 $cidade = $_POST['cidade'];
@@ -112,7 +111,7 @@ $btExcluir = FALSE;
                                 $fc = new FornecedorController();
                                 unset($_POST['atualizarFornecedor']);
                                 $msg = $fc->atualizarFornecedor($idfornecedor, $nomeFornecedor, 
-                                        $logradouro, $numero, $complemento, $bairro, 
+                                        $logradouro, $complemento, $bairro, 
                                         $cidade, $uf, $cep, $representante, $email, 
                                         $telFixo, $telCel);
                                 echo $msg->getMsg();
@@ -180,13 +179,10 @@ $btExcluir = FALSE;
                                            value="<?php echo $fr->getNomeFornecedor(); ?>">
                                     <label>CEP</label>  
                                     <input class="form-control" type="text" 
-                                           value="<?php echo $fr->getCep(); ?>" name="cep">
+                                           value="<?php echo $fr->getCep(); ?>" id="cep">
                                     <label>Rua/Logradouro</label>  
                                     <input class="form-control" type="text" 
-                                           value="<?php echo $fr->getLogradouro(); ?>" name="logradouro">  
-                                    <label>Número</label>  
-                                    <input class="form-control" type="text" 
-                                           value="<?php echo $fr->getNumero(); ?>" name="numero"> 
+                                           value="<?php echo $fr->getLogradouro(); ?>" id="logradouro">  
                                     <label>Complemento</label>  
                                     <input class="form-control" type="text" 
                                            value="<?php echo $fr->getComplemento(); ?>" name="complemento">
@@ -349,6 +345,7 @@ $btExcluir = FALSE;
             myInput.focus()
         })
     </script> 
+    
 </body>
 </html>
 

@@ -2,6 +2,7 @@
 include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/bd/Conecta.php';
 include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/Produto.php';
 include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/Mensagem.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/Fornecedor.php';
 
 class DaoProduto {
 
@@ -14,7 +15,7 @@ class DaoProduto {
             $vlrCompra = $produto->getVlrCompra();
             $vlrVenda = $produto->getVlrVenda();
             $qtdEstoque = $produto->getQtdEstoque();
-            $fkfornecedor = $produto->getFkFornecedor();
+            $fkfornecedor = $produto->getFornecedor();
             try {
                 $stmt = $conecta->prepare("insert into produto values "
                         . "(null,?,?,?,?,?)");
@@ -48,18 +49,21 @@ class DaoProduto {
             $vlrCompra = $produto->getVlrCompra();
             $vlrVenda = $produto->getVlrVenda();
             $qtdEstoque = $produto->getQtdEstoque();
+            $fkFornecedor = $produto->getFornecedor();
             try{
                 $stmt = $conecta->prepare("update produto set "
                         . "nome = ?,"
                         . "vlrCompra = ?,"
                         . "vlrVenda = ?, "
-                        . "qtdEstoque = ? "
-                        . "where id = ?");
+                        . "qtdEstoque = ?, "
+                        . "fkFornecedor = ? "
+                        . "where idProduto = ?");
                 $stmt->bindParam(1, $nomeProduto);
                 $stmt->bindParam(2, $vlrCompra);
                 $stmt->bindParam(3, $vlrVenda);
                 $stmt->bindParam(4, $qtdEstoque);
-                $stmt->bindParam(5, $id);
+                $stmt->bindParam(5, $fkFornecedor);
+                $stmt->bindParam(6, $id);
                 $stmt->execute();
                 $msg->setMsg("<p style='color: blue;'>"
                         . "Dados atualizados com sucesso</p>");
@@ -82,9 +86,11 @@ class DaoProduto {
         if($conecta){
             try {
                 $rs = $conecta->query("SELECT * FROM produto inner join fornecedor "
-                        . "on produto.fkFornecedor = fornecedor.idfornecedor");
+                        . "on produto.fkFornecedor = fornecedor.idfornecedor "
+                        . "order by produto.idProduto desc");
                 $lista = array();
                 $a = 0;
+
                 if($rs->execute()){
                     if($rs->rowCount() > 0){
                         while($linha = $rs->fetch(PDO::FETCH_OBJ)){
@@ -94,6 +100,24 @@ class DaoProduto {
                             $produto->setVlrCompra($linha->vlrCompra);
                             $produto->setVlrVenda($linha->vlrVenda);
                             $produto->setQtdEstoque($linha->qtdEstoque);
+                            
+                            $forn = new Fornecedor();
+                            $forn->setBairro($linha->bairro);
+                            $forn->setComplemento($linha->complemento);
+                            $forn->setNumero($linha->numero);
+                            $forn->setLogradouro($linha->logradouro);
+                            $forn->setCep($linha->CEP);
+                            $forn->setCidade($linha->cidade);
+                            $forn->setUf($linha->UF);
+                            $forn->setEmail($linha->email);
+                            $forn->setNomeFornecedor($linha->nomeFornecedor);
+                            $forn->setIdfornecedor($linha->idFornecedor);
+                            $forn->setRepresentante($linha->representante);
+                            $forn->setTelFixo($linha->telFixo);
+                            $forn->setTelCel($linha->telCel);
+                            
+                            $produto->setFornecedor($forn);
+                            
                             $lista[$a] = $produto;
                             $a++;
                         }
@@ -115,7 +139,7 @@ class DaoProduto {
         if($conecta){
              try {
                 $stmt = $conecta->prepare("delete from produto "
-                        . "where id = ?");
+                        . "where idProduto = ?");
                 $stmt->bindParam(1, $id);
                 $stmt->execute();
                 $msg->setMsg("<p style='color: #d6bc71;'>"
@@ -138,17 +162,35 @@ class DaoProduto {
         $produto = new Produto();
         if($conecta){
             try {
-                $rs = $conecta->prepare("select * from produto where "
-                        . "id = ?");
+                $rs = $conecta->prepare("select * from produto inner join "
+                        . "fornecedor on produto.fkFornecedor = fornecedor.idfornecedor "
+                        . "where produto.idProduto = ?");
                 $rs->bindParam(1, $id);
                 if($rs->execute()){
                     if($rs->rowCount() > 0){
                         while($linha = $rs->fetch(PDO::FETCH_OBJ)){
-                            $produto->setIdProduto($linha->id);
+                            $produto->setIdProduto($linha->idProduto);
                             $produto->setNomeProduto($linha->nome);
                             $produto->setVlrCompra($linha->vlrCompra);
                             $produto->setVlrVenda($linha->vlrVenda);
                             $produto->setQtdEstoque($linha->qtdEstoque);
+                            
+                            $forn = new Fornecedor();
+                            $forn->setBairro($linha->bairro);
+                            $forn->setComplemento($linha->complemento);
+                            $forn->setNumero($linha->numero);
+                            $forn->setLogradouro($linha->logradouro);
+                            $forn->setCep($linha->CEP);
+                            $forn->setCidade($linha->cidade);
+                            $forn->setUf($linha->UF);
+                            $forn->setEmail($linha->email);
+                            $forn->setNomeFornecedor($linha->nomeFornecedor);
+                            $forn->setIdfornecedor($linha->idFornecedor);
+                            $forn->setRepresentante($linha->representante);
+                            $forn->setTelFixo($linha->telFixo);
+                            $forn->setTelCel($linha->telCel);
+                            
+                            $produto->setFornecedor($forn);
                         }
                     }
                 }
@@ -159,7 +201,7 @@ class DaoProduto {
         }else{
             echo "<script>alert('Banco inoperante!')</script>";
             echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"0;
-			 URL='../PHPMatutino01/cadastroProduto.php'\">"; 
+			 URL='../PHPMatutinoPDO/cadastroProduto.php'\">"; 
         }
         return $produto;
     }

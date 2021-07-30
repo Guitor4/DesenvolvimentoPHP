@@ -1,9 +1,14 @@
 <?php
 include_once 'controller/ProdutoController.php';
 include_once './model/Produto.php';
+include_once './model/Fornecedor.php';
 include_once './model/Mensagem.php';
+include_once 'controller/FornecedorController.php';
+$fcc = new FornecedorController();
 $msg = new Mensagem();
 $pr = new Produto();
+$fornecedor = new Fornecedor();
+$pr->setFornecedor($fornecedor);
 $btEnviar = FALSE;
 $btAtualizar = FALSE;
 $btExcluir = FALSE;
@@ -72,8 +77,7 @@ $btExcluir = FALSE;
                                 $vlrCompra = $_POST['vlrCompra'];
                                 $vlrVenda = $_POST['vlrVenda'];
                                 $qtdEstoque = $_POST['qtdEstoque'];
-                                $fkfornecedor = $_POST['idfornecedor'];
-
+                                $fkfornecedor = $_POST['idfornecedor'];                             
                                 $pc = new ProdutoController();
                                 unset($_POST['cadastrarProduto']);
                                 $msg = $pc->inserirProduto($nomeProduto, $vlrCompra,
@@ -92,12 +96,15 @@ $btExcluir = FALSE;
                                 $vlrCompra = $_POST['vlrCompra'];
                                 $vlrVenda = $_POST['vlrVenda'];
                                 $qtdEstoque = $_POST['qtdEstoque'];
-
+                                $fkfornecedor = $_POST['idfornecedor']; 
+                                
                                 $pc = new ProdutoController();
                                 unset($_POST['atualizarProduto']);
                                 $msg = $pc->atualizarProduto($id, $nomeProduto, 
-                                        $vlrCompra, $vlrVenda, $qtdEstoque);
+                                        $vlrCompra, $vlrVenda, $qtdEstoque,
+                                        $fkfornecedor);
                                 echo $msg->getMsg();
+                                $pr = null;
                                 echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
                                     URL='cadastroProduto.php'\">";
                             }
@@ -174,13 +181,20 @@ $btExcluir = FALSE;
                                     <select class="form-control"  name="idfornecedor">
                                         <option>[--SELECIONE--]</option>
                                         <?php
-                                          include_once 'controller/FornecedorController.php';
-                                          $fcc = new FornecedorController();
                                           $listaFornecedores = $fcc->listarFornecedores();
                                           if($listaFornecedores != null){
                                               foreach ($listaFornecedores as $lf){
                                                   ?>
-                                            <option value="<?php echo $lf->getIdfornecedor();?>">
+                                            <option value="<?php echo $lf->getIdfornecedor();?>"
+                                            <?php
+                                            if($pr->getFornecedor()->getIdfornecedor() != ""){
+                                                if($lf->getIdfornecedor() == 
+                                                        $pr->getFornecedor()->getIdfornecedor()){
+                                                    echo "selected = 'selected'";
+                                                }
+                                            }
+                                            ?>
+                                            >
                                                     <?php echo $lf->getNomeFornecedor();?></option>
                                         <?php
                                               }
@@ -247,7 +261,9 @@ $btExcluir = FALSE;
                                     <th>Compra (R$)</th>
                                     <th>Venda (R$)</th>
                                     <th>Estoque</th>
-                                    <th>Ações</th></tr>
+                                    <th>Fornecedor</th>
+                                    <th>Representante</th>
+                                    <th colspan="2" style="text-align:center;">Ações</th></tr>
                             </thead>
                             <tbody>
                                 <?php
@@ -264,14 +280,16 @@ $btExcluir = FALSE;
                                             <td><?php print_r($lp->getVlrCompra()); ?></td>
                                             <td><?php print_r($lp->getVlrVenda()); ?></td>
                                             <td><?php print_r($lp->getQtdEstoque()); ?></td>
+                                            <td><?php print_r($lp->getFornecedor()->getNomefornecedor()); ?></td>
+                                            <td><?php print_r($lp->getFornecedor()->getRepresentante()); ?></td>
                                             <td><a href="cadastroProduto.php?id=<?php echo $lp->getIdProduto(); ?>"
                                                    class="btn btn-light">
-                                                    <img src="img/edita.png" width="32"></a>
+                                                    <img src="img/edita.png" width="24"></a></td>
                                                 </form>
-                                                <button type="button" 
+                                                <td><button type="button" 
                                                         class="btn btn-light" data-bs-toggle="modal" 
                                                         data-bs-target="#exampleModal<?php echo $a; ?>">
-                                                    <img src="img/delete.png" width="32"></button></td>
+                                                    <img src="img/delete.png" width="24"></button></td>
                                         </tr>
                                         <!-- Modal -->
                                     <div class="modal fade" id="exampleModal<?php echo $a; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

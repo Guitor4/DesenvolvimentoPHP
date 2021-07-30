@@ -13,7 +13,7 @@ class Fornecedor {
  private $email;
  private $telFixo;
  private $telCel;
- private $fkFornecedor;
+
  
 
 

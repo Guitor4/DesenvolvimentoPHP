@@ -126,19 +126,19 @@ class DaoFornecedor {
                     if($rs->rowCount() > 0){
                         while($linha = $rs->fetch(PDO::FETCH_OBJ)){
                             $fornecedor = new Fornecedor();
-                            $fornecedor->setIdfornecedor($linha->idfornecedor);
+                            $fornecedor->setIdfornecedor($linha->idFornecedor);
                             $fornecedor->setNomeFornecedor($linha->nomeFornecedor);
                             $fornecedor->setLogradouro($linha->logradouro);
                             $fornecedor->setNumero($linha->numero);
                             $fornecedor->setComplemento($linha->complemento);
                             $fornecedor->setBairro($linha->bairro);
                             $fornecedor->setCidade($linha->cidade);
-                            $fornecedor->setUf($linha->uf);
-                            $fornecedor->setCep($linha->cep);
+                            $fornecedor->setUf($linha->UF);
+                            $fornecedor->setCep($linha->CEP);
                             $fornecedor->setRepresentante($linha->representante);
                             $fornecedor->setEmail($linha->email);
-                            $fornecedor->setTelFixo($linha->telfixo);
-                            $fornecedor->setTelCel($linha->telcel);
+                            $fornecedor->setTelFixo($linha->telFixo);
+                            $fornecedor->setTelCel($linha->telCel);
                             $lista[$a] = $fornecedor;
                             $a++;
                         }
