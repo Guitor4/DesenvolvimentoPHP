@@ -10,6 +10,7 @@ class Pessoa {
     private $perfil;
     private $email;
     private $cpf;
+    private $endereço;
     
     function getIdpessoa() {
         return $this->idpessoa;
@@ -75,4 +76,24 @@ class Pessoa {
         $this->cpf = $cpf;
     }
 
+
+    /**
+     * Get the value of endereço
+     */ 
+    public function getEndereço()
+    {
+        return $this->endereço;
+    }
+
+    /**
+     * Set the value of endereço
+     *
+     * @return  self
+     */ 
+    public function setEndereço($endereço)
+    {
+        $this->endereço = $endereço;
+
+        return $this;
+    }
 }

@@ -1,13 +1,13 @@
 <?php
 include_once 'controller/ProdutoController.php';
 include_once 'controller/FornecedorController.php';
+include_once 'model/Fornecedor.php';
 include_once './model/Produto.php';
 include_once './model/Mensagem.php';
 $msg = new Mensagem();
 $pr = new Produto();
 $fcc = new FornecedorController();
 $msg = new Mensagem();
-$pr = new Produto();
 $fornecedor = new Fornecedor();
 $pr->setFornecedor($fornecedor);
 $btEnviar = FALSE;
@@ -108,6 +108,7 @@ $btExcluir = FALSE;
                             $vlrCompra = $_POST['vlrCompra'];
                             $vlrVenda = $_POST['vlrVenda'];
                             $qtdEstoque = $_POST['qtdEstoque'];
+                            $fkFornecedor = $_POST['idfornecedor'];
 
                             $pc = new ProdutoController();
                             unset($_POST['atualizarProduto']);
@@ -116,7 +117,8 @@ $btExcluir = FALSE;
                                 $nomeProduto,
                                 $vlrCompra,
                                 $vlrVenda,
-                                $qtdEstoque
+                                $qtdEstoque,
+                                $fkFornecedor
                             );
                             echo $msg->getMsg();
                             echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
@@ -162,6 +164,9 @@ $btExcluir = FALSE;
                         $pc = new ProdutoController();
                         $pr = $pc->pesquisarProdutoId($id);
                     }
+                    $listaFornecedores = $fcc->listarFornecedor();
+                    foreach ($listaFornecedores as $lf) {
+                    }
                     ?>
                     <form method="post" action="">
                         <div class="row">
@@ -188,26 +193,19 @@ $btExcluir = FALSE;
                             <select class="form-control" name="idfornecedor">
                                 <option>[--Selecione--]</option>
                                 <?php
-                                $fcc = new FornecedorController();
-                                $listaFornecedores = $fcc->listarFornecedor();
-
                                 if ($listaFornecedores != null) {
                                     foreach ($listaFornecedores as $lf) {
                                 ?>
-                                        <option value="<?php echo $lf->getIdFornecedor(); ?>">
+                                        <option value="<?php echo $lf->getIdfornecedor(); ?>" <?php                                                                                         if ($pr->getFornecedor()->getIdfornecedor() != "") {
+                                                                                                    if (
+                                                                                                        $lf->getIdfornecedor() ==
+                                                                                                        $pr->getFornecedor()->getIdfornecedor()
+                                                                                                    ) {
+                                                                                                        echo "selected = 'selected'";
+                                                                                                    }
+                                                                                                }
+                                                                                                ?>>
                                             <?php echo $lf->getNomeFornecedor(); ?></option>
-                                        <?php
-                                        if ($pr->getFornecedor()->getIdFornecedor() != "") {
-                                            if (
-                                                $lf->getIdFornecedor() ==
-                                                $pr->getFornecedor()->getIdFornecedor()
-                                            ) {
-                                                echo "selected = 'selected'";
-                                            }
-                                        }
-                                        ?>
-                                        >
-                                        <?php echo $lf->getNomeFornecedor(); ?></option>
                                 <?php
                                     }
                                 }
@@ -276,7 +274,7 @@ $btExcluir = FALSE;
                                         <td><?php print_r($lp->getVlrCompra()); ?></td>
                                         <td><?php print_r($lp->getVlrVenda()); ?></td>
                                         <td><?php print_r($lp->getQtdEstoque()); ?></td>
-                                        <td><?php print_r($lp->getFornecedor()->getidFornecedor()); ?></td>
+                                        <td><?php print_r($lp->getFornecedor()->getNomeFornecedor()); ?></td>
                                         <td><a href="cadastroProduto.php?id=<?php echo $lp->getIdProduto(); ?>" class="btn btn-light">
                                                 <img src="img/edita.png" width="32"></a>
                                             </form>
@@ -321,80 +319,6 @@ $btExcluir = FALSE;
 
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script>
-        var myModal = document.getElementById('myModal')
-        var myInput = document.getElementById('myInput')
-
-        myModal.addEventListener('shown.bs.modal', function() {
-            myInput.focus()
-        })
-    </script>
-    <!-- controle de cep -->
-    <script>
-        $(document).ready(function() {
-
-            function limpa_formulário_cep() {
-                // Limpa valores do formulário de cep.
-                $("#rua").val("");
-                $("#bairro").val("");
-                $("#cidade").val("");
-                $("#uf").val("");
-                $("#ibge").val("");
-            }
-
-            //Quando o campo cep perde o foco.
-            $("#cep").blur(function() {
-
-                //Nova variável "cep" somente com dígitos.
-                var cep = $(this).val().replace(/\D/g, '');
-
-                //Verifica se campo cep possui valor informado.
-                if (cep != "") {
-
-                    //Expressão regular para validar o CEP.
-                    var validacep = /^[0-9]{8}$/;
-
-                    //Valida o formato do CEP.
-                    if (validacep.test(cep)) {
-
-                        //Preenche os campos com "..." enquanto consulta webservice.
-                        $("#rua").val("...");
-                        $("#bairro").val("...");
-                        $("#cidade").val("...");
-                        $("#uf").val("...");
-
-
-                        //Consulta o webservice viacep.com.br/
-                        $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
-
-                            if (!("erro" in dados)) {
-                                //Atualiza os campos com os valores da consulta.
-                                $("#rua").val(dados.logradouro);
-                                $("#bairro").val(dados.bairro);
-                                $("#cidade").val(dados.localidade);
-                                $("#uf").val(dados.uf);
-                                $("#ibge").val(dados.ibge);
-                            } //end if.
-                            else {
-                                //CEP pesquisado não foi encontrado.
-                                limpa_formulário_cep();
-                                alert("CEP não encontrado.");
-                            }
-                        });
-                    } //end if.
-                    else {
-                        //cep é inválido.
-                        limpa_formulário_cep();
-                        alert("Formato de CEP inválido.");
-                    }
-                } //end if.
-                else {
-                    //cep sem valor, limpa formulário.
-                    limpa_formulário_cep();
-                }
-            });
-        });
-    </script>
 
 </body>
 

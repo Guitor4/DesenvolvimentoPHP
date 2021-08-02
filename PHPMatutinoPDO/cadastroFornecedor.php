@@ -275,7 +275,6 @@ $btExcluir = FALSE;
                                 <th>Código</th>
                                 <th>Nome</th>
                                 <th>logradouro (R$)</th>
-                                <th>numero (R$)</th>
                                 <th>complemento</th>
                                 <th>bairro</th>
                                 <th>cidade</th>
@@ -301,7 +300,6 @@ $btExcluir = FALSE;
                                         <td><?php print_r($lp->getIdfornecedor()); ?></td>
                                         <td><?php print_r($lp->getNomefornecedor()); ?></td>
                                         <td><?php print_r($lp->getLogradouroFornecedor()); ?></td>
-                                        <td><?php print_r($lp->getnumero()); ?></td>
                                         <td><?php print_r($lp->getcomplemento()); ?></td>
                                         <td><?php print_r($lp->getBairro()); ?></td>
                                         <td><?php print_r($lp->getCidade()); ?></td>

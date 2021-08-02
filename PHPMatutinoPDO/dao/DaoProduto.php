@@ -52,18 +52,21 @@ class DaoProduto
             $vlrCompra = $produto->getVlrCompra();
             $vlrVenda = $produto->getVlrVenda();
             $qtdEstoque = $produto->getQtdEstoque();
+            $fkFornecedor = $produto->getFornecedor();
             try {
                 $stmt = $conecta->prepare("update produto set "
                     . "nome = ?,"
                     . "vlrCompra = ?,"
                     . "vlrVenda = ?, "
-                    . "qtdEstoque = ? "
-                    . "where id = ?");
+                    . "qtdEstoque = ?, "
+                    . "fkFornecedor = ? "
+                    . "where idProduto = ?");
                 $stmt->bindParam(1, $nomeProduto);
                 $stmt->bindParam(2, $vlrCompra);
                 $stmt->bindParam(3, $vlrVenda);
                 $stmt->bindParam(4, $qtdEstoque);
-                $stmt->bindParam(5, $id);
+                $stmt->bindParam(5, $fkFornecedor);
+                $stmt->bindParam(6, $id);
                 $stmt->execute();
                 $msg->setMsg("<p style='color: blue;'>"
                     . "Dados atualizados com sucesso</p>");
@@ -87,12 +90,8 @@ class DaoProduto
         if ($conecta) {
             try {
                 $rs = $conecta->query("SELECT * from produto inner join fornecedor "
-              ." on produto.fkFornecedor = fornecedor.IdFornecedor");
-
-              $lista = array();
-            
-
-
+                    . " on produto.fkFornecedor = fornecedor.idFornecedor");
+                $lista = array();
                 $a = 0;
                 if ($rs->execute()) {
                     if ($rs->rowCount() > 0) {
@@ -103,7 +102,7 @@ class DaoProduto
                             $produto->setVlrCompra($linha->vlrCompra);
                             $produto->setVlrVenda($linha->vlrVenda);
                             $produto->setQtdEstoque($linha->qtdEstoque);
-                                    
+
                             $fornecedor = new Fornecedor();
                             $fornecedor->setIdFornecedor($linha->idFornecedor);
                             $fornecedor->setNomeFornecedor($linha->nomeFornecedor);
@@ -117,11 +116,11 @@ class DaoProduto
                             $fornecedor->setEmail($linha->email);
                             $fornecedor->setTelFixo($linha->telFixo);
                             $fornecedor->setTelCel($linha->telCel);
-                        
+
                             $produto->setFornecedor($fornecedor);
-                            
+
                             $lista[$a] = $produto;
-                            
+
                             $a++;
                         }
                     }
@@ -167,8 +166,8 @@ class DaoProduto
         $produto = new Produto();
         if ($conecta) {
             try {
-                $rs = $conecta->prepare("select * from produto where "
-                    . "idProduto = ?");
+                $rs = $conecta->prepare("SELECT * from produto inner join fornecedor "
+                . " on produto.fkFornecedor = fornecedor.idFornecedor where idProduto = ?");
                 $rs->bindParam(1, $id);
                 if ($rs->execute()) {
                     if ($rs->rowCount() > 0) {
@@ -178,6 +177,9 @@ class DaoProduto
                             $produto->setVlrCompra($lista->vlrCompra);
                             $produto->setVlrVenda($lista->vlrVenda);
                             $produto->setQtdEstoque($lista->qtdEstoque);
+                            $fornecedor = new Fornecedor();
+                            $fornecedor->setIdFornecedor($lista->idFornecedor);
+                            $produto->setFornecedor($fornecedor);
                         }
                     }
                 }
@@ -225,7 +227,7 @@ class DaoProduto
                     $fornecedor->setEmail($lista->email);
                     $fornecedor->setTelFixo($lista->telFixo);
                     $fornecedor->setTelCel($lista->telCel);
-                
+
                     $produto->setFornecedor($fornecedor);
                 }
             }
