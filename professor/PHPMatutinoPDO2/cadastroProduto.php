@@ -77,7 +77,8 @@ $btExcluir = FALSE;
                                 $vlrCompra = $_POST['vlrCompra'];
                                 $vlrVenda = $_POST['vlrVenda'];
                                 $qtdEstoque = $_POST['qtdEstoque'];
-                                $fkfornecedor = $_POST['idfornecedor'];                             
+                                $fkfornecedor = $_POST['idfornecedor'];                                
+                                
                                 $pc = new ProdutoController();
                                 unset($_POST['cadastrarProduto']);
                                 $msg = $pc->inserirProduto($nomeProduto, $vlrCompra,
@@ -187,6 +188,7 @@ $btExcluir = FALSE;
                                                   ?>
                                             <option value="<?php echo $lf->getIdfornecedor();?>"
                                             <?php
+                                            $fk = $pr->getFornecedor()->getIdfornecedor();
                                             if($pr->getFornecedor()->getIdfornecedor() != ""){
                                                 if($lf->getIdfornecedor() == 
                                                         $pr->getFornecedor()->getIdfornecedor()){

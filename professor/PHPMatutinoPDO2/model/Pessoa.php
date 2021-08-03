@@ -1,7 +1,7 @@
 <?php
 
 class Pessoa {
-    
+
     private $idpessoa;
     private $nome;
     private $dtNasc;
@@ -10,7 +10,16 @@ class Pessoa {
     private $perfil;
     private $email;
     private $cpf;
-    
+    private $fkendereco;
+
+    function getFkendereco() {
+        return $this->fkendereco;
+    }
+
+    function setFkendereco($fkendereco) {
+        $this->fkendereco = $fkendereco;
+    }
+
     function getIdpessoa() {
         return $this->idpessoa;
     }

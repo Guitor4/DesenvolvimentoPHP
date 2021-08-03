@@ -6,7 +6,8 @@ class EnderecoController
 {
 
 
-    public function inserirEndereco($cep,$rua,$logradouro,$bairro,$cidade,$UF,$complemento) {
+    public function inserirEndereco($cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento)
+    {
         $Endereco = new Endereco();
         $Endereco->setCep($cep);
         $Endereco->setRua($rua);
@@ -16,11 +17,13 @@ class EnderecoController
         $Endereco->setUF($UF);
         $Endereco->setComplemento($complemento);
         $daoEndereco = new DaoEndereco();
+
         return $daoEndereco->inserir($Endereco);
     }
 
     //método para atualizar dados de Endereco no BD
-    public function atualizarEndereco($idEndereco,$cep,$rua,$logradouro,$bairro,$cidade,$UF,$complemento) {
+    public function atualizarEndereco($idEndereco, $cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento)
+    {
         $Endereco = new Endereco();
         $Endereco->setIdEndereco($idEndereco);
         $Endereco->setCep($cep);
@@ -30,7 +33,7 @@ class EnderecoController
         $Endereco->setCidade($cidade);
         $Endereco->setUF($UF);
         $Endereco->setComplemento($complemento);
-
+        
         $daoEndereco = new DaoEndereco();
         return $daoEndereco->atualizarEnderecoDAO($Endereco);
     }

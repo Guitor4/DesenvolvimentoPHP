@@ -4,7 +4,6 @@ include_once './model/Endereco.php';
 include_once './model/Mensagem.php';
 $msg = new Mensagem();
 $en = new Endereco();
-$ec = new EnderecoController();
 $btEnviar = FALSE;
 $btAtualizar = FALSE;
 $btExcluir = FALSE;
@@ -76,11 +75,12 @@ $btExcluir = FALSE;
             $UF = $_POST['uf'];
             $complemento = $_POST['complemento'];
 
-
             $ec = new EnderecoController();
             unset($_POST['cadastrarEndereco']);
             $msg = $ec->inserirEndereco($cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento);
             echo $msg->getMsg();
+            //   echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
+            //   URL='cadastroEndereco.php'\">";
         }
     }
 
@@ -91,6 +91,7 @@ $btExcluir = FALSE;
             $idEndereco = $_POST['idEndereco'];
             $logradouro = $_POST['logradouro'];
             $complemento = $_POST['complemento'];
+            $rua = $_POST['rua'];
             $bairro = $_POST['bairro'];
             $cidade = $_POST['cidade'];
             $UF = $_POST['uf'];
@@ -98,10 +99,8 @@ $btExcluir = FALSE;
 
             $ec = new EnderecoController();
             unset($_POST['atualizarEndereco']);
-            $msg = $ec->atualizarEndereco($idEndereco,$cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento);
+            $msg = $ec->atualizarEndereco($idEndereco, $cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento);
             echo $msg->getMsg();
-            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
-                                    URL='cadastroEndereco.php'\">";
         }
     }
 
@@ -146,72 +145,75 @@ $btExcluir = FALSE;
     ?>
     <!-- Adicionando Javascript -->
     <script>
-        function limpa_formulário_cep() {
+    
+    function limpa_formulário_cep() {
             //Limpa valores do formulário de cep.
-            document.getElementById('rua').value = ("");
-            document.getElementById('bairro').value = ("");
-            document.getElementById('cidade').value = ("");
-            document.getElementById('uf').value = ("");
+            document.getElementById('rua').value=("");
+            document.getElementById('bairro').value=("");
+            document.getElementById('cidade').value=("");
+            document.getElementById('uf').value=("");
 
+    }
+
+    function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('rua').value=(conteudo.logradouro);
+            document.getElementById('bairro').value=(conteudo.bairro);
+            document.getElementById('cidade').value=(conteudo.localidade);
+            document.getElementById('uf').value=(conteudo.uf);
+
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
         }
+    }
+        
+    function pesquisacep(valor) {
 
-        function meu_callback(conteudo) {
-            if (!("erro" in conteudo)) {
-                //Atualiza os campos com os valores.
-                document.getElementById('rua').value = (conteudo.logradouro);
-                document.getElementById('bairro').value = (conteudo.bairro);
-                document.getElementById('cidade').value = (conteudo.localidade);
-                document.getElementById('uf').value = (conteudo.uf);
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('rua').value="...";
+                document.getElementById('bairro').value="...";
+                document.getElementById('cidade').value="...";
+                document.getElementById('uf').value="...";
+ 
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
 
             } //end if.
             else {
-                //CEP não Encontrado.
+                //cep é inválido.
                 limpa_formulário_cep();
-                alert("CEP não encontrado.");
+                alert("Formato de CEP inválido.");
             }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
         }
+    };
 
-        function pesquisacep(valor) {
-
-            //Nova variável "cep" somente com dígitos.
-            var cep = valor.replace(/\D/g, '');
-
-            //Verifica se campo cep possui valor informado.
-            if (cep != "") {
-
-                //Expressão regular para validar o CEP.
-                var validacep = /^[0-9]{8}$/;
-
-                //Valida o formato do CEP.
-                if (validacep.test(cep)) {
-
-                    //Preenche os campos com "..." enquanto consulta webservice.
-                    document.getElementById('rua').value = "...";
-                    document.getElementById('bairro').value = "...";
-                    document.getElementById('cidade').value = "...";
-                    document.getElementById('uf').value = "...";
-
-                    //Cria um elemento javascript.
-                    var script = document.createElement('script');
-
-                    //Sincroniza com o callback.
-                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
-
-                    //Insere script no documento e carrega o conteúdo.
-                    document.body.appendChild(script);
-
-                } //end if.
-                else {
-                    //cep é inválido.
-                    limpa_formulário_cep();
-                    alert("Formato de CEP inválido.");
-                }
-            } //end if.
-            else {
-                //cep sem valor, limpa formulário.
-                limpa_formulário_cep();
-            }
-        };
     </script>
     <div class="container-fluid ">
         <div class="row  style=" margin-top: 30px;>
@@ -288,7 +290,7 @@ $btExcluir = FALSE;
 
         </div>
 
-        <div class="">
+        <div >
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-striped table-responsive" style="border-radius: 3px; overflow:hidden;">
@@ -296,31 +298,30 @@ $btExcluir = FALSE;
                             <tr>
                                 <th>Código</th>
                                 <th>Cep</th>
-                                <th>Bairro</th>
                                 <th>Rua</th>
+                                <th>Bairro (R$)</th>
+                                <th>Cidade</th>
                                 <th>Logradouro</th>
-                                <th>UF</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $ecTable = new EnderecoController();
-                            $listaEnderecos = $ecTable->listarEnderecos();
+                            $pcTable = new EnderecoController();
+                            $listaProdutos = $pcTable->listarEnderecos();
                             $a = 0;
-                            if ($listaEnderecos != null) {
-                                foreach ($listaEnderecos as $le) {
+                            if ($listaProdutos != null) {
+                                foreach ($listaProdutos as $lp) {
                                     $a++;
                             ?>
                                     <tr>
-                                        <td><?php print_r($le->getIdEndereco()); ?></td>
-                                        <td><?php print_r($le->getCep()); ?></td>
-                                        <td><?php print_r($le->getBairro()); ?></td>
-                                        <td><?php print_r($le->getRua()); ?></td>
-                                        <td><?php print_r($le->getLogradouro()); ?></td>
-                                        <td><?php print_r($le->getUF()); ?></td>
-
-                                        <td><a href="cadastroEndereco.php?id=<?php echo $le->getIdEndereco(); ?>" class="btn btn-light">
+                                        <td><?php print_r($lp->getIdEndereco()); ?></td>
+                                        <td><?php print_r($lp->getCEP()); ?></td>
+                                        <td><?php print_r($lp->getRua()); ?></td>
+                                        <td><?php print_r($lp->getBairro()); ?></td>
+                                        <td><?php print_r($lp->getCidade()); ?></td>
+                                        <td><?php print_r($lp->getLogradouro()); ?></td>
+                                        <td><a href="cadastroEndereco.php?id=<?php echo $lp->getIdEndereco(); ?>" class="btn btn-light">
                                                 <img src="img/edita.png" width="32"></a>
                                             </form>
                                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $a; ?>">
@@ -337,12 +338,12 @@ $btExcluir = FALSE;
                                                 </div>
                                                 <div class="modal-body">
                                                     <form method="post" action="">
-                                                        <label><strong>Deseja excluir o Endereco
-                                                                <?php echo $lp->getNomeEndereco(); ?>?</strong></label>
+                                                        <label><strong>Deseja excluir o produto
+                                                                <?php echo $lp->getCep(); ?>?</strong></label>
                                                         <input type="hidden" name="ide" value="<?php echo $lp->getIdEndereco(); ?>">
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="submit" name="excluir" class="btn btn-frimary">Sim</button>
+                                                    <button type="submit" name="excluir" class="btn btn-primary">Sim</button>
                                                     <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
                                                 </div>
                                                 </form>
@@ -364,14 +365,7 @@ $btExcluir = FALSE;
 
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script>
-        var myModal = document.getElementById('myModal')
-        var myInput = document.getElementById('myInput')
 
-        myModal.addEventListener('shown.bs.modal', function() {
-            myInput.focus()
-        })
-    </script>
 
 
 </body>

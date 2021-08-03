@@ -5,6 +5,11 @@ class PessoController {
 
     public function inserirPessoa($nome, $dtNasc, $login, $senha, 
             $perfil, $email, $cpf){
+        
+        $endereco = new Endereco();
+        $endereco->setCep($cep);
+        
+        
         $pessoa = new Pessoa();
         $pessoa->setNome($nome);
         $pessoa->setDtNasc($dtNasc);
@@ -13,6 +18,8 @@ class PessoController {
         $pessoa->setPerfil($perfil);
         $pessoa->setEmail($email);
         $pessoa->setCpf($cpf);
+        $pessoa->setFkendereco($endereco);
+        
                 
         $daoPessoa = new daoPessoa();
         return $daoPessoa->inserir($pessoa);

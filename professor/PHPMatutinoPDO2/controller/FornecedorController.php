@@ -1,25 +1,29 @@
 <?php
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/dao/DaoFornecedor.php';
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/Fornecedor.php';
+include_once 'C:/xampp/htdocs/PHPMatutinoPDO2/dao/DaoFornecedor.php';
+include_once 'C:/xampp/htdocs/PHPMatutinoPDO2/model/Fornecedor.php';
 
 class FornecedorController {
     
     public function inserirFornecedor($nomeFornecedor, $logradouro, 
-             $complemento, $bairro, $cidade, $uf, $cep,
+            $complemento, $bairro, $cidade, $uf, $cep,
             $representante, $email, $telFixo, $telCel){
+        
+        $endereco = new Endereco();
+        $endereco->setCep($cep);
+        $endereco->setLogradouro($logradouro);
+        $endereco->setComplemento($complemento);
+        $endereco->setBairro($bairro);
+        $endereco->setCidade($cidade);
+        $endereco->setUf($uf);
+        
         $fornecedor = new Fornecedor();
         $fornecedor->setNomeFornecedor($nomeFornecedor);
-        $fornecedor->setLogradouro($logradouro);
-
-        $fornecedor->setComplemento($complemento);
-        $fornecedor->setBairro($bairro);
-        $fornecedor->setCidade($cidade);
-        $fornecedor->setUf($uf);
-        $fornecedor->setCep($cep);
         $fornecedor->setRepresentante($representante);
         $fornecedor->setEmail($email);
         $fornecedor->setTelFixo($telFixo);
         $fornecedor->setTelCel($telCel);
+                
+        $fornecedor->setEndereco($endereco);
         
         $daoFornecedor = new DaoFornecedor();
         return $daoFornecedor->inserir($fornecedor);

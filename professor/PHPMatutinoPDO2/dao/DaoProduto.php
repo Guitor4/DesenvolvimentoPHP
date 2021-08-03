@@ -1,8 +1,8 @@
 <?php
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/bd/Conecta.php';
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/Produto.php';
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/Mensagem.php';
-include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO/model/Fornecedor.php';
+include_once 'C:/xampp/htdocs/PHPMatutinoPDO/bd/Conecta.php';
+include_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Produto.php';
+include_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Mensagem.php';
+include_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Fornecedor.php';
 
 class DaoProduto {
 
@@ -57,7 +57,7 @@ class DaoProduto {
                         . "vlrVenda = ?, "
                         . "qtdEstoque = ?, "
                         . "fkFornecedor = ? "
-                        . "where idProduto = ?");
+                        . "where id = ?");
                 $stmt->bindParam(1, $nomeProduto);
                 $stmt->bindParam(2, $vlrCompra);
                 $stmt->bindParam(3, $vlrVenda);
@@ -81,21 +81,19 @@ class DaoProduto {
     //método para carregar lista de produtos do banco de dados
     public function listarProdutosDAO(){
         $conn = new Conecta();
-        $msg = new Mensagem();
         $conecta = $conn->conectadb();
         if($conecta){
             try {
                 $rs = $conecta->query("SELECT * FROM produto inner join fornecedor "
                         . "on produto.fkFornecedor = fornecedor.idfornecedor "
-                        . "order by produto.idProduto desc");
+                        . "order by produto.id desc");
                 $lista = array();
                 $a = 0;
-
                 if($rs->execute()){
                     if($rs->rowCount() > 0){
                         while($linha = $rs->fetch(PDO::FETCH_OBJ)){
                             $produto = new Produto();
-                            $produto->setIdProduto($linha->idProduto);
+                            $produto->setIdProduto($linha->id);
                             $produto->setNomeProduto($linha->nome);
                             $produto->setVlrCompra($linha->vlrCompra);
                             $produto->setVlrVenda($linha->vlrVenda);
@@ -104,17 +102,16 @@ class DaoProduto {
                             $forn = new Fornecedor();
                             $forn->setBairro($linha->bairro);
                             $forn->setComplemento($linha->complemento);
-                            $forn->setNumero($linha->numero);
                             $forn->setLogradouro($linha->logradouro);
-                            $forn->setCep($linha->CEP);
+                            $forn->setCep($linha->cep);
                             $forn->setCidade($linha->cidade);
-                            $forn->setUf($linha->UF);
+                            $forn->setUf($linha->uf);
                             $forn->setEmail($linha->email);
                             $forn->setNomeFornecedor($linha->nomeFornecedor);
-                            $forn->setIdfornecedor($linha->idFornecedor);
+                            $forn->setIdfornecedor($linha->idfornecedor);
                             $forn->setRepresentante($linha->representante);
-                            $forn->setTelFixo($linha->telFixo);
-                            $forn->setTelCel($linha->telCel);
+                            $forn->setTelFixo($linha->telfixo);
+                            $forn->setTelCel($linha->telcel);
                             
                             $produto->setFornecedor($forn);
                             
@@ -139,7 +136,7 @@ class DaoProduto {
         if($conecta){
              try {
                 $stmt = $conecta->prepare("delete from produto "
-                        . "where idProduto = ?");
+                        . "where id = ?");
                 $stmt->bindParam(1, $id);
                 $stmt->execute();
                 $msg->setMsg("<p style='color: #d6bc71;'>"
@@ -157,19 +154,18 @@ class DaoProduto {
     //método para os dados de produto por id
     public function pesquisarProdutoIdDAO($id){
         $conn = new Conecta();
-        $msg = new Mensagem();
         $conecta = $conn->conectadb();
         $produto = new Produto();
         if($conecta){
             try {
                 $rs = $conecta->prepare("select * from produto inner join "
                         . "fornecedor on produto.fkFornecedor = fornecedor.idfornecedor "
-                        . "where produto.idProduto = ?");
+                        . "where produto.id = ?");
                 $rs->bindParam(1, $id);
                 if($rs->execute()){
                     if($rs->rowCount() > 0){
                         while($linha = $rs->fetch(PDO::FETCH_OBJ)){
-                            $produto->setIdProduto($linha->idProduto);
+                            $produto->setIdProduto($linha->id);
                             $produto->setNomeProduto($linha->nome);
                             $produto->setVlrCompra($linha->vlrCompra);
                             $produto->setVlrVenda($linha->vlrVenda);
@@ -178,17 +174,16 @@ class DaoProduto {
                             $forn = new Fornecedor();
                             $forn->setBairro($linha->bairro);
                             $forn->setComplemento($linha->complemento);
-                            $forn->setNumero($linha->numero);
                             $forn->setLogradouro($linha->logradouro);
-                            $forn->setCep($linha->CEP);
+                            $forn->setCep($linha->cep);
                             $forn->setCidade($linha->cidade);
-                            $forn->setUf($linha->UF);
+                            $forn->setUf($linha->uf);
                             $forn->setEmail($linha->email);
                             $forn->setNomeFornecedor($linha->nomeFornecedor);
-                            $forn->setIdfornecedor($linha->idFornecedor);
+                            $forn->setIdfornecedor($linha->idfornecedor);
                             $forn->setRepresentante($linha->representante);
-                            $forn->setTelFixo($linha->telFixo);
-                            $forn->setTelCel($linha->telCel);
+                            $forn->setTelFixo($linha->telfixo);
+                            $forn->setTelCel($linha->telcel);
                             
                             $produto->setFornecedor($forn);
                         }

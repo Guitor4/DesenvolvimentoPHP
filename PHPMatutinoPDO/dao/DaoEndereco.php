@@ -5,15 +5,14 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Mensagem.p
 class DaoEndereco
 {
 
-    public function inserir(endereco $endereco)
+    public function inserir(Endereco $endereco)
     {
         $conn = new Conecta();
         $msg = new Mensagem();
         $conecta = $conn->conectadb();
         if ($conecta) {
-            
-            $endereco = new Endereco();
-           
+            //echo var_dump($endereco);
+            $cep = $endereco->getCep();
             $rua = $endereco->getRua();
             $logradouro = $endereco->getLogradouro();
             $bairro = $endereco->getBairro();
@@ -22,16 +21,15 @@ class DaoEndereco
             $complemento = $endereco->getComplemento();
             try {
                 $stmt = $conecta->prepare("insert into endereco values "
-                    . "(?,?,?,?,?,?,?,)");
-                $stmt->bindParam(1, "2");
-                $stmt->bindParam(2, "Qr 100");
-                $stmt->bindParam(3, "Teste");
-                $stmt->bindParam(4, "Teste");
-                $stmt->bindParam(5, "Teste");
-                $stmt->bindParam(6, "Te");
-                $stmt->bindParam(7, "Teste");
-                $stmt->bindParam(8, "Teste");
-               echo $stmt->execute();
+                    . "(null,?,?,?,?,?,?,?)");
+                $stmt->bindParam(1, $cep);
+                $stmt->bindParam(2, $rua);
+                $stmt->bindParam(3, $logradouro);
+                $stmt->bindParam(4, $bairro);
+                $stmt->bindParam(5, $cidade);
+                $stmt->bindParam(6, $UF);
+                $stmt->bindParam(7, $complemento);
+                $stmt->execute();
 
                 
                 $msg->setMsg("<p style='color: green;'>"
@@ -48,19 +46,20 @@ class DaoEndereco
     }
 
     //método para atualizar dados da tabela endereco
-    public function atualizarEnderecoDAO(endereco $endereco)
+    public function atualizarEnderecoDAO(Endereco $endereco)
     {
         $conn = new Conecta();
         $msg = new Mensagem();
         $conecta = $conn->conectadb();
         if ($conecta) {
-            $endereco = new Endereco();
+            $idEndereco = $endereco->getIdEndereco();
             $cep = $endereco->getCep();
             $rua = $endereco->getRua();
             $logradouro = $endereco->getLogradouro();
             $bairro = $endereco->getBairro();
             $cidade = $endereco->getCidade();
             $UF = $endereco->getUF();
+            $complemento = $endereco->getComplemento();
             try {
                 $stmt = $conecta->prepare("update endereco set "
                     . "cep = ?,"
@@ -68,13 +67,15 @@ class DaoEndereco
                     . "logradouro = ?,"
                     . "bairro = ?,"
                     . "cidade = ?,"
-                    . "UF = ?,");
-                $stmt->bindParam(1, $$cep);
+                    . "UF = ?, complemento = ? where idEndereco = ?");
+                $stmt->bindParam(1, $cep);
                 $stmt->bindParam(2, $rua);
                 $stmt->bindParam(3, $logradouro);
                 $stmt->bindParam(4, $bairro);
                 $stmt->bindParam(5, $cidade);
                 $stmt->bindParam(6, $UF);
+                $stmt->bindParam(7, $complemento);
+                $stmt->bindParam(8, $idEndereco);
                 $stmt->execute();
                 $msg->setMsg("<p style='color: blue;'>"
                     . "Dados atualizados com sucesso</p>");

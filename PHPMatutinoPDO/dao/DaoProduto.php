@@ -97,7 +97,7 @@ class DaoProduto
                 $a = 0;
                 if ($rs->execute()) {
                     if ($rs->rowCount() > 0) {
-                        while ($linha = $rs->fetch(PDO::FETCH_OBJ)) {
+                        if ($linha = $rs->fetch(PDO::FETCH_OBJ)) {
                             $produto = new Produto();
                             $produto->setIdProduto($linha->idProduto);
                             $produto->setNomeProduto($linha->nome);
