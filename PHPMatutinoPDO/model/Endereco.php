@@ -2,12 +2,14 @@
 
 class Endereco{
 
+    private $idEndereco;
     private $cep;
     private $rua;
     private $logradouro;
     private $bairro;
     private $cidade;
     private $UF;
+    private $complemento;
 
 
 
@@ -129,6 +131,46 @@ class Endereco{
     public function setLogradouro($logradouro)
     {
         $this->logradouro = $logradouro;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of idEndereco
+     */ 
+    public function getIdEndereco()
+    {
+        return $this->idEndereco;
+    }
+
+    /**
+     * Set the value of idEndereco
+     *
+     * @return  self
+     */ 
+    public function setIdEndereco($idEndereco)
+    {
+        $this->idEndereco = $idEndereco;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of complemento
+     */ 
+    public function getComplemento()
+    {
+        return $this->complemento;
+    }
+
+    /**
+     * Set the value of complemento
+     *
+     * @return  self
+     */ 
+    public function setComplemento($complemento)
+    {
+        $this->complemento = $complemento;
 
         return $this;
     }

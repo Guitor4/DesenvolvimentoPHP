@@ -27,6 +27,8 @@ class DaoProduto
                 $stmt->bindParam(4, $qtdEstoque);
                 $stmt->bindParam(5, $fkFornecedor);
                 $stmt->execute();
+
+                
                 $msg->setMsg("<p style='color: green;'>"
                     . "Dados Cadastrados com sucesso</p>");
             } catch (Exception $ex) {
@@ -142,7 +144,7 @@ class DaoProduto
         if ($conecta) {
             try {
                 $stmt = $conecta->prepare("delete from produto "
-                    . "where id = ?");
+                    . "where idProduto = ?");
                 $stmt->bindParam(1, $id);
                 $stmt->execute();
                 $msg->setMsg("<p style='color: #d6bc71;'>"

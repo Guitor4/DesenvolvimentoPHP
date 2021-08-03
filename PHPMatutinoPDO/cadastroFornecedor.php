@@ -187,7 +187,7 @@ $btExcluir = FALSE;
                 <div class="card-body border">
                     <form method="post" action="">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <strong>Código: <label style="color:red;">
                                         <?php
                                         if ($fr != null) {

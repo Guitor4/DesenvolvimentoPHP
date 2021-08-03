@@ -12,7 +12,6 @@ class ProdutoController {
         $produto->setVlrVenda($vlrVenda);
         $produto->setQtdEstoque($qtdEstoque);
         $produto->setFornecedor($fkfornecedor);
-        
         $daoProduto = new DaoProduto();
         return $daoProduto->inserir($produto);
     }

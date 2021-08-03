@@ -95,8 +95,7 @@ $btExcluir = FALSE;
                                 $fkfornecedor
                             );
                             echo $msg->getMsg();
-                            echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
-                                    URL='cadastroProduto.php'\">";
+
                         }
                     }
 
