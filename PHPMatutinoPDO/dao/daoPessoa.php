@@ -14,8 +14,8 @@ class Daopessoa
         $conn = new Conecta();
         $msg = new Mensagem();
         $conecta = $conn->conectadb();
-        
-        
+
+
         if ($conecta) {
             $nomepessoa = $pessoa->getNome();
             $dtNasc = $pessoa->getDtNasc();
@@ -26,31 +26,63 @@ class Daopessoa
             $cpf = $pessoa->getCpf();
             $endereco = $pessoa->getEndereco();
 
-
+            $cep = $endereco->getCep();
+            $logradouro = $endereco->getLogradouro();
+            $bairro = $endereco->getBairro();
+            $cidade = $endereco->getCidade();
+            $uf = $endereco->getUF();
+            $complemento = $endereco->getComplemento();
+            //echo var_dump($pessoa);
             try {
-                $stmt = $conecta->prepare("SELECT idEndereco FROM endereco where cep = ? and complemento = ?");
-                $stmt->execute();
-                if ($linha = $stmt->fetch(PDO::FETCH_OBJ)) {
-                    $fkEndereco = $linha->idEndereco;
-                    echo "Ta PASSANO";
-                }else{
-                    $stmt2 = $conecta->prepare("INSERT INTO endereco values (null,?,?,?,?,?,?)");
-                    $stmt2->bind_param(1,);
-                    $stmt2->execute();
+
+                $stmt = $conecta->prepare("SELECT idEndereco FROM" .
+                    "endereco where cep = ? and logradouro = ?" .
+                    "and complemento = ? limit 1");
+                $stmt->bindParam(1, $cep);
+                $stmt->bindParam(2, $logradouro);
+                $stmt->bindParam(3, $complemento);
+
+                if ($stmt->execute()) {
+                    Echo "stmt executou!!";
+                    if ($stmt->rowCount() > 0) {
+                        while ($linha = $stmt->fetch(PDO::FETCH_OBJ)) {
+                            $fkEnd = $linha->idEndereco;
+                        }
+                    } else {
+                        $stmt2 = $conecta->prepare("INSERT INTO endereco values (null,?,?,?,?,?,?)");
+                        $stmt2->bind_param(1, $cep);
+                        $stmt2->bind_param(2, $logradouro);
+                        $stmt2->bind_param(3, $bairro);
+                        $stmt2->bind_param(4, $cidade);
+                        $stmt2->bind_param(5, $uf);
+                        $stmt2->bind_param(6, $complemento);
+                        $stmt2->execute();
+
+                        $stmt3= $conecta->prepare("select idEndereco from endereco " .
+                            "where cep = ? and logradouro = ? and complemento = ? limit 1");
+                        if ($stmt3->execute()) {
+                            if ($stmt3->Rowcount() > 0) {
+                                while ($linha = $stmt3->fetch(PDO::FETCH_OBJ)) {
+                                    $fkEnd = $linha->idEndereco;
+                                }
+                            }
+                        }
+                    }
+
+                    $stmt = $conecta->prepare("insert into pessoa values "
+                        . "(null,?,?,?,?,?,?,?)");
+                    $stmt->bindParam(1, $nomepessoa);
+                    $stmt->bindParam(2, $dtNasc);
+                    $stmt->bindParam(3, $login);
+                    $stmt->bindParam(4, $senha);
+                    $stmt->bindParam(5, $perfil);
+                    $stmt->bindParam(6, $email);
+                    $stmt->bindParam(7, $cpf);
+                    $stmt->bindParam(8, $fkEnd);
+                    $stmt->execute();
+                    $msg->setMsg("<p style='color: green;'>"
+                        . "Dados Cadastrados com sucesso</p>");
                 }
-                $stmt = $conecta->prepare("insert into pessoa values "
-                    . "(null,?,?,?,?,?,?,?)");
-                $stmt->bindParam(1, $nomepessoa);
-                $stmt->bindParam(2, $dtNasc[]);
-                $stmt->bindParam(3, $login);
-                $stmt->bindParam(4, $senha);
-                $stmt->bindParam(5, $perfil);
-                $stmt->bindParam(6, $email);
-                $stmt->bindParam(7, $cpf);
-                $stmt->bindParam(8, $endereco);
-                $stmt->execute();
-                $msg->setMsg("<p style='color: green;'>"
-                    . "Dados Cadastrados com sucesso</p>");
             } catch (Exception $ex) {
                 $msg->setMsg($ex);
             }
@@ -77,6 +109,13 @@ class Daopessoa
             $email = $pessoa->getEmail();
             $cpf = $pessoa->getCpf();
             $endereco = $pessoa->getEndereco();
+
+            $cep = $endereco->getCep();
+            $logradouro = $endereco->getLogradouro();
+            $bairro = $endereco->getBairro();
+            $cidade = $endereco->getCidade();
+            $uf = $endereco->getUF();
+            $complemento = $endereco->getComplemento();
             try {
                 $stmt = $conecta->prepare("update pessoa set "
                     . "nome = ?,"
@@ -95,7 +134,7 @@ class Daopessoa
                 $stmt->bindParam(5, $perfil);
                 $stmt->bindParam(6, $email);
                 $stmt->bindParam(7, $cpf);
-                $stmt->bindParam(8, $endereco);
+                $stmt->bindParam(8, $fkEnd);
                 $stmt->bindParam(9, $idpessoa);
                 $stmt->execute();
                 $msg->setMsg("<p style='color: blue;'>"
@@ -136,10 +175,9 @@ class Daopessoa
                             $pessoa->setEmail($linha->email);
                             $pessoa->setCpf($linha->cpf);
 
-                            $endereco = new endereco();
+                            $endereco = new Endereco();
                             $endereco->setIdEndereco($linha->idEndereco);
                             $endereco->setCep($linha->cep);
-                            $endereco->setrua($linha->rua);
                             $endereco->setLogradouro($linha->logradouro);
                             $endereco->setbairro($linha->bairro);
                             $endereco->setcidade($linha->cidade);
@@ -212,7 +250,6 @@ class Daopessoa
 
                             $endereco = new endereco();
                             $endereco->setCep($linha->cep);
-                            $endereco->setrua($linha->rua);
                             $endereco->setLogradouro($linha->logradouro);
                             $endereco->setbairro($linha->bairro);
                             $endereco->setcidade($linha->cidade);

@@ -92,7 +92,7 @@ class DaoProduto
         if ($conecta) {
             try {
                 $rs = $conecta->query("SELECT * from produto inner join fornecedor "
-                    . " on produto.fkFornecedor = fornecedor.idFornecedor");
+                    . " on produto.fkFornecedor = fornecedor.idFornecedor limit 1");
                 $lista = array();
                 $a = 0;
                 if ($rs->execute()) {

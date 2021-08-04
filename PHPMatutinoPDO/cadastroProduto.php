@@ -95,7 +95,6 @@ $btExcluir = FALSE;
                                 $fkfornecedor
                             );
                             echo $msg->getMsg();
-
                         }
                     }
 
@@ -195,7 +194,7 @@ $btExcluir = FALSE;
                                 if ($listaFornecedores != null) {
                                     foreach ($listaFornecedores as $lf) {
                                 ?>
-                                        <option value="<?php echo $lf->getIdfornecedor(); ?>" <?php                                                                                         if ($pr->getFornecedor()->getIdfornecedor() != "") {
+                                        <option value="<?php echo $lf->getIdfornecedor(); ?>" <?php if ($pr->getFornecedor()->getIdfornecedor() != "") {
                                                                                                     if (
                                                                                                         $lf->getIdfornecedor() ==
                                                                                                         $pr->getFornecedor()->getIdfornecedor()

@@ -124,9 +124,8 @@ $btExcluir = FALSE;
                                 $fc = new FornecedorController();
                                 unset($_POST['atualizarFornecedor']);
                                 $msg = $fc->atualizarFornecedor($idfornecedor, $nomeFornecedor, 
-                                        $logradouro, $complemento, $bairro, 
-                                        $cidade, $uf, $cep, $representante, $email, 
-                                        $telFixo, $telCel);
+                                    $logradouro, $complemento, $bairro, $cidade, $uf, $cep,
+                                    $representante, $email, $telFixo, $telCel);
                                 echo $msg->getMsg();
                                 echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
                                     URL='cadastroFornecedor.php'\">";
@@ -191,10 +190,10 @@ $btExcluir = FALSE;
                                            name="nomeFornecedor" 
                                            value="<?php echo $fr->getNomeFornecedor(); ?>">
                                     <label>CEP</label> 
+                                    <label id="valCep" style="color: red; font-size: 11px;"></label>
                                     <input class="form-control" type="text" id="cep" 
                                            onkeypress="mascara(this, '#####-###')" maxlength="9"
-                                           value="<?php if($fr->getEndereco()->getCep() != ""){
-                                            echo $fr->getEndereco->getCep();} ?>" name="cep">
+                                           value="<?php echo $fr->getEndereco()->getCep(); ?>" name="cep">
                                     <label>Rua/Logradouro</label>  
                                     <input class="form-control" type="text" id="rua"
                                            value="<?php echo $fr->getEndereco()->getLogradouro(); ?>" name="logradouro">   
@@ -412,14 +411,14 @@ $btExcluir = FALSE;
                             else {
                                 //CEP pesquisado não foi encontrado.
                                 limpa_formulário_cep();
-                                alert("** CEP não encontrado."); 
+                                document.getElementById("valCep").innerHTML = "* CEP não encontrado";
                             }
                         });
                     } //end if.
                     else {
                         //cep é inválido.
                         limpa_formulário_cep();
-                        alert("** Formato de CEP inválido.");
+                        document.getElementById("valCep").innerHTML = "* Formato inválido";
 
                     }
                 } //end if.

@@ -33,7 +33,7 @@ class EnderecoController
         $Endereco->setCidade($cidade);
         $Endereco->setUF($UF);
         $Endereco->setComplemento($complemento);
-        
+
         $daoEndereco = new DaoEndereco();
         return $daoEndereco->atualizarEnderecoDAO($Endereco);
     }

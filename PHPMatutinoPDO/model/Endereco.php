@@ -4,7 +4,6 @@ class Endereco{
 
     private $idEndereco;
     private $cep;
-    private $rua;
     private $logradouro;
     private $bairro;
     private $cidade;
@@ -35,25 +34,7 @@ class Endereco{
         return $this;
     }
 
-    /**
-     * Get the value of rua
-     */ 
-    public function getRua()
-    {
-        return $this->rua;
-    }
 
-    /**
-     * Set the value of rua
-     *
-     * @return  self
-     */ 
-    public function setRua($rua)
-    {
-        $this->rua = $rua;
-
-        return $this;
-    }
 
     /**
      * Get the value of bairro
