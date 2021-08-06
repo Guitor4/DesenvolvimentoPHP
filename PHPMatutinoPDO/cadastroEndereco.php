@@ -79,8 +79,8 @@ $btExcluir = FALSE;
             unset($_POST['cadastrarEndereco']);
             $msg = $ec->inserirEndereco($cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento);
             echo $msg->getMsg();
-            //   echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
-            //   URL='cadastroEndereco.php'\">";
+               echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
+               URL='cadastroEndereco.php'\">";
         }
     }
 
@@ -238,7 +238,7 @@ $btExcluir = FALSE;
                                 <label>Cep:
                                     <input name="cep" class="form-control" type="text" id="cep" value="<?php echo $en->getCep(); ?>" size="10" maxlength="9" onblur="pesquisacep(this.value);" /></label><br />
                                 <label>Rua:
-                                    <input name="rua" class="form-control" value="<?php echo $en->getRua(); ?>" type="text" id="rua" size="60" /></label><br />
+                                    <input name="rua" class="form-control" value="  " type="text" id="rua" size="60" /></label><br />
                                 <label>Bairro:
                                     <input name="bairro" class="form-control" value="<?php echo $en->getBairro(); ?>" type="text" id="bairro" size="40" /></label><br />
                                 <label>Cidade:

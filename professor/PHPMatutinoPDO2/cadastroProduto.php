@@ -149,6 +149,8 @@ $btExcluir = FALSE;
                             $pc = new ProdutoController();
                             $pr = $pc->pesquisarProdutoId($id);
                         }
+                        $a = $fcc->listarFornecedores();
+                        echo var_dump($a);
                         ?>
                         <form method="post" action="">
                             <div class="row">

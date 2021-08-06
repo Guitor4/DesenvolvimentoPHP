@@ -81,7 +81,7 @@ $btExcluir = FALSE;
             $bairro = $_POST['bairro'];
             $cidade = $_POST['cidade'];
             $UF = $_POST['uf'];
-            echo "<br>".$complemento."<br>";
+            echo " Logradouro : <br>".$logradouro."<br>";
 
             $ec = new PessoaController();
             unset($_POST['cadastrarPessoa']);
@@ -108,9 +108,10 @@ $btExcluir = FALSE;
 
     //método para atualizar dados do Pessoa no BD
     if (isset($_POST['atualizarPessoa'])) {
-        $nome = trim($_POST['nome']);
+        $cep = trim($_POST['cep']);
         if ($cep != "") {
             $idpessoa = $_POST['idpessoa'];
+            $nome = $_POST['nome'];
             $dtNasc = $_POST['dtNasc'];
             $login = $_POST['login'];
             $senha = $_POST['senha'];
@@ -122,7 +123,6 @@ $btExcluir = FALSE;
             $bairro = $_POST['bairro'];
             $cidade = $_POST['cidade'];
             $UF = $_POST['uf'];
-            $complemento = $_POST['complemento'];
 
             $ec = new PessoaController();
             unset($_POST['atualizarPessoa']);
@@ -143,6 +143,7 @@ $btExcluir = FALSE;
                 $complemento
             );
             echo $msg->getMsg();
+            
         }
     }
 
@@ -268,7 +269,7 @@ $btExcluir = FALSE;
                                     <strong>Código: <label style="color:red;">
                                             <?php
                                             if ($ps != null) {
-                                                echo $ps->getidpessoa();
+                                                echo $ps->getIdPessoa();
                                             ?>
                                         </label></strong>
                                     <input type="hidden" class="form-control" name="idpessoa" value="<?php echo $ps->getIdPessoa(); ?>"><br>
@@ -369,7 +370,7 @@ $btExcluir = FALSE;
                             <th>Nome</th>
                             <th>DtNasc</th>
                             <th>Login</th>
-                            <th>Perfil (R$)</th>
+                            <th>Perfil</th>
                             <th>Email</th>
                             <th>CPF</th>
                             <th>CEP</th>
@@ -392,10 +393,10 @@ $btExcluir = FALSE;
                                     <td><?php print_r($lp->getDtNasc()); ?></td>
                                     <td><?php print_r($lp->getLogin()); ?></td>
                                     <td><?php print_r($lp->getPerfil()); ?></td>
-                                    <td><?php print_r($lp->getCpf()); ?></td>
+                                    <td><?php print_r($lp->getEmail()); ?></td>
+                                    <td><?php print_r($lp->getCPF()); ?></td>
                                     <td><?php print_r($lp->getEndereco()->getCep()); ?></td>
                                     <td><?php print_r($lp->getEndereco()->getUF()); ?></td>
-                                    <td><?php print_r($lp->getEmail()); ?></td>
                                     <td><a href="cadastroPessoa.php?id=<?php echo $lp->getIdPessoa(); ?>" class="btn btn-light">
                                             <img src="img/edita.png" width="32"></a>
                                         </form>

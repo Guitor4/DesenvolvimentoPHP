@@ -1,8 +1,8 @@
 <?php
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO2/bd/Conecta.php';
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO2/model/Fornecedor.php';
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO2/model/Endereco.php';
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO2/model/Mensagem.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/bd/Conecta.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/model/Fornecedor.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/model/Endereco.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/model/Mensagem.php';
 
 class DaoFornecedor
 {
@@ -188,6 +188,7 @@ class DaoFornecedor
     //método para carregar lista de produtos do banco de dados
     public function listarFornecedorsDAO()
     {
+        $msg = new Mensagem();
         $conn = new Conecta();
         $conecta = $conn->conectadb();
         if ($conecta) {
@@ -204,7 +205,7 @@ class DaoFornecedor
                             $endereco->setComplemento($linha->complemento);
                             $endereco->setBairro($linha->bairro);
                             $endereco->setCidade($linha->cidade);
-                            $endereco->setUf($linha->uf);
+                            $endereco->setUf($linha->UF);
                             $endereco->setCep($linha->cep);
 
                             $fornecedor = new Fornecedor();
@@ -260,6 +261,7 @@ class DaoFornecedor
     public function pesquisarFornecedorIdDAO($id)
     {
         $conn = new Conecta();
+        $msg = new Mensagem();
         $conecta = $conn->conectadb();
         $fornecedor = new Fornecedor();
         if ($conecta) {
@@ -277,10 +279,10 @@ class DaoFornecedor
                             $endereco->setComplemento($linha->complemento);
                             $endereco->setBairro($linha->bairro);
                             $endereco->setCidade($linha->cidade);
-                            $endereco->setUf($linha->uf);
+                            $endereco->setUf($linha->UF);
                             $endereco->setCep($linha->cep);
 
-                            $fornecedor->setIdfornecedor($linha->idfornecedor);
+                            $fornecedor->setIdfornecedor($linha->idFornecedor);
                             $fornecedor->setNomeFornecedor($linha->nomeFornecedor);
                             $fornecedor->setRepresentante($linha->representante);
                             $fornecedor->setEmail($linha->email);

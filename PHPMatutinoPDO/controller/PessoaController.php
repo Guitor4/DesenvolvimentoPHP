@@ -36,10 +36,10 @@ class PessoaController
         $pessoa->setPerfil($perfil);
         $pessoa->setEmail($email);
         $pessoa->setCpf($cpf);
-        $pessoa->setEndereco($endereco);
 
+        $pessoa->setEndereco($endereco);
         $daoPessoa = new daoPessoa();
-        return $daoPessoa->inserir($pessoa);
+        return $daoPessoa->inserirPessoaDao($pessoa);
     }
 
     //método para atualizar dados de Pessoa no BD
@@ -65,7 +65,7 @@ class PessoaController
         $endereco->setBairro($bairro);
         $endereco->setCidade($cidade);
         $endereco->setUF($UF);
-        $endereco->getComplemento($complemento);
+        $endereco->setComplemento($complemento);
 
         $pessoa = new Pessoa();
         $pessoa->setIdpessoa($idpessoa);

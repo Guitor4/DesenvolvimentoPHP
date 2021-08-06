@@ -1,8 +1,8 @@
 <?php
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO/bd/Conecta.php';
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Produto.php';
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Mensagem.php';
-include_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Fornecedor.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/bd/Conecta.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/model/Produto.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/model/Mensagem.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/model/Fornecedor.php';
 
 class DaoProduto {
 
@@ -82,6 +82,7 @@ class DaoProduto {
     public function listarProdutosDAO(){
         $conn = new Conecta();
         $conecta = $conn->conectadb();
+        $msg = new Mensagem();
         if($conecta){
             try {
                 $rs = $conecta->query("SELECT * FROM produto inner join fornecedor "
@@ -93,7 +94,7 @@ class DaoProduto {
                     if($rs->rowCount() > 0){
                         while($linha = $rs->fetch(PDO::FETCH_OBJ)){
                             $produto = new Produto();
-                            $produto->setIdProduto($linha->id);
+                            $produto->setIdProduto($linha->idProduto);
                             $produto->setNomeProduto($linha->nome);
                             $produto->setVlrCompra($linha->vlrCompra);
                             $produto->setVlrVenda($linha->vlrVenda);
@@ -102,7 +103,7 @@ class DaoProduto {
                             $forn = new Fornecedor();
                             $forn->setBairro($linha->bairro);
                             $forn->setComplemento($linha->complemento);
-                            $forn->setLogradouro($linha->logradouro);
+                            $forn->setLogradouroFornecedor($linha->logradouro);
                             $forn->setCep($linha->cep);
                             $forn->setCidade($linha->cidade);
                             $forn->setUf($linha->uf);
@@ -155,6 +156,7 @@ class DaoProduto {
     public function pesquisarProdutoIdDAO($id){
         $conn = new Conecta();
         $conecta = $conn->conectadb();
+        $msg = new Mensagem();
         $produto = new Produto();
         if($conecta){
             try {
@@ -174,7 +176,7 @@ class DaoProduto {
                             $forn = new Fornecedor();
                             $forn->setBairro($linha->bairro);
                             $forn->setComplemento($linha->complemento);
-                            $forn->setLogradouro($linha->logradouro);
+                            $forn->setLogradouroFornecedor($linha->logradouro);
                             $forn->setCep($linha->cep);
                             $forn->setCidade($linha->cidade);
                             $forn->setUf($linha->uf);

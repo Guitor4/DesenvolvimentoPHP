@@ -1,7 +1,7 @@
 <?php
 
-require_once 'C:/xampp/htdocs/PHPMatutinoPDO/bd/Conecta.php';
-require_once 'C:/xampp/htdocs/PHPMatutinoPDO/model/Pessoa.php';
+require_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/bd/Conecta.php';
+require_once 'C:/xampp/htdocs/DesenvolvimentoPHP/professor/PHPMatutinoPDO2/model/Pessoa.php';
 
 class daoPessoa {
 
