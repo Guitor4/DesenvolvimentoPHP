@@ -1,3 +1,12 @@
+<?php
+
+include_once 'c:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/controller/PessoaController.php';
+include_once 'c:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Pessoa.php';
+include_once 'c:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Pessoa.php';
+
+
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,6 +21,31 @@
         </style>
     </head>
     <body>
+        <?php
+        if (isset($_POST['enviar'])){
+            include_once './dao/daoPessoa.php';
+            
+            $login = trim($_POST['login']);
+            $senhaSemCriptografia = $_POST['senha'];
+            $senha = md5($senhaSemCriptografia);
+            echo "Senha:".$senha."<br>";
+            
+            $dp = new Daopessoa();
+           echo "Check:".$check = $dp->procurarsenha($login,$senha)."<br>";
+            if ($check == 1){
+                echo "Logado";
+                //header("Location: cadastroPessoa.php");
+                
+            }else{
+                echo "Senha ou login errados";
+                //echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"5;
+                //URL='index.php'\">";
+            }
+
+        }
+        
+        
+        ?>
         <div class="container">
             <div class="row espaco">
                 <div class=" col-md-6 offset-md-3"

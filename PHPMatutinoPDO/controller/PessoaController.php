@@ -65,7 +65,7 @@ class PessoaController
         $endereco->setBairro($bairro);
         $endereco->setCidade($cidade);
         $endereco->setUF($UF);
-        $endereco->getComplemento($complemento);
+        $endereco->setComplemento($complemento);
 
         $pessoa = new Pessoa();
         $pessoa->setIdpessoa($idpessoa);

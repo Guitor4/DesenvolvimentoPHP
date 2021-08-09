@@ -10,68 +10,73 @@ class Daopessoa
 {
     public function inserir(Pessoa $pessoa)
     {
-        //$endereco = new Endereco();
         $conn = new Conecta();
-        $msg = new Mensagem();
         $conecta = $conn->conectadb();
-
+        $msg = new Mensagem;
 
         if ($conecta) {
-            $nomepessoa = $pessoa->getNome();
+            //echo "Banco conectado";
+            $cep = $pessoa->getEndereco()->getCep();
+            $logradouro = $pessoa->getEndereco()->getLogradouro();
+            $complemento = $pessoa->getEndereco()->getComplemento();
+            $bairro = $pessoa->getEndereco()->getBairro();
+            $cidade = $pessoa->getEndereco()->getCidade();
+            $uf = $pessoa->getEndereco()->getUF();
+
+            $nome = $pessoa->getNome();
             $dtNasc = $pessoa->getDtNasc();
             $login = $pessoa->getlogin();
-            $senha = $pessoa->getsenha();
+            $senha = $pessoa->getSenha();
             $perfil = $pessoa->getPerfil();
             $email = $pessoa->getEmail();
             $cpf = $pessoa->getCpf();
-            $endereco = $pessoa->getEndereco();
 
-            $cep = $endereco->getCep();
-            $logradouro = $endereco->getLogradouro();
-            $bairro = $endereco->getBairro();
-            $cidade = $endereco->getCidade();
-            $uf = $endereco->getUF();
-            $complemento = $endereco->getComplemento();
-            //echo var_dump($pessoa);
+            //echo $cep . $logradouro . $complemento . $bairro . $cidade . $uf;
+
             try {
+                $st = $conecta->prepare("select idEndereco from endereco where cep = ? and logradouro = ? and complemento = ? limit 1");
+                $st->bindParam(1, $cep);
+                $st->bindParam(2, $logradouro);
+                $st->bindParam(3, $complemento);
 
-                $stmt = $conecta->prepare("SELECT idEndereco FROM" .
-                    "endereco where cep = ? and logradouro = ?" .
-                    "and complemento = ? limit 1");
-                $stmt->bindParam(1, $cep);
-                $stmt->bindParam(2, $logradouro);
-                $stmt->bindParam(3, $complemento);
-
-                if ($stmt->execute()) {
-                    Echo "stmt executou!!";
-                    if ($stmt->rowCount() > 0) {
-                        while ($linha = $stmt->fetch(PDO::FETCH_OBJ)) {
-                            $fkEnd = $linha->idEndereco;
-                        }
+                if ($st->execute()) {
+                    //echo "Executou!!<br>";
+                    if ($st->rowCount()) {
+                        echo "Achou resultado<br>";
+                        $linha = $st->fetch(PDO::FETCH_OBJ);
+                        $fkEnd = $linha->idEndereco;
+                        echo $fkEnd;
                     } else {
-                        $stmt2 = $conecta->prepare("INSERT INTO endereco values (null,?,?,?,?,?,?)");
-                        $stmt2->bind_param(1, $cep);
-                        $stmt2->bind_param(2, $logradouro);
-                        $stmt2->bind_param(3, $bairro);
-                        $stmt2->bind_param(4, $cidade);
-                        $stmt2->bind_param(5, $uf);
-                        $stmt2->bind_param(6, $complemento);
-                        $stmt2->execute();
+                        echo "Não achou resultado, inserindo no banco de dados...<br>";
+                        $st2 = $conecta->prepare("insert into endereco values (null,?,?,?,?,?,?)");
+                        $st2->bindParam(1, $cep);
+                        $st2->bindParam(2, $logradouro);
+                        $st2->bindParam(3, $bairro);
+                        $st2->bindParam(4, $cidade);
+                        $st2->bindParam(5, $uf);
+                        $st2->bindParam(6, $complemento);
 
-                        $stmt3= $conecta->prepare("select idEndereco from endereco " .
-                            "where cep = ? and logradouro = ? and complemento = ? limit 1");
-                        if ($stmt3->execute()) {
-                            if ($stmt3->Rowcount() > 0) {
-                                while ($linha = $stmt3->fetch(PDO::FETCH_OBJ)) {
-                                    $fkEnd = $linha->idEndereco;
-                                }
+                        if ($st2->execute()) {
+                            //   echo "Executou parte 2!!<br>";
+                        }
+
+                        $st3 = $conecta->prepare("select idEndereco from endereco where cep = ? and logradouro = ? and complemento = ? limit 1");
+                        $st3->bindParam(1, $cep);
+                        $st3->bindParam(2, $logradouro);
+                        $st3->bindParam(3, $complemento);
+                        if ($st->execute()) {
+                            // echo "Executou parte 3!!<br>";
+                            if ($st->rowCount()) {
+                                // echo "Achou resultado<br>";
+                                $linha = $st->fetch(PDO::FETCH_OBJ);
+                                $fkEnd = $linha->idEndereco;
+                                //  echo "fkEnd: ".$fkEnd;
                             }
                         }
                     }
 
-                    $stmt = $conecta->prepare("insert into pessoa values "
-                        . "(null,?,?,?,?,?,?,?)");
-                    $stmt->bindParam(1, $nomepessoa);
+                    $stmt = $conecta->prepare("insert into pessoa values (null,?,?,?,?,?,?,?,?)");
+                    $stmt->bindParam(1, $nome);
                     $stmt->bindParam(2, $dtNasc);
                     $stmt->bindParam(3, $login);
                     $stmt->bindParam(4, $senha);
@@ -79,18 +84,21 @@ class Daopessoa
                     $stmt->bindParam(6, $email);
                     $stmt->bindParam(7, $cpf);
                     $stmt->bindParam(8, $fkEnd);
-                    $stmt->execute();
-                    $msg->setMsg("<p style='color: green;'>"
-                        . "Dados Cadastrados com sucesso</p>");
+
+                    if ($stmt->execute()) {
+                        // echo "Executou parte 4 !!<br>";
+                        $msg->setMsg("Dados cadastrados com sucesso!!");
+                    }
                 }
-            } catch (Exception $ex) {
-                $msg->setMsg($ex);
+            } catch (Exception $e) {
+                echo "Erro:" . $e;
             }
         } else {
             $msg->setMsg("<p style='color: red;'>"
                 . "Erro na conexão com o banco de dados.</p>");
         }
         $conn = null;
+
         return $msg;
     }
 
@@ -98,55 +106,97 @@ class Daopessoa
     public function atualizarpessoaDAO(pessoa $pessoa)
     {
         $conn = new Conecta();
-        $msg = new Mensagem();
         $conecta = $conn->conectadb();
+        $msg = new Mensagem;
+
         if ($conecta) {
-            $nomepessoa = $pessoa->getNome();
+            //echo "Banco conectado";
+            $cep = $pessoa->getEndereco()->getCep();
+            $logradouro = $pessoa->getEndereco()->getLogradouro();
+            $complemento = $pessoa->getEndereco()->getComplemento();
+            $bairro = $pessoa->getEndereco()->getBairro();
+            $cidade = $pessoa->getEndereco()->getCidade();
+            $uf = $pessoa->getEndereco()->getUF();
+
+            $idpessoa = $pessoa->getIdpessoa();
+            $nome = $pessoa->getNome();
             $dtNasc = $pessoa->getDtNasc();
             $login = $pessoa->getlogin();
-            $senha = $pessoa->getsenha();
+            $senha = $pessoa->getSenha();
             $perfil = $pessoa->getPerfil();
             $email = $pessoa->getEmail();
             $cpf = $pessoa->getCpf();
-            $endereco = $pessoa->getEndereco();
 
-            $cep = $endereco->getCep();
-            $logradouro = $endereco->getLogradouro();
-            $bairro = $endereco->getBairro();
-            $cidade = $endereco->getCidade();
-            $uf = $endereco->getUF();
-            $complemento = $endereco->getComplemento();
+            // echo $cep . $logradouro . $complemento . $bairro . $cidade . $uf;
+
             try {
-                $stmt = $conecta->prepare("update pessoa set "
-                    . "nome = ?,"
-                    . "dtNasc = ?,"
-                    . "login = ?,"
-                    . "senha = ?,"
-                    . "perfil = ?,"
-                    . "email = ?,"
-                    . "cpf = ?,"
-                    . "fkEndereco = ?,"
-                    . "where idpessoa = ?");
-                $stmt->bindParam(1, $nomepessoa);
-                $stmt->bindParam(2, $dtNasc[]);
-                $stmt->bindParam(3, $login);
-                $stmt->bindParam(4, $senha);
-                $stmt->bindParam(5, $perfil);
-                $stmt->bindParam(6, $email);
-                $stmt->bindParam(7, $cpf);
-                $stmt->bindParam(8, $fkEnd);
-                $stmt->bindParam(9, $idpessoa);
-                $stmt->execute();
-                $msg->setMsg("<p style='color: blue;'>"
-                    . "Dados atualizados com sucesso</p>");
-            } catch (Exception $ex) {
-                $msg->setMsg($ex);
+                $st = $conecta->prepare("select idEndereco from endereco where cep = ? and logradouro = ? and complemento = ? limit 1");
+                $st->bindParam(1, $cep);
+                $st->bindParam(2, $logradouro);
+                $st->bindParam(3, $complemento);
+
+                if ($st->execute()) {
+                    //echo "Executou!!<br>";
+                    if ($st->rowCount()) {
+                        echo "Achou resultado<br>";
+                        $linha = $st->fetch(PDO::FETCH_OBJ);
+                        $fkEnd = $linha->idEndereco;
+                        // echo $fkEnd;
+                    } else {
+                        echo "<p style = 'color: blue;'>O endereço que você inseriu é novo.... Inserindo no banco de dados</p>";
+                        $st2 = $conecta->prepare("insert into endereco values (null,?,?,?,?,?,?)");
+                        $st2->bindParam(1, $cep);
+                        $st2->bindParam(2, $logradouro);
+                        $st2->bindParam(3, $bairro);
+                        $st2->bindParam(4, $cidade);
+                        $st2->bindParam(5, $uf);
+                        $st2->bindParam(6, $complemento);
+
+                        if ($st2->execute()) {
+                            // echo "Executou parte 2!!<br>";
+                            echo "<p style = 'color : blue;'>Endereço inserido com sucesso no banco de dados!!</p>";
+                        }
+
+                        $st3 = $conecta->prepare("select idEndereco from endereco where cep = ? and logradouro = ? and complemento = ? limit 1");
+                        $st3->bindParam(1, $cep);
+                        $st3->bindParam(2, $logradouro);
+                        $st3->bindParam(3, $complemento);
+                        if ($st->execute()) {
+                            // echo "Executou parte 3!!<br>";
+                            if ($st->rowCount()) {
+                                //echo "Achou resultado<br>";
+                                $linha = $st->fetch(PDO::FETCH_OBJ);
+                                $fkEnd = $linha->idEndereco;
+                                //  echo "fkEnd: ".$fkEnd;
+                            }
+                        }
+                    }
+
+                    $stmt = $conecta->prepare("update pessoa set nome = ?, dtNasc = ?, login = ?, senha = ?, perfil = ?, email = ?, cpf = ?, fkEndereco = ? where idpessoa = ? ");
+                    $stmt->bindParam(1, $nome);
+                    $stmt->bindParam(2, $dtNasc);
+                    $stmt->bindParam(3, $login);
+                    $stmt->bindParam(4, $senha);
+                    $stmt->bindParam(5, $perfil);
+                    $stmt->bindParam(6, $email);
+                    $stmt->bindParam(7, $cpf);
+                    $stmt->bindParam(8, $fkEnd);
+                    $stmt->bindParam(9, $idpessoa);
+
+                    if ($stmt->execute()) {
+                        //  echo "Executou parte 4 !!<br>";
+                        $msg->setMsg("Dados cadastrados com sucesso!!");
+                    }
+                }
+            } catch (Exception $e) {
+                echo "Erro:" . $e;
             }
         } else {
             $msg->setMsg("<p style='color: red;'>"
                 . "Erro na conexão com o banco de dados.</p>");
         }
         $conn = null;
+
         return $msg;
     }
 
@@ -159,7 +209,7 @@ class Daopessoa
         if ($conecta) {
             try {
                 $rs = $conecta->query("SELECT * from pessoa inner join endereco "
-                    . " on pessoa.fkEndereco = endereco.idEndereco");
+                    . " on pessoa.fkEndereco = endereco.idEndereco order by pessoa.idpessoa");
                 $lista = array();
                 $a = 0;
                 if ($rs->execute()) {
@@ -232,7 +282,7 @@ class Daopessoa
         if ($conecta) {
             try {
                 $rs = $conecta->prepare("SELECT * from pessoa inner join endereco "
-                    . " on pessoa.fkEndereco = endereco.idEndereco");
+                    . " on pessoa.fkEndereco = endereco.idEndereco where idpessoa = ?");
                 $rs->bindParam(1, $id);
                 if ($rs->execute()) {
                     if ($rs->rowCount() > 0) {
@@ -270,5 +320,38 @@ class Daopessoa
 			 URL='../PHPMatutino01/cadastropessoa.php'\">";
         }
         return $pessoa;
+    }
+
+    public function procurarsenha($login, $senha)
+    {
+        $pessoa = new Pessoa();
+        $conn = new Conecta();
+        $conecta = $conn->conectadb();
+        $check = null;
+        echo $senha;
+        if ($conecta) {
+            try {
+                $st = $conecta->prepare("SELECT idpessoa FROM pessoa where " . "login = ? and senha = ? ");
+                $st->bindParam(1, $login);
+                $st->bindParam(2, $senha);
+                if ($st->execute()) {
+
+                    if ($st->rowCount() > 0) {
+                        echo $st->rowCount();
+                        $check =  true;
+                    } else {
+                        $check =  false;
+                    }
+                }
+            } catch (Exception $ex) {
+                echo $ex;
+            }
+            return $check;
+            $conn = null;
+        } else {
+
+
+            echo "Sem conexão com o banco";
+        }
     }
 }
