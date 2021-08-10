@@ -130,7 +130,7 @@ class Daopessoa
             // echo $cep . $logradouro . $complemento . $bairro . $cidade . $uf;
 
             try {
-                $st = $conecta->prepare("select idEndereco from endereco where cep = ? and logradouro = ? and complemento = ? limit 1");
+                $st = $conecta->prepare("SELECT idEndereco FROM endereco WHERE cep = ? AND logradouro = ? AND complemento = ? limit 1");
                 $st->bindParam(1, $cep);
                 $st->bindParam(2, $logradouro);
                 $st->bindParam(3, $complemento);
@@ -331,7 +331,7 @@ class Daopessoa
         echo $senha;
         if ($conecta) {
             try {
-                $st = $conecta->prepare("SELECT idpessoa FROM pessoa where " . "login = ? and senha = ? ");
+                $st = $conecta->prepare("SELECT idpessoa FROM pessoa WHERE " . "login = ? and senha = ? ");
                 $st->bindParam(1, $login);
                 $st->bindParam(2, $senha);
                 if ($st->execute()) {

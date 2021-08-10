@@ -71,7 +71,7 @@ include_once 'c:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Pessoa.php
                             </div>
                             <div class="row">
                                 <div class="col-md-8 offset-md-2 ">
-                                    <input class="form-control" type="text" name="senha">
+                                    <input class="form-control" type="password" name="senha">
                                 </div>    
                             </div>
                             <div class="row espaco" style="margin-top: 20px;">
