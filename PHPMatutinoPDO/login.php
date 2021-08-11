@@ -53,7 +53,7 @@ include_once 'c:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Pessoa.php
                     <div class="card-header bg-primary border espaco
                          text-white text-center">Validação de Login</div>
                     <div class="card-body border">
-                        <form method="post" action="">
+                        <form method="post" action="./controller/validaLogin.php">
                             <div class="row espaco">
                                 <div class="col-md-8 offset-md-2 ">
                                     <label>Usuário</label>
