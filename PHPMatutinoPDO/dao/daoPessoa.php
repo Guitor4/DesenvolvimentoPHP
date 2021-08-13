@@ -26,7 +26,8 @@ class Daopessoa
             $nome = $pessoa->getNome();
             $dtNasc = $pessoa->getDtNasc();
             $login = $pessoa->getlogin();
-            $senha = $pessoa->getSenha();
+            $senhaSemCriptografia = $pessoa->getSenha();
+            $senha = md5($senhaSemCriptografia);
             $perfil = $pessoa->getPerfil();
             $email = $pessoa->getEmail();
             $cpf = $pessoa->getCpf();
@@ -122,7 +123,8 @@ class Daopessoa
             $nome = $pessoa->getNome();
             $dtNasc = $pessoa->getDtNasc();
             $login = $pessoa->getlogin();
-            $senha = $pessoa->getSenha();
+            $senhaSemCriptografia = $pessoa->getSenha();
+            $senha = md5($senhaSemCriptografia);
             $perfil = $pessoa->getPerfil();
             $email = $pessoa->getEmail();
             $cpf = $pessoa->getCpf();

@@ -16,6 +16,7 @@ class DaoLogin
         $conn = new Conecta();
         $conecta = $conn->conectadb();
         $msg = new Mensagem();
+        
         if ($conecta) {
             $st = $conecta->prepare("select * from pessoa where login = ? and senha = ?");
 
