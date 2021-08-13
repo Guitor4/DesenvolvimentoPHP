@@ -29,41 +29,26 @@ $btExcluir = FALSE;
             padding-top: 15px;
         }
     </style>
+    <script>
+            function mascara(t, mask){
+                var i = t.value.length;
+                var saida = mask.substring(1,0);
+                var texto = mask.substring(i)
+                
+                if (texto.substring(0,1) != saida){
+                    t.value += texto.substring(0,1);
+                }
+            }
+        </script>
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">fricing</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown link
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+            <?php
+            include_once './model/nav.php';
+            echo navbar();
+            
+            ?>
+    
     <?php
     //envio dos dados para o BD
     if (isset($_POST['cadastrarPessoa'])) {
@@ -100,9 +85,9 @@ $btExcluir = FALSE;
                 $UF,
                 $complemento
             );
-            echo $msg->getMsg();
-            //   echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
-            //   URL='cadastroPessoa.php'\">";
+            
+               echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
+              URL='cadastroPessoa.php'\">";
         }
     }
 
@@ -110,11 +95,13 @@ $btExcluir = FALSE;
     if (isset($_POST['atualizarPessoa'])) {
         $cep = trim($_POST['cep']);
         if ($cep != "") {
+            $nome = $_POST['nome'];
             $idpessoa = $_POST['idpessoa'];
             $nome = $_POST['nome'];
             $dtNasc = $_POST['dtNasc'];
             $login = $_POST['login'];
-            $senha = $_POST['senha'];
+            $senhaSemCriptografia = $_POST['senha'];
+            $senha = md5($senhaSemCriptografia);
             $perfil = $_POST['perfil'];
             $email = $_POST['email'];
             $cpf = $_POST['cpf'];
@@ -123,6 +110,11 @@ $btExcluir = FALSE;
             $bairro = $_POST['bairro'];
             $cidade = $_POST['cidade'];
             $UF = $_POST['uf'];
+<<<<<<< HEAD
+=======
+            $complemento = $_POST['complemento'];
+            
+>>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
 
             $ec = new PessoaController();
             unset($_POST['atualizarPessoa']);
@@ -155,6 +147,9 @@ $btExcluir = FALSE;
             unset($_POST['excluir']);
             $msg = $ec->excluirPessoa($id);
             echo $msg->getMsg();
+            $ps = new Pessoa();
+            $endereco = new Endereco();
+            $ps->setEndereco($endereco);
             echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
                                     URL='cadastroPessoa.php'\">";
         }
@@ -167,6 +162,9 @@ $btExcluir = FALSE;
             $ec = new PessoaController();
             $msg = $ec->excluirPessoa($id);
             echo $msg->getMsg();
+            $ps = new Pessoa();
+            $endereco = new Endereco();
+            $ps->setEndereco($endereco);
             echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
                                     URL='cadastroPessoa.php'\">";
         }
