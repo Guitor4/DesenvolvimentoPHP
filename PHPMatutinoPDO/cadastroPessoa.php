@@ -110,11 +110,8 @@ $btExcluir = FALSE;
             $bairro = $_POST['bairro'];
             $cidade = $_POST['cidade'];
             $UF = $_POST['uf'];
-<<<<<<< HEAD
-=======
             $complemento = $_POST['complemento'];
             
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
 
             $ec = new PessoaController();
             unset($_POST['atualizarPessoa']);

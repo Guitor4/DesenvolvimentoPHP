@@ -19,7 +19,7 @@ echo "<br>".var_dump($resp);
 if (gettype($resp) == "object") {
     if ($resp != null) {
         echo "não nulo";
-        if (isset($_SESSION['login'])) {
+        if (!isset($_SESSION['login'])) {
             echo "Passou";
             $_SESSION['loginp'] = $resp->getLogin();
             $_SESSION['idp'] = $resp->getIdpessoa();

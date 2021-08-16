@@ -3,7 +3,7 @@
 include_once 'c:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/controller/PessoaController.php';
 include_once 'c:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Pessoa.php';
 include_once 'c:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Pessoa.php';
-
+session_start();
 
 
 ?>

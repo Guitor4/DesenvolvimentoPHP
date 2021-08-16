@@ -1,7 +1,9 @@
 <?php
 
 ob_start();
-
+if (!isset($_SESSION)){
+session_start();
+}
 
 function navbar(){
 
@@ -19,7 +21,7 @@ function navbar(){
                     </li>
                     ";
                     if ($_SESSION['perfilp'] == "Funcionário"){
-                    $nav = "<li class=\"nav-item\">
+                    $nav .= "<li class=\"nav-item\">
                         <a class=\"nav-link\" href=\"cadastroEndereco.php\">Cadastrar Endereco</a>
                     </li>
                     <li class=\"nav-item\">

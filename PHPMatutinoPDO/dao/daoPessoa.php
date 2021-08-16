@@ -11,22 +11,6 @@ class DaoPessoa
     {
         $conn = new Conecta();
         $conecta = $conn->conectadb();
-<<<<<<< HEAD
-        $msg = new Mensagem();
-        if ($conecta) {
-            $nome = $pessoa->getNome();
-            $dtNasc = $pessoa->getDtNasc();
-            $login = $pessoa->getLogin();
-            $senha = $pessoa->getSenha();
-            $perfil = $pessoa->getPerfil();
-            $email = $pessoa->getEmail();
-            $cpf = $pessoa->getCpf();
-            $cep = $pessoa->getEndereco()->getCep();
-            $logradouro = $pessoa->getEndereco()->getLogradouro();
-            $complemento = $pessoa->getEndereco()->getComplemento();
-            try {
-                //$st vai procurar no banco se já existe o Endereço que o cliente está tentando anexar ao cadastro dele
-=======
         $msg = new Mensagem;
 
         if ($conecta) {
@@ -50,12 +34,10 @@ class DaoPessoa
             //echo $cep . $logradouro . $complemento . $bairro . $cidade . $uf;
 
             try {
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
                 $st = $conecta->prepare("select idEndereco from endereco where cep = ? and logradouro = ? and complemento = ? limit 1");
                 $st->bindParam(1, $cep);
                 $st->bindParam(2, $logradouro);
                 $st->bindParam(3, $complemento);
-<<<<<<< HEAD
                 if ($st->execute()) {
                     if ($st->rowCount() > 0) {
                         //Se houver, ele jogar o idEndereco do endereço que o cliente está tentando anexar para a variável $fkEnd,
@@ -68,52 +50,20 @@ class DaoPessoa
                         $bairro = $pessoa->getEndereco()->getBairro();
                         $cidade = $pessoa->getEndereco()->getCidade();
                         $UF = $pessoa->getEndereco()->getUF();
-=======
-
-                if ($st->execute()) {
-                    //echo "Executou!!<br>";
-                    if ($st->rowCount()) {
-                        echo "Achou resultado<br>";
-                        $linha = $st->fetch(PDO::FETCH_OBJ);
-                        $fkEnd = $linha->idEndereco;
-                        echo $fkEnd;
-                    } else {
-                        echo "Não achou resultado, inserindo no banco de dados...<br>";
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
                         $st2 = $conecta->prepare("insert into endereco values (null,?,?,?,?,?,?)");
                         $st2->bindParam(1, $cep);
                         $st2->bindParam(2, $logradouro);
                         $st2->bindParam(3, $bairro);
                         $st2->bindParam(4, $cidade);
-<<<<<<< HEAD
                         $st2->bindParam(5, $UF);
                         $st2->bindParam(6, $complemento);
                         if ($st2->execute()) {
                             echo "<p style = 'color:blue;'>Novo endereco inserido com sucesso</p><br>";
                         }
-=======
-                        $st2->bindParam(5, $uf);
-                        $st2->bindParam(6, $complemento);
-
-                        if ($st2->execute()) {
-                            //   echo "Executou parte 2!!<br>";
-                        }
-
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
                         $st3 = $conecta->prepare("select idEndereco from endereco where cep = ? and logradouro = ? and complemento = ? limit 1");
                         $st3->bindParam(1, $cep);
                         $st3->bindParam(2, $logradouro);
                         $st3->bindParam(3, $complemento);
-<<<<<<< HEAD
-                        if ($st3->execute()) {
-                            if ($st3->rowCount() > 0) {
-                                $linha = $st3->fetch(PDO::FETCH_OBJ);
-                                $fkEnd = $linha->idEndereco;
-                                echo "fkEnd: " . $fkEnd;
-                            }
-                        }
-                    }
-=======
                         if ($st->execute()) {
                             // echo "Executou parte 3!!<br>";
                             if ($st->rowCount()) {
@@ -125,7 +75,6 @@ class DaoPessoa
                         }
                     }
 
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
                     $stmt = $conecta->prepare("insert into pessoa values (null,?,?,?,?,?,?,?,?)");
                     $stmt->bindParam(1, $nome);
                     $stmt->bindParam(2, $dtNasc);
@@ -137,21 +86,12 @@ class DaoPessoa
                     $stmt->bindParam(8, $fkEnd);
 
                     if ($stmt->execute()) {
-<<<<<<< HEAD
-                        echo "Executou parte 3";
-                    }
-                    $msg->setMsg("<p style = 'color: green;'>Dados Cadastrados com sucesso!!</p>");
-                }
-            } catch (Exception $ex) {
-                echo "Erro: " . $ex;
-=======
                         // echo "Executou parte 4 !!<br>";
                         $msg->setMsg("Dados cadastrados com sucesso!!");
                     }
                 }
             } catch (Exception $e) {
                 echo "Erro:" . $e;
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
             }
         } else {
             $msg->setMsg("<p style='color: red;'>"
@@ -168,43 +108,6 @@ class DaoPessoa
 
         $conn = new Conecta();
         $conecta = $conn->conectadb();
-<<<<<<< HEAD
-        $msg = new Mensagem();
-
-        if ($conecta) {
-            echo "Banco conectado!!";
-            $idpessoa = $pessoa->getIdpessoa();
-            $nome = $pessoa->getNome();
-            $dtNasc = $pessoa->getDtNasc();
-            $login = $pessoa->getLogin();
-            $senha = $pessoa->getSenha();
-            $perfil = $pessoa->getPerfil();
-            $email = $pessoa->getEmail();
-            $cpf = $pessoa->getCpf();
-            $cep = $pessoa->getEndereco()->getCep();
-            $logradouro = $pessoa->getEndereco()->getLogradouro();
-            $complemento = $pessoa->getEndereco()->getComplemento();
-            try {
-                //$st vai procurar no banco se já existe o Endereço que o cliente está tentando anexar ao cadastro dele
-                $st = $conecta->prepare("select idEndereco from endereco where cep = ? and logradouro = ? and complemento = ? limit 1");
-                $st->bindParam(1, $cep);
-                $st->bindParam(2, $logradouro);
-                $st->bindParam(3, $complemento);
-                if ($st->execute()) {
-                    echo "Executou <br>";
-                    if ($st->rowCount() > 0) {
-                        //Se houver, ele jogar o idEndereco do endereço que o cliente está tentando anexar para a variável $fkEnd,
-                        // para ser inserido na tabela pessoa posteriomente no stmt.
-                        
-                        $linha = $st->fetch(PDO::FETCH_OBJ);
-                        $fkEnd = $linha->idEndereco;
-                        
-                    } else {
-                        echo "<p style = 'color:blue;'>O endereço que você usou é novo. Inserindo no banco de dados</p><br>";
-                        $bairro = $pessoa->getEndereco()->getBairro();
-                        $cidade = $pessoa->getEndereco()->getCidade();
-                        $UF = $pessoa->getEndereco()->getUF();
-=======
         $msg = new Mensagem;
 
         if ($conecta) {
@@ -243,19 +146,11 @@ class DaoPessoa
                         // echo $fkEnd;
                     } else {
                         echo "<p style = 'color: blue;'>O endereço que você inseriu é novo.... Inserindo no banco de dados</p>";
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
                         $st2 = $conecta->prepare("insert into endereco values (null,?,?,?,?,?,?)");
                         $st2->bindParam(1, $cep);
                         $st2->bindParam(2, $logradouro);
                         $st2->bindParam(3, $bairro);
                         $st2->bindParam(4, $cidade);
-<<<<<<< HEAD
-                        $st2->bindParam(5, $UF);
-                        $st2->bindParam(6, $complemento);
-                        if ($st2->execute()) {
-                            echo "<p style = 'color:blue;'>Novo endereco inserido com sucesso</p><br>";
-                        }
-=======
                         $st2->bindParam(5, $uf);
                         $st2->bindParam(6, $complemento);
 
@@ -264,22 +159,10 @@ class DaoPessoa
                             echo "<p style = 'color : blue;'>Endereço inserido com sucesso no banco de dados!!</p>";
                         }
 
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
                         $st3 = $conecta->prepare("select idEndereco from endereco where cep = ? and logradouro = ? and complemento = ? limit 1");
                         $st3->bindParam(1, $cep);
                         $st3->bindParam(2, $logradouro);
                         $st3->bindParam(3, $complemento);
-<<<<<<< HEAD
-                        if ($st3->execute()) {
-                            if ($st3->rowCount() > 0) {
-                                $linha = $st3->fetch(PDO::FETCH_OBJ);
-                                $fkEnd = $linha->idEndereco;
-                            }
-                        }
-                    }
-                    echo $idpessoa;
-                    $stmt = $conecta->prepare("update pessoa set nome = ?, dtNasc = ?, login = ?, senha = ?, perfil = ?, email = ?, cpf = ?, fkEndereco = ? where idpessoa = ?");
-=======
                         if ($st->execute()) {
                             // echo "Executou parte 3!!<br>";
                             if ($st->rowCount()) {
@@ -292,7 +175,6 @@ class DaoPessoa
                     }
 
                     $stmt = $conecta->prepare("update pessoa set nome = ?, dtNasc = ?, login = ?, senha = ?, perfil = ?, email = ?, cpf = ?, fkEndereco = ? where idpessoa = ? ");
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
                     $stmt->bindParam(1, $nome);
                     $stmt->bindParam(2, $dtNasc);
                     $stmt->bindParam(3, $login);
@@ -304,22 +186,12 @@ class DaoPessoa
                     $stmt->bindParam(9, $idpessoa);
 
                     if ($stmt->execute()) {
-<<<<<<< HEAD
-                        echo "Executou parte 3";
-                        $msg->setMsg("<p style = 'color: green;'>Dados alterados com sucesso!!</p>");
-                    }
-                    
-                }
-            } catch (Exception $ex) {
-                echo "Erro: " . $ex;
-=======
                         //  echo "Executou parte 4 !!<br>";
                         $msg->setMsg("Dados cadastrados com sucesso!!");
                     }
                 }
             } catch (Exception $e) {
                 echo "Erro:" . $e;
->>>>>>> ea06180a6582f772bff40beddc1cef8ee1b5592a
             }
         } else {
             $msg->setMsg("<p style='color: red;'>"
