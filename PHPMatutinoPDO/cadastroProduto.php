@@ -83,6 +83,7 @@ $btExcluir = FALSE;
                             $vlrCompra = $_POST['vlrCompra'];
                             $vlrVenda = $_POST['vlrVenda'];
                             $qtdEstoque = $_POST['qtdEstoque'];
+                            $imagem = $_POST['imagem'];
                             $fkfornecedor = $_POST['idfornecedor'];
 
                             $pc = new ProdutoController();
@@ -92,6 +93,7 @@ $btExcluir = FALSE;
                                 $vlrCompra,
                                 $vlrVenda,
                                 $qtdEstoque,
+                                $imagem,
                                 $fkfornecedor
                             );
                             echo $msg->getMsg();
@@ -106,6 +108,7 @@ $btExcluir = FALSE;
                             $vlrCompra = $_POST['vlrCompra'];
                             $vlrVenda = $_POST['vlrVenda'];
                             $qtdEstoque = $_POST['qtdEstoque'];
+                            $imagem = $_POST['imagem'];
                             $fkFornecedor = $_POST['idfornecedor'];
 
                             $pc = new ProdutoController();
@@ -116,6 +119,7 @@ $btExcluir = FALSE;
                                 $vlrCompra,
                                 $vlrVenda,
                                 $qtdEstoque,
+                                $imagem,
                                 $fkFornecedor
                             );
                             echo $msg->getMsg();
@@ -166,7 +170,7 @@ $btExcluir = FALSE;
                     foreach ($listaFornecedores as $lf) {
                     }
                     ?>
-                    <form method="post" action="">
+                    <form method="post" action="" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-12">
                                 <strong>Código: <label style="color:red;">
@@ -187,6 +191,8 @@ $btExcluir = FALSE;
                             <input class="form-control" type="text" value="<?php echo $pr->getVlrVenda(); ?>" name="vlrVenda">
                             <label>Qtde em Estoque</label>
                             <input class="form-control" type="number" value="<?php echo $pr->getQtdEstoque(); ?>" name="qtdEstoque">
+                            <label>Imagem</label>
+                            <input class="form-control" type="file" value="" name="imagem">
                             <label>Fornecedor</label>
                             <select class="form-control" name="idfornecedor">
                                 <option>[--Selecione--]</option>
@@ -253,6 +259,7 @@ $btExcluir = FALSE;
                                 <th>Compra (R$)</th>
                                 <th>Venda (R$)</th>
                                 <th>Estoque</th>
+                                <th>Imagem</th>
                                 <th>Fornecedor</th>
                                 <th>Ações</th>
                             </tr>

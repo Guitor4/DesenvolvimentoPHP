@@ -7,6 +7,7 @@ class Produto {
     private $vlrCompra;
     private $vlrVenda;
     private $qtdEstoque;
+    private $imagem;
     private $fornecedor;
     
     function getIdProduto() {
@@ -57,6 +58,26 @@ class Produto {
     public function setFornecedor($fornecedor)
     {
         $this->fornecedor = $fornecedor;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of imagem
+     */ 
+    public function getImagem()
+    {
+        return $this->imagem;
+    }
+
+    /**
+     * Set the value of imagem
+     *
+     * @return  self
+     */ 
+    public function setImagem($imagem)
+    {
+        $this->imagem = $imagem;
 
         return $this;
     }

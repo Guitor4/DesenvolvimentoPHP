@@ -107,7 +107,6 @@ class DaoEndereco
                             $endereco = new endereco();
                             $endereco->setIdEndereco($linha->idEndereco);
                             $endereco->setCep($linha->cep);
-                            $endereco->setRua($linha->rua);
                             $endereco->setLogradouro($linha->logradouro);
                             $endereco->setBairro($linha->bairro);
                             $endereco->setCidade($linha->cidade);

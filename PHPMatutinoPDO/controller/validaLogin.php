@@ -6,6 +6,7 @@ include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Mensagem.p
 
 if (!isset($_SESSION)) {
     session_start();
+    $_SESSION['nr'] = rand(1,1000000);
 }
 $login = $_REQUEST['login'];
 $senhaSemCriptografia = $_REQUEST['senha'];
@@ -13,8 +14,8 @@ $senha = md5($senhaSemCriptografia);
 
 $daoLogin = new DaoLogin();
 $resp = $daoLogin->validarLogin($login, $senha);
-echo gettype($resp);
-echo "<br>".var_dump($resp);
+//echo gettype($resp);
+//echo "<br>".var_dump($resp);
 
 if (gettype($resp) == "object") {
     if ($resp != null) {
@@ -25,6 +26,7 @@ if (gettype($resp) == "object") {
             $_SESSION['idp'] = $resp->getIdpessoa();
             $_SESSION['nomep'] = $resp->getNome();
             $_SESSION['perfilp'] = $resp->getPerfil();
+            $_SESSION['conferenr'] = $_SESSION['nr'];
 
             header('Location: ../cadastroPessoa.php');
             exit;
@@ -32,11 +34,14 @@ if (gettype($resp) == "object") {
     } else {
         echo "Usuário inexistente";
         $_SESSION['msg'] = $resp;
+        $_SESSION['conferenr'] = -1;
         header('Location: ../sessionDestroy.php');
         exit;
     }
 } else {
     $_SESSION['msg']  = $resp;
-    header("location: ../login.php");
+    echo "<p style = 'color:red'>Erro ao fazer login. Tente novamente!!</p>";
+    echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
+    URL='../login.php'\">";
     exit;
 }

@@ -22,12 +22,11 @@ class EnderecoController
     }
 
     //método para atualizar dados de Endereco no BD
-    public function atualizarEndereco($idEndereco, $cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento)
+    public function atualizarEndereco($idEndereco, $cep, $logradouro, $bairro, $cidade, $UF, $complemento)
     {
         $Endereco = new Endereco();
         $Endereco->setIdEndereco($idEndereco);
         $Endereco->setCep($cep);
-        $Endereco->setRua($rua);
         $Endereco->setLogradouro($logradouro);
         $Endereco->setBairro($bairro);
         $Endereco->setCidade($cidade);

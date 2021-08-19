@@ -9,6 +9,9 @@ $ps->setEndereco($endereco);
 $btEnviar = FALSE;
 $btAtualizar = FALSE;
 $btExcluir = FALSE;
+if (!isset($_SESSION)){
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html>

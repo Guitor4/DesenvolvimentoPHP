@@ -17,15 +17,17 @@ class DaoProduto
             $vlrCompra = $produto->getVlrCompra();
             $vlrVenda = $produto->getVlrVenda();
             $qtdEstoque = $produto->getQtdEstoque();
+            $imagem = $produto->getImagem();
             $fkFornecedor = $produto->getFornecedor();
             try {
                 $stmt = $conecta->prepare("insert into produto values "
-                    . "(null,?,?,?,?,?)");
+                    . "(null,?,?,?,?,?,?)");
                 $stmt->bindParam(1, $nomeProduto);
                 $stmt->bindParam(2, $vlrCompra);
                 $stmt->bindParam(3, $vlrVenda);
                 $stmt->bindParam(4, $qtdEstoque);
-                $stmt->bindParam(5, $fkFornecedor);
+                $stmt->bindParam(5, $imagem);
+                $stmt->bindParam(6, $fkFornecedor);
                 $stmt->execute();
 
                 
@@ -54,6 +56,7 @@ class DaoProduto
             $vlrCompra = $produto->getVlrCompra();
             $vlrVenda = $produto->getVlrVenda();
             $qtdEstoque = $produto->getQtdEstoque();
+            $imagem = $produto->getImagem();
             $fkFornecedor = $produto->getFornecedor();
             try {
                 $stmt = $conecta->prepare("update produto set "
@@ -61,14 +64,16 @@ class DaoProduto
                     . "vlrCompra = ?,"
                     . "vlrVenda = ?, "
                     . "qtdEstoque = ?, "
+                    . "imagem = ?,"
                     . "fkFornecedor = ? "
                     . "where idProduto = ?");
                 $stmt->bindParam(1, $nomeProduto);
                 $stmt->bindParam(2, $vlrCompra);
                 $stmt->bindParam(3, $vlrVenda);
                 $stmt->bindParam(4, $qtdEstoque);
-                $stmt->bindParam(5, $fkFornecedor);
-                $stmt->bindParam(6, $id);
+                $stmt->bindParam(5, $imagem);
+                $stmt->bindParam(6, $fkFornecedor);
+                $stmt->bindParam(7, $id);
                 $stmt->execute();
                 $msg->setMsg("<p style='color: blue;'>"
                     . "Dados atualizados com sucesso</p>");
@@ -104,6 +109,7 @@ class DaoProduto
                             $produto->setVlrCompra($linha->vlrCompra);
                             $produto->setVlrVenda($linha->vlrVenda);
                             $produto->setQtdEstoque($linha->qtdEstoque);
+                            $produto->setImagem($linha->imagem);
 
                             $fornecedor = new Fornecedor();
                             $fornecedor->setIdFornecedor($linha->idFornecedor);
@@ -179,6 +185,7 @@ class DaoProduto
                             $produto->setVlrCompra($lista->vlrCompra);
                             $produto->setVlrVenda($lista->vlrVenda);
                             $produto->setQtdEstoque($lista->qtdEstoque);
+                            $produto->setImagem($lista->imagem);
                             $fornecedor = new Fornecedor();
                             $fornecedor->setIdFornecedor($lista->idFornecedor);
                             $produto->setFornecedor($fornecedor);
