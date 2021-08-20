@@ -6,11 +6,10 @@ class EnderecoController
 {
 
 
-    public function inserirEndereco($cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento)
+    public function inserirEndereco($cep,$logradouro, $bairro, $cidade, $UF, $complemento)
     {
         $Endereco = new Endereco();
         $Endereco->setCep($cep);
-        $Endereco->setRua($rua);
         $Endereco->setLogradouro($logradouro);
         $Endereco->setBairro($bairro);
         $Endereco->setCidade($cidade);

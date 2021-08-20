@@ -2,6 +2,7 @@
 
 include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/dao/DaoFornecedor.php';
 include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Fornecedor.php';
+include_once 'C:/xampp/htdocs/DesenvolvimentoPHP/PHPMatutinoPDO/model/Endereco.php';
 
 class FornecedorController
 {
@@ -9,7 +10,6 @@ class FornecedorController
     public function inserirFornecedor(
         $nomeFornecedor,
         $logradouro,
-        $numero,
         $complemento,
         $bairro,
         $cidade,
@@ -22,17 +22,20 @@ class FornecedorController
     ) {
         $fornecedor = new Fornecedor();
         $fornecedor->setNomeFornecedor($nomeFornecedor);
-        $fornecedor->setLogradouroFornecedor($logradouro);
-        $fornecedor->setnumero($numero);
-        $fornecedor->setcomplemento($complemento);
-        $fornecedor->setBairro($bairro);
-        $fornecedor->setCidade($cidade);
-        $fornecedor->setUF($UF);
-        $fornecedor->setCEP($CEP);
         $fornecedor->setRepresentante($representante);
         $fornecedor->setEmail($email);
         $fornecedor->setTelFixo($telFixo);
         $fornecedor->setTelCel($telCel);
+
+        $endereco = new Endereco();
+        $endereco->setcomplemento($complemento);
+        $endereco->setBairro($bairro);
+        $endereco->setLogradouro($logradouro);
+        $endereco->setCidade($cidade);
+        $endereco->setUF($UF);
+        $endereco->setCEP($CEP);
+
+        $fornecedor->setEndereco($endereco);
 
         $daoFornecedor = new DaoFornecedor();
         return $daoFornecedor->inserir($fornecedor);
@@ -43,7 +46,6 @@ class FornecedorController
         $idFornecedor,
         $nomeFornecedor,
         $logradouro,
-        $numero,
         $complemento,
         $bairro,
         $cidade,
@@ -57,17 +59,20 @@ class FornecedorController
         $fornecedor = new Fornecedor();
         $fornecedor->setIdFornecedor($idFornecedor);
         $fornecedor->setNomeFornecedor($nomeFornecedor);
-        $fornecedor->setLogradouroFornecedor($logradouro);
-        $fornecedor->setnumero($numero);
-        $fornecedor->setcomplemento($complemento);
-        $fornecedor->setBairro($bairro);
-        $fornecedor->setCidade($cidade);
-        $fornecedor->setUF($UF);
-        $fornecedor->setCEP($CEP);
         $fornecedor->setRepresentante($representante);
         $fornecedor->setEmail($email);
         $fornecedor->setTelFixo($telFixo);
         $fornecedor->setTelCel($telCel);
+
+        $endereco = new Endereco();
+        $endereco->setcomplemento($complemento);
+        $endereco->setBairro($bairro);
+        $endereco->setLogradouro($logradouro);
+        $endereco->setCidade($cidade);
+        $endereco->setUF($UF);
+        $endereco->setCEP($CEP);
+
+        $fornecedor->setEndereco($endereco);
 
         $daoFornecedor = new DaoFornecedor();
         return $daoFornecedor->atualizarFornecedorDAO($fornecedor);

@@ -11,6 +11,9 @@ $btAtualizar = FALSE;
 $btExcluir = FALSE;
 if (!isset($_SESSION)){
     session_start();
+    if (!isset($_SESSION['perfilp']) || $_SESSION['perfilp'] == ""){
+        $_SESSION['perfilp'] = "indefinido";
+    }
 }
 ?>
 <!DOCTYPE html>

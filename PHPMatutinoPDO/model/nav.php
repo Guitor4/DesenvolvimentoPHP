@@ -20,7 +20,7 @@ function navbar(){
                         <a class=\"nav-link active\" aria-current=\"page\" href=\"#\">Home</a>
                     </li>
                     ";
-                    if ($_SESSION['perfilp'] == "Funcionário"){
+                    if ($_SESSION['perfilp'] != "indefinido" && $_SESSION['perfilp'] == "Funcionário"){
                     $nav .= "<li class=\"nav-item\">
                         <a class=\"nav-link\" href=\"cadastroEndereco.php\">Cadastrar Endereco</a>
                     </li>

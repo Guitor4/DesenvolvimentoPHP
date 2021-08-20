@@ -67,9 +67,8 @@ $btExcluir = FALSE;
     if (isset($_POST['cadastrarEndereco'])) {
         $cep = trim($_POST['cep']);
         if ($cep != "") {
-            $logradouro = $_POST['logradouro'];
             $complemento = $_POST['complemento'];
-            $rua = $_POST['rua'];
+            $logradouro = $_POST['rua'];
             $bairro = $_POST['bairro'];
             $cidade = $_POST['cidade'];
             $UF = $_POST['uf'];
@@ -77,10 +76,10 @@ $btExcluir = FALSE;
 
             $ec = new EnderecoController();
             unset($_POST['cadastrarEndereco']);
-            $msg = $ec->inserirEndereco($cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento);
+            $msg = $ec->inserirEndereco($cep,$logradouro, $bairro, $cidade, $UF, $complemento);
             echo $msg->getMsg();
-               echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
-               URL='cadastroEndereco.php'\">";
+               //echo "<META HTTP-EQUIV='REFRESH' CONTENT=\"2;
+               //URL='cadastroEndereco.php'\">";
         }
     }
 
@@ -89,9 +88,8 @@ $btExcluir = FALSE;
         $cep = trim($_POST['cep']);
         if ($cep != "") {
             $idEndereco = $_POST['idEndereco'];
-            $logradouro = $_POST['logradouro'];
             $complemento = $_POST['complemento'];
-            $rua = $_POST['rua'];
+            $logradouro = $_POST['rua'];
             $bairro = $_POST['bairro'];
             $cidade = $_POST['cidade'];
             $UF = $_POST['uf'];
@@ -99,7 +97,7 @@ $btExcluir = FALSE;
 
             $ec = new EnderecoController();
             unset($_POST['atualizarEndereco']);
-            $msg = $ec->atualizarEndereco($idEndereco, $cep, $rua, $logradouro, $bairro, $cidade, $UF, $complemento);
+            $msg = $ec->atualizarEndereco($idEndereco, $cep, $logradouro, $bairro, $cidade, $UF, $complemento);
             echo $msg->getMsg();
         }
     }
@@ -237,7 +235,7 @@ $btExcluir = FALSE;
                                 ?>
                                 <label>Cep:
                                     <input name="cep" class="form-control" type="text" id="cep" value="<?php echo $en->getCep(); ?>" size="10" maxlength="9" onblur="pesquisacep(this.value);" /></label><br />
-                                <label>Rua:
+                                <label>Logradouro:
                                     <input name="rua" class="form-control" value="  " type="text" id="rua" size="60" /></label><br />
                                 <label>Bairro:
                                     <input name="bairro" class="form-control" value="<?php echo $en->getBairro(); ?>" type="text" id="bairro" size="40" /></label><br />
@@ -245,8 +243,6 @@ $btExcluir = FALSE;
                                     <input name="cidade" class="form-control" value="<?php echo $en->getCidade(); ?>" type="text" id="cidade" size="40" /></label><br />
                                 <label>Estado:
                                     <input name="uf" type="text" class="form-control" value="<?php echo $en->getUF(); ?>" id="uf" size="2" /></label><br />
-                                <label>Logradouro:
-                                    <input name="logradouro" type="text" class="form-control" value="<?php echo $en->getLogradouro(); ?>" id="logradouro" /></label><br />
                                 <label>Complemento:
                                     <input name="complemento" type="text" class="form-control" value="<?php echo $en->getComplemento(); ?>" id="complemento" /></label><br />
                                 <div class=" offset-md-4">
@@ -298,10 +294,9 @@ $btExcluir = FALSE;
                             <tr>
                                 <th>Código</th>
                                 <th>Cep</th>
-                                <th>Rua</th>
+                                <th>Logradouro</th>
                                 <th>Bairro (R$)</th>
                                 <th>Cidade</th>
-                                <th>Logradouro</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -317,10 +312,9 @@ $btExcluir = FALSE;
                                     <tr>
                                         <td><?php print_r($lp->getIdEndereco()); ?></td>
                                         <td><?php print_r($lp->getCEP()); ?></td>
-                                        <td><?php print_r($lp->getRua()); ?></td>
+                                        <td><?php print_r($lp->getLogradouro()); ?></td>
                                         <td><?php print_r($lp->getBairro()); ?></td>
                                         <td><?php print_r($lp->getCidade()); ?></td>
-                                        <td><?php print_r($lp->getLogradouro()); ?></td>
                                         <td><a href="cadastroEndereco.php?id=<?php echo $lp->getIdEndereco(); ?>" class="btn btn-light">
                                                 <img src="img/edita.png" width="32"></a>
                                             </form>

@@ -1,9 +1,12 @@
 <?php
 include_once 'controller/FornecedorController.php';
 include_once './model/Fornecedor.php';
+include_once './model/Endereco.php';
 include_once './model/Mensagem.php';
 $msg = new Mensagem();
+$endereco = new Endereco();
 $fr = new fornecedor();
+$fr->setEndereco($endereco);
 $btEnviar = FALSE;
 $btAtualizar = FALSE;
 $btExcluir = FALSE;
@@ -65,13 +68,12 @@ $btExcluir = FALSE;
     if (isset($_POST['cadastrarfornecedor'])) {
         $nomefornecedor = trim($_POST['nomefornecedor']);
         if ($nomefornecedor != "") {
-            $logradouro = $_POST['logradouro'];
-            $numero = $_POST['numero'];
+            $logradouro = $_POST['rua'];
             $complemento = $_POST['complemento'];
             $bairro = $_POST['bairro'];
             $cidade = $_POST['cidade'];
-            $UF = $_POST['UF'];
-            $CEP = $_POST['CEP'];
+            $UF = $_POST['uf'];
+            $CEP = $_POST['cep'];
             $representante = $_POST['representante'];
             $email = $_POST['email'];
             $telFixo = $_POST['telFixo'];
@@ -82,7 +84,6 @@ $btExcluir = FALSE;
             $msg = $fc->inserirfornecedor(
                 $nomefornecedor,
                 $logradouro,
-                $numero,
                 $complemento,
                 $bairro,
                 $cidade,
@@ -104,13 +105,12 @@ $btExcluir = FALSE;
         $nomefornecedor = trim($_POST['nomefornecedor']);
         if ($nomefornecedor != "") {
             $id = $_POST['idfornecedor'];
-            $logradouro = $_POST['logradouro'];
-            $numero = $_POST['numero'];
+            $logradouro = $_POST['rua'];
             $complemento = $_POST['complemento'];
             $bairro = $_POST['bairro'];
             $cidade = $_POST['cidade'];
-            $UF = $_POST['UF'];
-            $CEP = $_POST['CEP'];
+            $UF = $_POST['uf'];
+            $CEP = $_POST['cep'];
             $representante = $_POST['representante'];
             $email = $_POST['email'];
             $telFixo = $_POST['telFixo'];
@@ -122,7 +122,6 @@ $btExcluir = FALSE;
                 $id,
                 $nomefornecedor,
                 $logradouro,
-                $numero,
                 $complemento,
                 $bairro,
                 $cidade,
@@ -173,13 +172,84 @@ $btExcluir = FALSE;
         $btEnviar = TRUE;
         $btAtualizar = TRUE;
         $btExcluir = TRUE;
-        $id = $_GET['id'];  
+        $id = $_GET['id'];
         $fc = new fornecedorController();
         $fr = $fc->pesquisarfornecedorId($id);
     }
+
     ?>
+    <!-- Adicionando Javascript -->
+    <script>
+        function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('rua').value = ("");
+            document.getElementById('bairro').value = ("");
+            document.getElementById('cidade').value = ("");
+            document.getElementById('uf').value = ("");
+
+        }
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('rua').value = (conteudo.logradouro);
+                document.getElementById('bairro').value = (conteudo.bairro);
+                document.getElementById('cidade').value = (conteudo.localidade);
+                document.getElementById('uf').value = (conteudo.uf);
+
+            } //end if.
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
+
+        function pesquisacep(valor) {
+
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
+
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
+
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('rua').value = "...";
+                    document.getElementById('bairro').value = "...";
+                    document.getElementById('cidade').value = "...";
+                    document.getElementById('uf').value = "...";
+
+
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
+
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
+
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        };
+    </script>
     <div class="container-fluid">
-        <div class="row col-md-12" style="margin-top: 30px;">
+        <div class="row col-md-8 offset-md-2" style="margin-top: 30px;">
             <div class="">
                 <div class="card-header bg-dark text-center border
                          text-white"><strong>Cadastro de fornecedor</strong>
@@ -187,7 +257,7 @@ $btExcluir = FALSE;
                 <div class="card-body border">
                     <form method="post" action="">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <strong>Código: <label style="color:red;">
                                         <?php
                                         if ($fr != null) {
@@ -199,31 +269,35 @@ $btExcluir = FALSE;
                                         }
                             ?>
                             <label>Fornecedor</label>
-                            <input class="form-control" type="text" name="nomefornecedor"  value="<?php echo $fr->getNomefornecedor(); ?>">
-                            <label>Logradouro</label>
-                            <input class="form-control" type="text" value="<?php echo $fr->getLogradouroFornecedor(); ?>" name="logradouro">
-                            <label>numero</label>
-                            <input class="form-control" type="number" value="<?php echo $fr->getnumero(); ?>" name="numero">
-                            <label>complemento</label>
-                            <input class="form-control" type="text" value="<?php echo $fr->getcomplemento(); ?>" name="complemento">
-                            <label>bairro</label>
-                            <input class="form-control" type="text" value="<?php echo $fr->getBairro(); ?>" name="bairro">
-                            <label>cidade</label>
-                            <input class="form-control" type="text" value="<?php echo $fr->getCidade(); ?>" name="cidade">
+                            <input class="form-control" type="text" name="nomefornecedor" value="<?php echo $fr->getNomefornecedor(); ?>">
+                            <label>representante</label>
+                            <input class="form-control" type="text" value="<?php echo $fr->getRepresentante(); ?>" name="representante">
+                            <label>email</label>
+                            <input class="form-control" type="text" value="<?php echo $fr->getEmail(); ?>" name="email">
+                            <label>telFixo</label>
+                            <input class="form-control" type="text" value="<?php echo $fr->getTelFixo(); ?>" name="telFixo">
+                            <label>telCel</label>
+                            <input class="form-control" type="text" value="<?php echo $fr->getTelCel(); ?>" name="telCel">
                             </div>
                             <div class="col-md-6" style="margin-top: 25px;">
-                                <label>UF</label>
-                                <input class="form-control" type="text" maxlength="2" value="<?php echo $fr->getUF(); ?>" name="UF">
-                                <label>CEP</label>
-                                <input class="form-control" type="text" maxlength="9" value="<?php echo $fr->getCEP(); ?>" name="CEP">
-                                <label>representante</label>
-                                <input class="form-control" type="text" value="<?php echo $fr->getRepresentante(); ?>" name="representante">
-                                <label>email</label>
-                                <input class="form-control" type="text" value="<?php echo $fr->getEmail(); ?>" name="email">
-                                <label>telFixo</label>
-                                <input class="form-control" type="text" value="<?php echo $fr->getTelFixo(); ?>" name="telFixo">
-                                <label>telCel</label>
-                                <input class="form-control" type="text" value="<?php echo $fr->getTelCel(); ?>" name="telCel">
+                                <label>Cep:
+                                    <input name="cep" class="form-control" type="text" id="cep" value="<?php echo $fr->getEndereco()->getCep(); ?>" size="10" maxlength="9" onblur="pesquisacep(this.value);" /></label><br />
+                                <label>Logradouro:
+                                    <input name="rua" class="form-control" value="<?php echo $fr->getEndereco()->getLogradouro(); ?>" type="text" id="rua" size="60" /></label><br />
+                                <label>Bairro:
+                                    <input name="bairro" class="form-control" value="<?php echo $fr->getEndereco()->getBairro(); ?>" type="text" id="bairro" size="40" /></label><br />
+                                <label>Cidade:
+                                    <input name="cidade" class="form-control" value="<?php echo $fr->getEndereco()->getCidade(); ?>" type="text" id="cidade" size="40" /></label><br />
+                                <div class="col-md-12 row">
+                                    <div class="col-md-4">
+                                        <label>Estado:
+                                            <input name="uf" type="text" class="form-control" value="<?php echo $fr->getEndereco()->getUF(); ?>" id="uf" size="2" /></label><br />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label>Complemento:
+                                            <input name="complemento" type="text" class="form-control" value="<?php echo $fr->getEndereco()->getComplemento(); ?>" id="complemento" /></label><br />
+                                    </div>
+                                </div>
 
                             </div>
                             <div class="col-md-6 offset-md-4">
@@ -299,12 +373,12 @@ $btExcluir = FALSE;
                                     <tr>
                                         <td><?php print_r($lp->getIdfornecedor()); ?></td>
                                         <td><?php print_r($lp->getNomefornecedor()); ?></td>
-                                        <td><?php print_r($lp->getLogradouroFornecedor()); ?></td>
-                                        <td><?php print_r($lp->getcomplemento()); ?></td>
-                                        <td><?php print_r($lp->getBairro()); ?></td>
-                                        <td><?php print_r($lp->getCidade()); ?></td>
-                                        <td><?php print_r($lp->getUF()); ?></td>
-                                        <td><?php print_r($lp->getCEP()); ?></td>
+                                        <td><?php print_r($lp->getEndereco()->getLogradouro()); ?></td>
+                                        <td><?php print_r($lp->getEndereco()->getcomplemento()); ?></td>
+                                        <td><?php print_r($lp->getEndereco()->getBairro()); ?></td>
+                                        <td><?php print_r($lp->getEndereco()->getCidade()); ?></td>
+                                        <td><?php print_r($lp->getEndereco()->getUF()); ?></td>
+                                        <td><?php print_r($lp->getEndereco()->getCEP()); ?></td>
                                         <td><?php print_r($lp->getRepresentante()); ?></td>
                                         <td><?php print_r($lp->getEmail()); ?></td>
                                         <td><?php print_r($lp->getTelFixo()); ?></td>
@@ -361,7 +435,7 @@ $btExcluir = FALSE;
             myInput.focus()
         })
     </script>
-    
+
 </body>
 
 </html>

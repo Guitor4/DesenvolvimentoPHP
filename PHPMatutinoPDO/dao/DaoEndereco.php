@@ -13,7 +13,6 @@ class DaoEndereco
         if ($conecta) {
             //echo var_dump($endereco);
             $cep = $endereco->getCep();
-            $rua = $endereco->getRua();
             $logradouro = $endereco->getLogradouro();
             $bairro = $endereco->getBairro();
             $cidade = $endereco->getCidade();
@@ -21,14 +20,13 @@ class DaoEndereco
             $complemento = $endereco->getComplemento();
             try {
                 $stmt = $conecta->prepare("insert into endereco values "
-                    . "(null,?,?,?,?,?,?,?)");
+                    . "(null,?,?,?,?,?,?)");
                 $stmt->bindParam(1, $cep);
-                $stmt->bindParam(2, $rua);
-                $stmt->bindParam(3, $logradouro);
-                $stmt->bindParam(4, $bairro);
-                $stmt->bindParam(5, $cidade);
-                $stmt->bindParam(6, $UF);
-                $stmt->bindParam(7, $complemento);
+                $stmt->bindParam(2, $logradouro);
+                $stmt->bindParam(3, $bairro);
+                $stmt->bindParam(4, $cidade);
+                $stmt->bindParam(5, $UF);
+                $stmt->bindParam(6, $complemento);
                 $stmt->execute();
 
                 
@@ -54,7 +52,6 @@ class DaoEndereco
         if ($conecta) {
             $idEndereco = $endereco->getIdEndereco();
             $cep = $endereco->getCep();
-            $rua = $endereco->getRua();
             $logradouro = $endereco->getLogradouro();
             $bairro = $endereco->getBairro();
             $cidade = $endereco->getCidade();
@@ -63,19 +60,17 @@ class DaoEndereco
             try {
                 $stmt = $conecta->prepare("update endereco set "
                     . "cep = ?,"
-                    . "rua = ?,"
                     . "logradouro = ?,"
                     . "bairro = ?,"
                     . "cidade = ?,"
                     . "UF = ?, complemento = ? where idEndereco = ?");
                 $stmt->bindParam(1, $cep);
-                $stmt->bindParam(2, $rua);
-                $stmt->bindParam(3, $logradouro);
-                $stmt->bindParam(4, $bairro);
-                $stmt->bindParam(5, $cidade);
-                $stmt->bindParam(6, $UF);
-                $stmt->bindParam(7, $complemento);
-                $stmt->bindParam(8, $idEndereco);
+                $stmt->bindParam(2, $logradouro);
+                $stmt->bindParam(3, $bairro);
+                $stmt->bindParam(4, $cidade);
+                $stmt->bindParam(5, $UF);
+                $stmt->bindParam(6, $complemento);
+                $stmt->bindParam(7, $idEndereco);
                 $stmt->execute();
                 $msg->setMsg("<p style='color: blue;'>"
                     . "Dados atualizados com sucesso</p>");
@@ -166,7 +161,6 @@ class DaoEndereco
                         while ($linha = $rs->fetch(PDO::FETCH_OBJ)) {
                             $endereco->setIdEndereco($linha->idEndereco);
                             $endereco->setCep($linha->cep);
-                            $endereco->setRua($linha->rua);
                             $endereco->setLogradouro($linha->logradouro);
                             $endereco->setBairro($linha->bairro);
                             $endereco->setCidade($linha->cidade);
